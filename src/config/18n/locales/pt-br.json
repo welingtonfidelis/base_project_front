@@ -1,0 +1,13 @@
+{
+  "components": {
+  },
+  "pages": {
+    "login": {
+      "title": "Olá, bem vindo a home"
+    }
+  },
+  "generic": {
+    "button_save": "Salvar",
+    "button_cancel": "Cancelar"
+  }
+}
