@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
-    margin: 0;
+    box-sizing: border-box;
     
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -18,15 +18,15 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   body {
-      background: ${props => props.theme.colors.background};
-      max-width: ${props => props.theme.size.maxWidthPage};
-      padding: 0.5rem;
-      height: calc(100vh - 1rem);
-      display: flex;
-      margin: 0 auto;
+    background: ${(props) => props.theme.colors.background};
+    max-width: ${(props) => props.theme.size.maxWidthPage};
+    height: 100vh;
+    display: flex;
+    margin: auto;
+    box-sizing: inherit;
       
-      & #root {
-        flex: 1;
-      }
+    & #root {
+      flex: 1;
     }
+  }
 `;
