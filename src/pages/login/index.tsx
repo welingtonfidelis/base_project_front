@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import Button from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
 
 import {
@@ -10,10 +10,13 @@ import {
   FormContainer,
   InputContainer,
   LogoContainer,
-  WellcomeMessageContainer,
+  WellcomeMessageText,
+  WrongUserPassword,
 } from "./styles";
 
 import logoImage from "../../assets/logo.png";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 interface FormProps {
   user_name: string;
@@ -21,6 +24,9 @@ interface FormProps {
 }
 
 export const Login = () => {
+  const [loadingButton, setLoadingButton] = useState(false);
+
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -28,7 +34,9 @@ export const Login = () => {
   } = useForm<FormProps>();
 
   const handleLogin = handleSubmit((data) => {
-    console.log("data: ", data.user_name);
+    setLoadingButton(true);
+    console.log("data: ", data);
+    setLoadingButton(false);
   });
 
   return (
@@ -38,9 +46,9 @@ export const Login = () => {
           <img src={logoImage} alt="logo image" />
         </LogoContainer>
 
-        <WellcomeMessageContainer>
-          <span>Por favor, insira seus dados abaixo.</span>
-        </WellcomeMessageContainer>
+        <WellcomeMessageText>
+          {t("pages.login.welcome_message")}
+        </WellcomeMessageText>
 
         <FormContainer onSubmit={handleLogin}>
           <InputContainer>
@@ -50,7 +58,7 @@ export const Login = () => {
               variant="outlined"
               size="small"
               {...register("user_name", {
-                required: "Insere ai brother",
+                required: t("generic.required_input_value"),
               })}
               fullWidth
               error={!!errors.user_name}
@@ -67,7 +75,7 @@ export const Login = () => {
               fullWidth
               type="password"
               {...register("password", {
-                required: "Insere ai brother",
+                required: t("generic.required_input_value"),
               })}
               error={!!errors.password}
               helperText={errors.password?.message}
@@ -75,15 +83,20 @@ export const Login = () => {
           </InputContainer>
 
           <ForgotPasswordText>
-            Esqueceu sua senha? Clique aqui.
+            {t("pages.login.forgot_password_text")}
           </ForgotPasswordText>
-         
+
+          <WrongUserPassword>
+            {t("pages.login.wrong_user_password_text")}
+          </WrongUserPassword>
+
           <ActionContainer>
             <Button
               type="submit"
               variant="contained"
               fullWidth
               disableElevation
+              loading={loadingButton}
             >
               Entrar
             </Button>

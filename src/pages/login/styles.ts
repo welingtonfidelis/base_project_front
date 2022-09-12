@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  height: 75vh;
+  min-height: 24rem;
   width: 100%;
   border-radius: ${(props) => props.theme.border.radius};
   background: #fff;
@@ -23,7 +23,8 @@ export const Content = styled.div`
   flex-direction: column;
 
   @media (min-width: 800px) {
-    width: 60%;
+    width: 30rem;
+    min-height: 26rem;
   }
 `;
 
@@ -43,7 +44,7 @@ export const LogoContainer = styled.div`
   }
 `;
 
-export const WellcomeMessageContainer = styled.div`
+export const WellcomeMessageText = styled.span`
   text-align: center;
   margin-top: .5rem;
   margin-bottom: 1rem;
@@ -69,6 +70,14 @@ export const ForgotPasswordText = styled.span`
     cursor: pointer;
     font-weight: 500;
   }
+`;
+
+export const WrongUserPassword = styled.span`
+  font-size: .9rem;
+  text-align: center;
+  color: ${props => props.theme.colors.error};
+  margin-top: 1rem;
+  margin-bottom: .5rem;
 `;
 
 export const ActionContainer = styled.div`

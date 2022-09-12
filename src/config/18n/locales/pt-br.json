@@ -3,11 +3,14 @@
   },
   "pages": {
     "login": {
-      "title": "Olá, bem vindo a home"
+      "welcome_message": "Por favor, insira seus dados abaixo.",
+      "forgot_password_text": "Esqueceu sua senha? Clique aqui",
+      "wrong_user_password_text": "Usuário ou senha inválidos! Por favor, tente novamente."
     }
   },
   "generic": {
     "button_save": "Salvar",
-    "button_cancel": "Cancelar"
+    "button_cancel": "Cancelar",
+    "required_input_value": "Campo obrigatório"
   }
 }
