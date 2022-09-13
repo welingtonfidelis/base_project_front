@@ -1,7 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -18,35 +17,26 @@ import {
 } from "./styles";
 
 import logoImage from "../../assets/logo.png";
-import { ApplicationRoutes } from "../../config/applicationRoutes";
 
 interface FormProps {
   user_name: string;
-  password: string;
 }
 
-const { RESET_PASSWORD } = ApplicationRoutes;
-
-export const Login = () => {
+export const ResetPassword = () => {
   const [loadingButton, setLoadingButton] = useState(false);
 
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormProps>();
 
-  const handleLogin = handleSubmit((data) => {
+  const handleResetPassword = handleSubmit((data) => {
     setLoadingButton(true);
     console.log("data: ", data);
     setLoadingButton(false);
   });
-
-  const handleResetPassword = () => {
-    navigate(RESET_PASSWORD);
-  }
 
   return (
     <Container>
@@ -56,14 +46,14 @@ export const Login = () => {
         </LogoContainer>
 
         <WellcomeMessageText>
-          {t("pages.login.welcome_message")}
+          {t("pages.reset_password.welcome_message")}
         </WellcomeMessageText>
 
-        <FormContainer onSubmit={handleLogin}>
+        <FormContainer onSubmit={handleResetPassword}>
           <InputContainer>
             <TextField
               id="user_name"
-              label={t("pages.login.input_user_email")}
+              label={t("pages.reset_password.input_user_email")}
               variant="outlined"
               size="small"
               {...register("user_name", {
@@ -75,28 +65,8 @@ export const Login = () => {
             />
           </InputContainer>
 
-          <InputContainer>
-            <TextField
-              id="password"
-              label={t("pages.login.input_password")}
-              variant="outlined"
-              size="small"
-              fullWidth
-              type="password"
-              {...register("password", {
-                required: t("generic.required_input_value"),
-              })}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
-          </InputContainer>
-
-          <ForgotPasswordText onClick={handleResetPassword}>
-            {t("pages.login.forgot_password_text")}
-          </ForgotPasswordText>
-
           <WrongUserPassword>
-            {t("pages.login.wrong_user_password_text")}
+            {t("pages.reset_password.wrong_user_password_text")}
           </WrongUserPassword>
 
           <ActionContainer>
@@ -107,7 +77,7 @@ export const Login = () => {
               disableElevation
               loading={loadingButton}
             >
-              {t("pages.login.button_login_text")}
+              {t("pages.reset_password.button_reset")}
             </Button>
           </ActionContainer>
         </FormContainer>
