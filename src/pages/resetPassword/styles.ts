@@ -28,21 +28,6 @@ export const Content = styled.div`
   }
 `;
 
-export const LogoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  img {
-    width: 8rem;
-  }
-
-  @media (min-width: 800px) {
-    img {
-      width: 10rem;
-    }
-  }
-`;
 
 export const WellcomeMessageText = styled.span`
   text-align: center;
@@ -58,18 +43,6 @@ export const FormContainer = styled.form`
 
 export const InputContainer = styled.div`
   margin-top: 0.5rem;
-`;
-
-export const ForgotPasswordText = styled.span`
-  font-size: 0.8rem;
-  text-align: center;
-  margin-top: 0.7em;
-
-  :hover {
-    transition: 0.5s;
-    cursor: pointer;
-    font-weight: 500;
-  }
 `;
 
 export const WrongUserPassword = styled.span`

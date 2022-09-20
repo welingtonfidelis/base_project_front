@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import Button from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -8,15 +7,14 @@ import {
   ActionContainer,
   Container,
   Content,
-  ForgotPasswordText,
   FormContainer,
   InputContainer,
-  LogoContainer,
   WellcomeMessageText,
   WrongUserPassword,
 } from "./styles";
 
-import logoImage from "../../assets/logo.png";
+import { PageHeader } from "../../components/pageHeader";
+import { PrimaryButton } from "../../components/Button";
 
 interface FormProps {
   user_name: string;
@@ -41,9 +39,7 @@ export const ResetPassword = () => {
   return (
     <Container>
       <Content>
-        <LogoContainer>
-          <img src={logoImage} alt="logo image" />
-        </LogoContainer>
+        <PageHeader />
 
         <WellcomeMessageText>
           {t("pages.reset_password.welcome_message")}
@@ -56,10 +52,10 @@ export const ResetPassword = () => {
               label={t("pages.reset_password.input_user_email")}
               variant="outlined"
               size="small"
+              fullWidth
               {...register("user_name", {
                 required: t("generic.required_input_value"),
               })}
-              fullWidth
               error={!!errors.user_name}
               helperText={errors.user_name?.message}
             />
@@ -70,15 +66,9 @@ export const ResetPassword = () => {
           </WrongUserPassword>
 
           <ActionContainer>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              disableElevation
-              loading={loadingButton}
-            >
+            <PrimaryButton type="submit" loading={loadingButton}>
               {t("pages.reset_password.button_reset")}
-            </Button>
+            </PrimaryButton>
           </ActionContainer>
         </FormContainer>
       </Content>

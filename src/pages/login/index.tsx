@@ -1,5 +1,4 @@
 import TextField from "@mui/material/TextField";
-import Button from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,6 +18,7 @@ import {
 
 import logoImage from "../../assets/logo.png";
 import { ApplicationRoutes } from "../../config/applicationRoutes";
+import { PrimaryButton } from "../../components/Button";
 
 interface FormProps {
   user_name: string;
@@ -100,15 +100,12 @@ export const Login = () => {
           </WrongUserPassword>
 
           <ActionContainer>
-            <Button
+            <PrimaryButton
               type="submit"
-              variant="contained"
-              fullWidth
-              disableElevation
               loading={loadingButton}
             >
-              {t("pages.login.button_login_text")}
-            </Button>
+              {t("pages.login.button_login")}
+            </PrimaryButton>
           </ActionContainer>
         </FormContainer>
       </Content>
