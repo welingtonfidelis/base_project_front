@@ -6,6 +6,8 @@ export const light = {
     secondary: "#0A2E52", 
     tertiary: "#5B9AD9", 
 
+    separator:"#d9e6f3",
+
     error: "#ec1111",
     success: "#0fc000",
     warning: "#e9ee09",

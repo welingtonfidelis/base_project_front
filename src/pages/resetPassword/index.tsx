@@ -39,7 +39,7 @@ export const ResetPassword = () => {
   return (
     <Container>
       <Content>
-        <PageHeader />
+        <PageHeader title={t("pages.reset_password.page_title")}/>
 
         <WellcomeMessageText>
           {t("pages.reset_password.welcome_message")}

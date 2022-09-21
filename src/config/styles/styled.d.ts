@@ -9,7 +9,7 @@ declare module "styled-components" {
       primary: string;
       secondary: string;
       tertiary: string;
-
+      separator: string;
       error: string;
       success: string;
       warning: string;
