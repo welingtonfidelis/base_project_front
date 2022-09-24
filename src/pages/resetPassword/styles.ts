@@ -31,8 +31,8 @@ export const Content = styled.div`
 
 export const WellcomeMessageText = styled.span`
   text-align: center;
-  margin-top: .5rem;
-  margin-bottom: 1rem;
+  margin-top: 4.5rem;
+  margin-bottom: 2rem;
 `;
 
 export const FormContainer = styled.form`

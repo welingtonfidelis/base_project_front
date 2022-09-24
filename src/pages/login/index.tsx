@@ -18,7 +18,7 @@ import {
 
 import logoImage from "../../assets/logo.png";
 import { ApplicationRoutes } from "../../config/applicationRoutes";
-import { PrimaryButton } from "../../components/Button";
+import { PrimaryButton } from "../../components/button";
 
 interface FormProps {
   user_name: string;

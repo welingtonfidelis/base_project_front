@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import {
   ActionContainer,
@@ -14,7 +15,8 @@ import {
 } from "./styles";
 
 import { PageHeader } from "../../components/pageHeader";
-import { PrimaryButton } from "../../components/Button";
+import { PrimaryButton } from "../../components/button";
+import { useNavigate } from "react-router-dom";
 
 interface FormProps {
   user_name: string;
@@ -22,6 +24,7 @@ interface FormProps {
 
 export const ResetPassword = () => {
   const [loadingButton, setLoadingButton] = useState(false);
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
   const {
@@ -33,13 +36,17 @@ export const ResetPassword = () => {
   const handleResetPassword = handleSubmit((data) => {
     setLoadingButton(true);
     console.log("data: ", data);
+
+    toast.success(t("pages.reset_password.success_request_message"), { autoClose: 7000 });
+    navigate(-1);
+
     setLoadingButton(false);
   });
 
   return (
     <Container>
       <Content>
-        <PageHeader title={t("pages.reset_password.page_title")}/>
+        <PageHeader title={t("pages.reset_password.page_title")} />
 
         <WellcomeMessageText>
           {t("pages.reset_password.welcome_message")}

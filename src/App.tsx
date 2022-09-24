@@ -1,10 +1,12 @@
 import { Routes } from "./routes";
 import { ThemeProvider } from "styled-components";
 import { I18nextProvider } from "react-i18next";
+import { ToastContainer } from 'react-toastify';
 
 import i18n from "./config/18n";
 import { GlobalStyles } from "./global.styles";
 import { light } from "./config/styles/theme.styles";
+import "react-toastify/dist/ReactToastify.css";
 
 export const App = () => {
   return (
@@ -12,6 +14,7 @@ export const App = () => {
       <ThemeProvider theme={light}>
         <GlobalStyles />
         <Routes />
+        <ToastContainer autoClose={false}/>
       </ThemeProvider>
     </I18nextProvider>
   );

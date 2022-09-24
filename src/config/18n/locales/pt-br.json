@@ -13,6 +13,7 @@
     "reset_password": {
       "page_title": "Recuperar Senha",
       "welcome_message": "Por favor, insira seu usuário ou email abaixo.",
+      "success_request_message": "Sucesso! Enviamos um email para você recuperar sua senha.",
       "input_user_email": "Usuário ou Email",
       "wrong_user_password_text": "Usuário ou email inválidos! Por favor, tente novamente.",
       "button_reset": "Enviar"
