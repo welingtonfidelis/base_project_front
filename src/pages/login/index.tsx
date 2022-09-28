@@ -25,7 +25,7 @@ interface FormProps {
   password: string;
 }
 
-const { RESET_PASSWORD } = ApplicationRoutes;
+const { RESET_PASSWORD, DASH_BOARD } = ApplicationRoutes;
 
 export const Login = () => {
   const [loadingButton, setLoadingButton] = useState(false);
@@ -40,8 +40,14 @@ export const Login = () => {
 
   const handleLogin = handleSubmit((data) => {
     setLoadingButton(true);
-    console.log("data: ", data);
+    const { user_name } = data;
+
+    if (user_name === 'admin') sessionStorage.setItem('user_permission', 'admin');
+    if (user_name === 'user') sessionStorage.setItem('user_permission', 'user');
+
     setLoadingButton(false);
+    
+    navigate(DASH_BOARD);
   });
 
   const handleResetPassword = () => {
