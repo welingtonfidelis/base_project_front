@@ -1,10 +1,12 @@
+import { AuthenticatedLayout } from "./components/layouts/authenticatedLayout";
+import { GuestLayout } from "./components/layouts/guestLayout";
 import { ApplicationPermissions } from "./config/applicationPermissions/intex";
 import { ApplicationRoutes } from "./config/applicationRoutes";
-import { DashBoard } from "./pages/dashBoard";
+import { Dashboard } from "./pages/dashBoard";
 import { Login } from "./pages/login";
 import { ResetPassword } from "./pages/resetPassword";
 
-const { ROOT, RESET_PASSWORD, DASH_BOARD } = ApplicationRoutes;
+const { ROOT, RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
 
 export const useRoutes = () => {
@@ -12,17 +14,20 @@ export const useRoutes = () => {
     {
       path: ROOT,
       element: Login,
-      permissions: []
+      layout: GuestLayout,
+      permissions: [],
     },
     {
       path: RESET_PASSWORD,
       element: ResetPassword,
-      permissions: []
+      layout: GuestLayout,
+      permissions: [],
     },
     {
-      path: DASH_BOARD,
-      element: DashBoard,
-      permissions: [ADMIN, MANAGER, USER]
+      path: DASHBOARD,
+      element: Dashboard,
+      layout: AuthenticatedLayout,
+      permissions: [ADMIN, MANAGER, USER],
     }
   ] 
 

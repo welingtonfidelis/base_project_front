@@ -1,21 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LayoutRenderer } from './components/layouts';
 
-import { DrawerMenu } from './components/drawerMenu';
 import { useRoutes } from "./useRoutes"
 
 export const AppRouter = () => {
     const { routes } = useRoutes();
 
     return (
-        <>
-            <DrawerMenu />
-            <BrowserRouter>
+        <BrowserRouter>
+            <LayoutRenderer>
                 <Routes>
-                    {routes.map(({ path, element: Component }) => {
-                        return <Route key={path} path={path} element={<Component />} />
-                    })}
+                    {routes.map(({ path, element: Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
                 </Routes>
-            </BrowserRouter>
-        </>
+            </LayoutRenderer>
+        </BrowserRouter>
     )
 }

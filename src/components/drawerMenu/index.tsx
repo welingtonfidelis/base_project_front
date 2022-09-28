@@ -68,10 +68,6 @@ export const DrawerMenu = (props: Props) => {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  const userPermission = sessionStorage.getItem('user_permission');
-  console.log('userPermission: ', userPermission);
-
-  if (!userPermission) return <></>
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

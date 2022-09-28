@@ -25,7 +25,7 @@ interface FormProps {
   password: string;
 }
 
-const { RESET_PASSWORD, DASH_BOARD } = ApplicationRoutes;
+const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
 
 export const Login = () => {
   const [loadingButton, setLoadingButton] = useState(false);
@@ -47,7 +47,7 @@ export const Login = () => {
 
     setLoadingButton(false);
     
-    navigate(DASH_BOARD);
+    navigate(DASHBOARD);
   });
 
   const handleResetPassword = () => {
