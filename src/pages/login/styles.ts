@@ -9,8 +9,8 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
-  background-image: url(${imageBackground});
-  box-shadow: inset 0 0 0 1000px rgb(25 118 210 / 45%);
+  /* background-image: url(${imageBackground}); */
+  box-shadow: inset 0 0 0 1000px rgb(25 118 210 / 15%);
 `;
 
 export const Content = styled.div`
@@ -46,18 +46,17 @@ export const LogoContainer = styled.div`
 
 export const WellcomeMessageText = styled.span`
   text-align: center;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
 `;
 
-export const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
+export const FormContainer = styled.div`
   height: 100%;
-`;
-
-export const InputContainer = styled.div`
-  margin-top: 0.5rem;
+  & form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export const ForgotPasswordText = styled.span`
@@ -73,11 +72,11 @@ export const ForgotPasswordText = styled.span`
 `;
 
 export const WrongUserPassword = styled.span`
-  font-size: .9rem;
+  font-size: 0.9rem;
   text-align: center;
-  color: ${props => props.theme.colors.error};
+  color: ${(props) => props.theme.colors.error};
   margin-top: 1rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const ActionContainer = styled.div`

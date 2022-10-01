@@ -35,14 +35,14 @@ export const WellcomeMessageText = styled.span`
   margin-bottom: 2rem;
 `;
 
-export const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
+export const FormContainer = styled.div`
   height: 100%;
-`;
-
-export const InputContainer = styled.div`
-  margin-top: 0.5rem;
+  
+  & form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export const WrongUserPassword = styled.span`

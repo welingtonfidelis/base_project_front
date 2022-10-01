@@ -1,7 +1,4 @@
-import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -9,39 +6,43 @@ import {
   Container,
   Content,
   FormContainer,
-  InputContainer,
   WellcomeMessageText,
-  WrongUserPassword,
 } from "./styles";
 
 import { PageHeader } from "../../components/pageHeader";
-import { PrimaryButton } from "../../components/button";
 import { useNavigate } from "react-router-dom";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import { formValidate } from "./helper/formValidate";
+import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 
 interface FormProps {
-  user_name: string;
+  email: string;
 }
 
+const initialFormValues = {
+  email: "",
+};
+
 export const ResetPassword = () => {
-  const [loadingButton, setLoadingButton] = useState(false);
   const navigate = useNavigate();
+  const { validateEmailField } = formValidate();
 
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormProps>();
 
-  const handleResetPassword = handleSubmit((data) => {
-    setLoadingButton(true);
-    console.log("data: ", data);
+  const handleSubmit = (
+    values: FormProps,
+    actions: FormikHelpers<FormProps>
+  ) => {
+    setTimeout(() => {
+      console.log("->", values);
 
-    toast.success(t("pages.reset_password.success_request_message"), { autoClose: 7000 });
-    navigate(-1);
-
-    setLoadingButton(false);
-  });
+      toast.success(t("pages.reset_password.success_request_message"), {
+        autoClose: 7000,
+      });
+      navigate(-1);
+      actions.setSubmitting(false);
+    }, 1000);
+  };
 
   return (
     <Container>
@@ -52,31 +53,37 @@ export const ResetPassword = () => {
           {t("pages.reset_password.welcome_message")}
         </WellcomeMessageText>
 
-        <FormContainer onSubmit={handleResetPassword}>
-          <InputContainer>
-            <TextField
-              id="user_name"
-              label={t("pages.reset_password.input_user_email")}
-              variant="outlined"
-              size="small"
-              fullWidth
-              {...register("user_name", {
-                required: t("generic.required_input_value"),
-              })}
-              error={!!errors.user_name}
-              helperText={errors.user_name?.message}
-            />
-          </InputContainer>
+        <FormContainer>
+          <Formik initialValues={initialFormValues} onSubmit={handleSubmit}>
+            {(props) => (
+              <Form>
+                <Field name="email" validate={validateEmailField}>
+                  {({ field, form }: any) => (
+                    <FormControl
+                      isInvalid={form.errors.email && form.touched.email}
+                      mb="2"
+                    >
+                      <Input
+                        {...field}
+                        placeholder={t("pages.reset_password.input_user_email")}
+                      />
+                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
 
-          <WrongUserPassword>
-            {t("pages.reset_password.wrong_user_password_text")}
-          </WrongUserPassword>
-
-          <ActionContainer>
-            <PrimaryButton type="submit" loading={loadingButton}>
-              {t("pages.reset_password.button_reset")}
-            </PrimaryButton>
-          </ActionContainer>
+                <ActionContainer>
+                  <Button
+                    colorScheme="blue"
+                    isLoading={props.isSubmitting}
+                    type="submit"
+                  >
+                    {t("pages.reset_password.button_reset")}
+                  </Button>
+                </ActionContainer>
+              </Form>
+            )}
+          </Formik>
         </FormContainer>
       </Content>
     </Container>

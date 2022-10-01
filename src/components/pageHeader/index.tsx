@@ -1,8 +1,7 @@
-import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "react-i18next";
-import ArrowBack from "@mui/icons-material/ArrowBack";
+import { FaArrowLeft } from "react-icons/fa";
 
-import { Container, TitleContainer } from "./styles";
+import { Container, IconBackContainer, TitleContainer } from "./styles";
 import { PageHeaderProps } from "./types";
 import { useNavigate } from "react-router-dom";
 
@@ -14,14 +13,12 @@ export const PageHeader = (props: PageHeaderProps) => {
 
   return (
     <Container>
-      <IconButton
-        aria-label="upload picture"
-        component="label"
+      <IconBackContainer
         onClick={() => navigate(-1)}
         title={t("generic.button_back")}
       >
-        <ArrowBack />
-      </IconButton>
+        <FaArrowLeft />
+      </IconBackContainer>
 
       <TitleContainer>{title}</TitleContainer>
 
