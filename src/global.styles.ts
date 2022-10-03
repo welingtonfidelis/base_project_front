@@ -19,12 +19,13 @@ export const GlobalStyles = createGlobalStyle`
   
   body {
     background: ${(props) => props.theme.colors.background};
-    max-width: ${(props) => props.theme.size.maxWidthPage};
+    /* max-width: ${(props) => props.theme.size.maxWidthPage}; */
     height: 100vh;
     display: flex;
     margin: auto;
     box-sizing: inherit;
-      
+    margin: auto;
+
     & #root {
       flex: 1;
     }

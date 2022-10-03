@@ -4,6 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Container, IconBackContainer, TitleContainer } from "./styles";
 import { PageHeaderProps } from "./types";
 import { useNavigate } from "react-router-dom";
+import { IconButton } from "../iconButton";
 
 export const PageHeader = (props: PageHeaderProps) => {
   const { title } = props;
@@ -14,10 +15,12 @@ export const PageHeader = (props: PageHeaderProps) => {
   return (
     <Container>
       <IconBackContainer
-        onClick={() => navigate(-1)}
-        title={t("generic.button_back")}
       >
-        <FaArrowLeft />
+        <IconButton
+          icon={<FaArrowLeft size={22} />}
+          onClick={() => navigate(-1)}
+          title={t("generic.button_back_page")}
+        />
       </IconBackContainer>
 
       <TitleContainer>{title}</TitleContainer>

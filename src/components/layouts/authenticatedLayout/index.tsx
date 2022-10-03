@@ -1,11 +1,12 @@
-import React from "react"
-import { DrawerMenu } from "../../drawerMenu"
+import React from "react";
+import { DrawerMenu } from "../../drawerMenu";
+import { Container, Main } from "./styles";
 
 export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
-    return (
-        <div>
-            <DrawerMenu />
-            {children}
-        </div>
-    )
-}
+  return (
+    <Container>
+      <DrawerMenu />
+      <Main>{children}</Main>
+    </Container>
+  );
+};

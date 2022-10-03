@@ -9,13 +9,14 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
-  background-image: url(${imageBackground});
-  box-shadow: inset 0 0 0 1000px rgb(25 118 210 / 45%);
+  /* background-image: url(${imageBackground}); */
+  /* box-shadow: inset 0 0 0 1000px rgb(25 118 210 / 45%); */
 `;
 
 export const Content = styled.div`
   min-height: 24rem;
   width: 100%;
+  border: 1px solid ${(props) => props.theme.colors.separator};
   border-radius: ${(props) => props.theme.border.radius};
   background: #fff;
   padding: 0.5rem;

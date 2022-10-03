@@ -22,7 +22,7 @@
   "generic": {
     "button_save": "Salvar",
     "button_cancel": "Cancelar",
-    "button_back": "Voltar",
+    "button_back_page": "Voltar para página anterior",
     "required_input_value": "Campo obrigatório"
   }
 }

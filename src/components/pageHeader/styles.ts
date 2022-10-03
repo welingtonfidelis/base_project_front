@@ -13,7 +13,7 @@ export const IconBackContainer = styled.div`
   display: flex;
   align-items: center;
 
-  & svg {
+  /* & svg {
     font-size: 1.3rem;
     
     :hover {
@@ -21,7 +21,7 @@ export const IconBackContainer = styled.div`
       color: ${props => props.theme.colors.primary_hover};
       transition: all .5s;
     }
-  }
+  } */
 `;
 
 export const TitleContainer = styled.div`
