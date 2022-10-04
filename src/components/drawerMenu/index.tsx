@@ -1,16 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  Avatar,
-  Collapse,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Avatar, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
 
 import {
   AvatarContent,
+  CloseMenuCotent,
   Container,
   DrawerMenuItem,
   MenuContent,
@@ -27,10 +21,10 @@ interface Props {
 
 export const DrawerMenu = (props: Props) => {
   const { menuOptions, onClick } = props;
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [drawerMobileClass, setDrawerMobileCass] = useState("");
   const [selectedMenuOption, setSelectedMenuOption] = useState("");
-  // const [isMobileScreen, setIsMobileScreen] = useState(false);
 
+  // const [isMobileScreen, setIsMobileScreen] = useState(false);
   // useEffect(() => {
   //   const handleResize = () => {
   //     console.log('isMobileScreen: ',window.innerWidth, isMobileScreen);
@@ -55,7 +49,6 @@ export const DrawerMenu = (props: Props) => {
 
   const isMobileScreen = useMemo(() => {
     const mobileWitdth = window.innerWidth <= 600;
-    setIsDrawerOpen(!mobileWitdth);
 
     return mobileWitdth;
   }, [window.innerWidth]);
@@ -64,49 +57,68 @@ export const DrawerMenu = (props: Props) => {
     setSelectedMenuOption(menuOptions?.[0].value);
   }, []);
 
+  const handleCloseOpenMenu = (state: boolean) => {
+    if (state) {
+      setDrawerMobileCass("slide-right");
+      return;
+    }
+
+    setDrawerMobileCass("slide-left");
+  };
+
   const handleChangeOptionMenu = (value: string) => {
     setSelectedMenuOption(value);
+    handleCloseOpenMenu(false);
     onClick(value);
-  }
+  };
 
   return (
     <>
       {isMobileScreen && (
-        <FaBars onClick={() => setIsDrawerOpen(!isDrawerOpen)} />
+        <div>
+          <FaBars onClick={() => handleCloseOpenMenu(true)} />
+        </div>
       )}
-      <Container>
-        <Collapse in={isDrawerOpen} animateOpacity>
-          {isMobileScreen && (
-            <FaTimes onClick={() => setIsDrawerOpen(!isDrawerOpen)} />
-          )}
+      <Container className={drawerMobileClass}>
+        {isMobileScreen && (
+          <CloseMenuCotent>
+            <FaTimes onClick={() => handleCloseOpenMenu(false)} size={18} />
+          </CloseMenuCotent>
+        )}
 
-          <AvatarContent>
-            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-            <Menu>
-              <MenuButton>
-                <UserName>
-                  <span>Dan Abrahmov</span> <FaAngleDown size={10} />
-                </UserName>
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Perfil</MenuItem>
-                <MenuItem>Sair</MenuItem>
-              </MenuList>
-            </Menu>
-          </AvatarContent>
+        <AvatarContent>
+          <Avatar
+            name="Dan Abrahmov"
+            src="https://bit.ly/dan-abramov"
+            size={"lg"}
+          />
+          <Menu>
+            <MenuButton>
+              <UserName>
+                <span>
+                  Dan Abrahmov bla bla bla bla bla bla bla bla bla bla 2
+                </span>{" "}
+                <FaAngleDown size={10} />
+              </UserName>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>Perfil</MenuItem>
+              <MenuItem>Sair</MenuItem>
+            </MenuList>
+          </Menu>
+        </AvatarContent>
 
-          <MenuContent>
-            {menuOptions.map((item, index) => (
-              <DrawerMenuItem
-                key={index}
-                selected={item.value === selectedMenuOption}
-                onClick={() => handleChangeOptionMenu(item.value)}
-              >
-                {item.label}
-              </DrawerMenuItem>
-            ))}
-          </MenuContent>
-        </Collapse>
+        <MenuContent>
+          {menuOptions.map((item, index) => (
+            <DrawerMenuItem
+              key={index}
+              selected={item.value === selectedMenuOption}
+              onClick={() => handleChangeOptionMenu(item.value)}
+            >
+              {item.label}
+            </DrawerMenuItem>
+          ))}
+        </MenuContent>
       </Container>
     </>
   );
