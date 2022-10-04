@@ -3,6 +3,7 @@
   },
   "pages": {
     "login": {
+      "page_title": "Login",
       "welcome_message": "Por favor, insira seus dados abaixo.",
       "forgot_password_text": "Esqueceu sua senha? Clique aqui",
       "wrong_user_password_text": "Usuário ou senha inválidos! Por favor, tente novamente.",
@@ -17,6 +18,12 @@
       "input_user_email": "Usuário ou Email",
       "wrong_user_password_text": "Usuário ou email inválidos! Por favor, tente novamente.",
       "button_reset": "Enviar"
+    },
+    "dashboard": {
+      "page_title": "Dashboard"
+    },
+    "user_list": {
+      "page_title": "Usuários"
     }
   },
   "generic": {

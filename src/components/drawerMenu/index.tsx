@@ -1,11 +1,34 @@
 import { useEffect, useMemo, useState } from "react";
-import { Collapse, IconButton, List } from "@chakra-ui/react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import {
+  Avatar,
+  Collapse,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
+import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
 
-import { MenuContainer } from "./styles";
+import {
+  AvatarContent,
+  Container,
+  DrawerMenuItem,
+  MenuContent,
+  UserName,
+} from "./styles";
 
-export const DrawerMenu = () => {
+interface Props {
+  menuOptions: {
+    label: string;
+    value: string;
+  }[];
+  onClick: (value: string) => void;
+}
+
+export const DrawerMenu = (props: Props) => {
+  const { menuOptions, onClick } = props;
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [selectedMenuOption, setSelectedMenuOption] = useState("");
   // const [isMobileScreen, setIsMobileScreen] = useState(false);
 
   // useEffect(() => {
@@ -37,23 +60,54 @@ export const DrawerMenu = () => {
     return mobileWitdth;
   }, [window.innerWidth]);
 
+  useEffect(() => {
+    setSelectedMenuOption(menuOptions?.[0].value);
+  }, []);
+
+  const handleChangeOptionMenu = (value: string) => {
+    setSelectedMenuOption(value);
+    onClick(value);
+  }
+
   return (
     <>
       {isMobileScreen && (
         <FaBars onClick={() => setIsDrawerOpen(!isDrawerOpen)} />
       )}
-      <MenuContainer>
+      <Container>
         <Collapse in={isDrawerOpen} animateOpacity>
           {isMobileScreen && (
             <FaTimes onClick={() => setIsDrawerOpen(!isDrawerOpen)} />
           )}
 
-          <span>test 1</span>
-          <span>test 2</span>
-          <span>test 3</span>
-          <span>test 4</span>
+          <AvatarContent>
+            <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+            <Menu>
+              <MenuButton>
+                <UserName>
+                  <span>Dan Abrahmov</span> <FaAngleDown size={10} />
+                </UserName>
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Perfil</MenuItem>
+                <MenuItem>Sair</MenuItem>
+              </MenuList>
+            </Menu>
+          </AvatarContent>
+
+          <MenuContent>
+            {menuOptions.map((item, index) => (
+              <DrawerMenuItem
+                key={index}
+                selected={item.value === selectedMenuOption}
+                onClick={() => handleChangeOptionMenu(item.value)}
+              >
+                {item.label}
+              </DrawerMenuItem>
+            ))}
+          </MenuContent>
         </Collapse>
-      </MenuContainer>
+      </Container>
     </>
   );
 };
