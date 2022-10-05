@@ -9,7 +9,7 @@ import {
   WellcomeMessageText,
 } from "./styles";
 
-import { PageHeader } from "../../components/pageHeader";
+import { PageHeaderWithoutMenu } from "../../components/pageHeaderWithoutMenu";
 import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { formValidate } from "./helper/formValidate";
@@ -47,7 +47,7 @@ export const ResetPassword = () => {
   return (
     <Container>
       <Content>
-        <PageHeader title={t("pages.reset_password.page_title")} />
+        <PageHeaderWithoutMenu title={t("pages.reset_password.page_title")} />
 
         <WellcomeMessageText>
           {t("pages.reset_password.welcome_message")}

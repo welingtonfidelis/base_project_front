@@ -2,24 +2,21 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  padding: .5rem;
   margin-bottom: 0.5rem;
   height: 2.2rem;
-  background: ${(props) => props.theme.colors.primary};
 `;
 
 export const IconBackContainer = styled.div`
   display: flex;
   align-items: center;
 
-  :hover {
-    cursor: pointer;
-
+  & svg {
+    color: ${(props) => props.theme.colors.primary};
   }
 `;
 
 export const TitleContainer = styled.div`
-  color: #fff;
+  color: ${(props) => props.theme.colors.primary};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useRef } from "react";
 import { Avatar, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
+import { FaTimes, FaAngleDown } from "react-icons/fa";
 
 import {
   AvatarContent,
@@ -10,42 +10,19 @@ import {
   MenuContent,
   UserName,
 } from "./styles";
+import { DrawerMenuprops } from "./types";
 
-interface Props {
-  menuOptions: {
-    label: string;
-    value: string;
-  }[];
-  onClick: (value: string) => void;
-}
+export const DrawerMenu = (props: DrawerMenuprops) => {
+  const {
+    menuOptions,
+    selectedMenuOption,
+    handleSelectMenuOption,
+    isMenuOpen,
+    handleChangeIsMenuOpen,
+  } = props;
 
-export const DrawerMenu = (props: Props) => {
-  const { menuOptions, onClick } = props;
-  const [drawerMobileClass, setDrawerMobileCass] = useState("");
-  const [selectedMenuOption, setSelectedMenuOption] = useState("");
 
-  // const [isMobileScreen, setIsMobileScreen] = useState(false);
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     console.log('isMobileScreen: ',window.innerWidth, isMobileScreen);
-  //     if (window.innerWidth <= 600 && !isMobileScreen) {
-  //       console.log('bora pro mobile');
-
-  //       setIsDrawerOpen(false);
-  //       setIsMobileScreen(true);
-
-  //       return;
-  //     } else if (window.innerWidth > 600 && isMobileScreen) {
-
-  //       console.log('bora pro desktop');
-
-  //       setIsDrawerOpen(true);
-  //       setIsMobileScreen(false);
-  //     }
-  //   }
-
-  //   window.addEventListener("resize", handleResize);
-  // });
+  const firstRender = useRef(true);
 
   const isMobileScreen = useMemo(() => {
     const mobileWitdth = window.innerWidth <= 600;
@@ -53,73 +30,66 @@ export const DrawerMenu = (props: Props) => {
     return mobileWitdth;
   }, [window.innerWidth]);
 
-  useEffect(() => {
-    setSelectedMenuOption(menuOptions?.[0].value);
-  }, []);
+  const menuContainerClassName = useMemo(() => {
+    if (!isMobileScreen) return "";
 
-  const handleCloseOpenMenu = (state: boolean) => {
-    if (state) {
-      setDrawerMobileCass("slide-right");
-      return;
+    if (firstRender.current) {
+      firstRender.current = false;
+      return "";
     }
 
-    setDrawerMobileCass("slide-left");
-  };
+    if (isMenuOpen) return "slide-right";
+
+    return "slide-left";
+  }, [isMenuOpen]);
 
   const handleChangeOptionMenu = (value: string) => {
-    setSelectedMenuOption(value);
-    handleCloseOpenMenu(false);
-    onClick(value);
+    handleSelectMenuOption(value);
+
+    if (isMobileScreen) handleChangeIsMenuOpen(false);
   };
 
   return (
-    <>
+    <Container className={menuContainerClassName}>
       {isMobileScreen && (
-        <div>
-          <FaBars onClick={() => handleCloseOpenMenu(true)} />
-        </div>
+        <CloseMenuCotent>
+          <FaTimes onClick={() => handleChangeIsMenuOpen(false)} size={18} />
+        </CloseMenuCotent>
       )}
-      <Container className={drawerMobileClass}>
-        {isMobileScreen && (
-          <CloseMenuCotent>
-            <FaTimes onClick={() => handleCloseOpenMenu(false)} size={18} />
-          </CloseMenuCotent>
-        )}
 
-        <AvatarContent>
-          <Avatar
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
-            size={"lg"}
-          />
-          <Menu>
-            <MenuButton>
-              <UserName>
-                <span>
-                  Dan Abrahmov bla bla bla bla bla bla bla bla bla bla 2
-                </span>{" "}
-                <FaAngleDown size={10} />
-              </UserName>
-            </MenuButton>
-            <MenuList>
-              <MenuItem>Perfil</MenuItem>
-              <MenuItem>Sair</MenuItem>
-            </MenuList>
-          </Menu>
-        </AvatarContent>
+      <AvatarContent>
+        <Avatar
+          name="Dan Abrahmov"
+          src="https://bit.ly/dan-abramov"
+          size={"lg"}
+        />
+        <Menu>
+          <MenuButton>
+            <UserName>
+              <span>
+                Dan Abrahmov bla bla bla bla bla bla bla bla bla bla 2
+              </span>{" "}
+              <FaAngleDown size={10} />
+            </UserName>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>Perfil</MenuItem>
+            <MenuItem>Sair</MenuItem>
+          </MenuList>
+        </Menu>
+      </AvatarContent>
 
-        <MenuContent>
-          {menuOptions.map((item, index) => (
-            <DrawerMenuItem
-              key={index}
-              selected={item.value === selectedMenuOption}
-              onClick={() => handleChangeOptionMenu(item.value)}
-            >
-              {item.label}
-            </DrawerMenuItem>
-          ))}
-        </MenuContent>
-      </Container>
-    </>
+      <MenuContent>
+        {menuOptions.map((item, index) => (
+          <DrawerMenuItem
+            key={index}
+            selected={item.value === selectedMenuOption}
+            onClick={() => handleChangeOptionMenu(item.value)}
+          >
+            {item.label}
+          </DrawerMenuItem>
+        ))}
+      </MenuContent>
+    </Container>
   );
 };
