@@ -1,17 +1,22 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LayoutRenderer } from './components/layouts';
-import { routes } from './routes';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LayoutRenderer } from "./components/layouts";
+import { routes } from "./routes";
+import { checkPermissionsService } from "./services/checkPermissions";
 
 export const AppRouter = () => {
-    return (
-        <BrowserRouter>
-            <LayoutRenderer>
-                <Routes>
-                    {routes.map(({ path, element: Component }) => (
-                        <Route key={path} path={path} element={<Component />} />
-                    ))}
-                </Routes>
-            </LayoutRenderer>
-        </BrowserRouter>
-    )
-}
+  const { checkPermissions } = checkPermissionsService();
+
+  return (
+    <BrowserRouter>
+      <LayoutRenderer>
+        <Routes>
+          {routes
+            .filter((item) => checkPermissions(item.permissions))
+            .map(({ path, element: Component }) => (
+              <Route key={path} path={path} element={<Component />} />
+            ))}
+        </Routes>
+      </LayoutRenderer>
+    </BrowserRouter>
+  );
+};

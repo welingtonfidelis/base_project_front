@@ -6,6 +6,7 @@ import { Dashboard } from "./pages/dashboard";
 import { Login } from "./pages/login";
 import { ResetPassword } from "./pages/resetPassword";
 import { UserList } from "./pages/userList";
+import { NotFound } from "./pages/notFound";
 
 const { ROOT, RESET_PASSWORD, DASHBOARD, USER_LIST } = ApplicationRoutes;
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
@@ -42,5 +43,13 @@ export const routes = [
     layout: AuthenticatedLayout,
     isMenuOption: true,
     permissions: [ADMIN, MANAGER],
+  },
+  {
+    label: 'not found',
+    path: '*',
+    element: NotFound,
+    layout: GuestLayout,
+    isMenuOption: false,
+    permissions: [],
   },
 ];

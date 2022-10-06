@@ -11,6 +11,7 @@ import {
   UserName,
 } from "./styles";
 import { DrawerMenuprops } from "./types";
+import { userStore } from "../../store/user";
 
 export const DrawerMenu = (props: DrawerMenuprops) => {
   const {
@@ -20,7 +21,7 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
     isMenuOpen,
     handleChangeIsMenuOpen,
   } = props;
-
+  const { user: userOnStore } = userStore();
 
   const firstRender = useRef(true);
 
@@ -59,16 +60,14 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
 
       <AvatarContent>
         <Avatar
-          name="Dan Abrahmov"
-          src="https://bit.ly/dan-abramov"
+          name={userOnStore.name}
+          src="" //https://bit.ly/dan-abramov
           size={"lg"}
         />
         <Menu>
           <MenuButton>
             <UserName>
-              <span>
-                Dan Abrahmov bla bla bla bla bla bla bla bla bla bla 2
-              </span>{" "}
+              <span>{userOnStore.name}</span>
               <FaAngleDown size={10} />
             </UserName>
           </MenuButton>

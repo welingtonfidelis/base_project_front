@@ -6,7 +6,7 @@
       "page_title": "Login",
       "welcome_message": "Por favor, insira seus dados abaixo.",
       "forgot_password_text": "Esqueceu sua senha? Clique aqui",
-      "wrong_user_password_text": "Usuário ou senha inválidos! Por favor, tente novamente.",
+      "error_request_message": "Algo deu errado. Por favor, verifique seu usuário e senha e tente novamente.",
       "input_user_email": "Usuário ou Email",
       "input_password": "Senha",
       "button_login": "Entrar"

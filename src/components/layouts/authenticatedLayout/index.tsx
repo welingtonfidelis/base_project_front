@@ -4,6 +4,7 @@ import { FaBars } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 import { routes } from "../../../routes";
+import { checkPermissionsService } from "../../../services/checkPermissions";
 import { DrawerMenu } from "../../drawerMenu";
 import { PageHeader } from "../../pageHeader";
 import { Container, Main, MainContent } from "./styles";
@@ -14,10 +15,11 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const { checkPermissions } = checkPermissionsService();
+  
   const menuOptions = routes
     .filter((item) => {
-      return item.isMenuOption;
+      return checkPermissions(item.permissions) && item.isMenuOption;
     })
     .map((item) => {
       return { label: t(item.label), value: item.path };
