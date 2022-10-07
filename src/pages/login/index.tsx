@@ -47,6 +47,7 @@ export const Login = () => {
     
     if (ok && data) {
       updateUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
       navigate(DASHBOARD);
     }
   };

@@ -16,7 +16,7 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { checkPermissions } = checkPermissionsService();
-  
+
   const menuOptions = routes
     .filter((item) => {
       return checkPermissions(item.permissions) && item.isMenuOption;
@@ -58,17 +58,21 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
 
   return (
     <Container>
-      <DrawerMenu
-        menuOptions={menuOptions}
-        selectedMenuOption={selectedMenuOption}
-        handleSelectMenuOption={handleSelectMenuOption}
-        isMenuOpen={isMenuOpen}
-        handleChangeIsMenuOpen={setIsMenuOpen}
-      />
-      <MainContent>
-        <PageHeader title={pageTitle} leftIcon={<PageHeaderLeftIcon />} />
-        <Main>{children}</Main>
-      </MainContent>
+      {menuOptions.length && (
+        <>
+          <DrawerMenu
+            menuOptions={menuOptions}
+            selectedMenuOption={selectedMenuOption}
+            handleSelectMenuOption={handleSelectMenuOption}
+            isMenuOpen={isMenuOpen}
+            handleChangeIsMenuOpen={setIsMenuOpen}
+          />
+          <MainContent>
+            <PageHeader title={pageTitle} leftIcon={<PageHeaderLeftIcon />} />
+            <Main>{children}</Main>
+          </MainContent>
+        </>
+      )}
     </Container>
   );
 };
