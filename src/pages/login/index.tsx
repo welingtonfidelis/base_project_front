@@ -18,6 +18,8 @@ import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { formValidate } from "./helper/formValidate";
 import { loginRequests } from "../../services/requests/login";
 import { userStore } from "../../store/user";
+import { ApplicationStorage } from "../../shared/enum/applicationStorage";
+import { storage } from "../../services/storage";
 
 interface FormProps {
   email: string;
@@ -25,6 +27,7 @@ interface FormProps {
 }
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
+const { USER } = ApplicationStorage;
 
 const initialFormValues = {
   email: "",
@@ -37,6 +40,7 @@ export const Login = () => {
   const { validateEmailField, validatePasswordField } = formValidate();
   const { login } = loginRequests();
   const { updateUser } = userStore();
+  const { set } = storage();
 
   const handleSubmit = async (
     values: FormProps,
@@ -47,7 +51,7 @@ export const Login = () => {
     
     if (ok && data) {
       updateUser(data);
-      localStorage.setItem('user', JSON.stringify(data));
+      set(USER, data);
       navigate(DASHBOARD);
     }
   };

@@ -12,15 +12,20 @@ import { light } from "./config/styles/styled-component-theme";
 import { theme } from "./config/styles/chackra-ui-theme";
 import "react-toastify/dist/ReactToastify.css";
 import { Preloader } from "./components/preloader";
+import { ApplicationStorage } from "./shared/enum/applicationStorage";
+import { storage } from "./services/storage";
+
+const { USER } = ApplicationStorage;
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { updateUser } = userStore();
+  const { get } = storage();
 
   useLayoutEffect(() => {
-    const userOnLocalStorage = localStorage.getItem("user");
-    if (userOnLocalStorage) updateUser(JSON.parse(userOnLocalStorage));
+    const userOnStorage = get(USER);
+    if (userOnStorage) updateUser(userOnStorage);
 
     setIsLoading(false);
   }, []);
