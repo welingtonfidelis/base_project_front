@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 
 import {
   ActionContainer,
@@ -14,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { formValidate } from "./helper/formValidate";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import { resetPasswordRequests } from "../../services/requests/resetPassword";
 
 interface FormProps {
   email: string;
@@ -26,22 +26,19 @@ const initialFormValues = {
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const { validateEmailField } = formValidate();
+  const { resetPassword } = resetPasswordRequests();
 
   const { t } = useTranslation();
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    setTimeout(() => {
-      console.log("->", values);
+    const { ok } = await resetPassword(values.email);
 
-      toast.success(t("pages.reset_password.success_request_message"), {
-        autoClose: 7000,
-      });
-      navigate(-1);
-      actions.setSubmitting(false);
-    }, 1000);
+    if (ok) navigate(-1);
+
+    actions.setSubmitting(false);
   };
 
   return (
