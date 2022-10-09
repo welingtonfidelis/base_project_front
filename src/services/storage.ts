@@ -11,5 +11,9 @@ export const storage = () => {
     localStorage.setItem(key, JSON.stringify(value));
   };
 
-  return { get, set };
+  const remove = (key: string) => {
+    localStorage.removeItem(key);
+  }
+
+  return { get, set, remove };
 };

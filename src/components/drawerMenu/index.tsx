@@ -1,5 +1,12 @@
 import { useMemo, useRef } from "react";
-import { Avatar, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Avatar,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaTimes, FaAngleDown } from "react-icons/fa";
 
 import {
@@ -10,10 +17,20 @@ import {
   MenuContent,
   UserName,
 } from "./styles";
-import { DrawerMenuprops } from "./types";
-import { userStore } from "../../store/user";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
-export const DrawerMenu = (props: DrawerMenuprops) => {
+import { Props } from "./types";
+import { userStore } from "../../store/user";
+import { AlertConfirm } from "../alertConfirm";
+import { storage } from "../../services/storage";
+import { ApplicationStorage } from "../../shared/enum/applicationStorage";
+import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
+
+const { USER } = ApplicationStorage;
+const { ROOT } = ApplicationRoutes;
+
+export const DrawerMenu = (props: Props) => {
   const {
     menuOptions,
     selectedMenuOption,
@@ -21,7 +38,11 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
     isMenuOpen,
     handleChangeIsMenuOpen,
   } = props;
-  const { user: userOnStore } = userStore();
+  const { t } = useTranslation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user: userOnStore, clearUser } = userStore();
+  const { remove } = storage();
+  const navigate = useNavigate();
 
   const firstRender = useRef(true);
 
@@ -50,6 +71,14 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
     if (isMobileScreen) handleChangeIsMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    console.log("sair");
+
+    clearUser();
+    remove(USER);
+    navigate(ROOT);
+  };
+
   return (
     <Container className={menuContainerClassName}>
       {isMobileScreen && (
@@ -72,8 +101,10 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
             </UserName>
           </MenuButton>
           <MenuList>
-            <MenuItem>Perfil</MenuItem>
-            <MenuItem>Sair</MenuItem>
+            <MenuItem>{t("components.drawer_menu.profile")}</MenuItem>
+            <MenuItem onClick={onOpen}>
+              {t("components.drawer_menu.logout")}
+            </MenuItem>
           </MenuList>
         </Menu>
       </AvatarContent>
@@ -89,6 +120,14 @@ export const DrawerMenu = (props: DrawerMenuprops) => {
           </DrawerMenuItem>
         ))}
       </MenuContent>
+
+      <AlertConfirm
+        title="Sair do sistema"
+        description="Deseja realmente sair do sistema?"
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleLogout}
+      />
     </Container>
   );
 };

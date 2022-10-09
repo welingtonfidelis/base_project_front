@@ -1,5 +1,9 @@
 {
   "components": {
+    "drawer_menu": {
+      "profile": "Perfil",
+      "logout": "Sair do sistema"
+    }
   },
   "pages": {
     "login": {
@@ -30,6 +34,8 @@
   "generic": {
     "button_save": "Salvar",
     "button_cancel": "Cancelar",
+    "button_yes": "Sim",
+    "button_no": "Não",
     "button_back_page": "Voltar para página anterior",
     "required_input_value": "Campo obrigatório"
   }

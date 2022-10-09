@@ -1,4 +1,4 @@
-export interface DrawerMenuprops {
+export interface Props {
   menuOptions: {
     label: string;
     value: string;
