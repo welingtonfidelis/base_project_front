@@ -28,7 +28,7 @@ export const AlertConfirm = (props: Props) => {
       onClose={onClose}
     >
       <AlertDialogOverlay>
-        <AlertDialogContent>
+        <AlertDialogContent alignSelf={"center"}>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             {title}
           </AlertDialogHeader>

@@ -2,7 +2,13 @@
   "components": {
     "drawer_menu": {
       "profile": "Perfil",
+      "change_password": "Trocar de senhar",
       "logout": "Sair do sistema"
+    },
+    "profile": {
+      "page_title": "Perfil",
+      "success_request_message": "Sucesso! Seu perfil foi atualizado.",
+      "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     }
   },
   "pages": {

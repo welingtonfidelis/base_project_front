@@ -1,6 +1,7 @@
 import { useMemo, useRef } from "react";
 import {
   Avatar,
+  Divider,
   Menu,
   MenuButton,
   MenuItem,
@@ -26,6 +27,7 @@ import { AlertConfirm } from "../alertConfirm";
 import { storage } from "../../services/storage";
 import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
+import { Profile } from "../profile";
 
 const { USER } = ApplicationStorage;
 const { ROOT } = ApplicationRoutes;
@@ -39,7 +41,16 @@ export const DrawerMenu = (props: Props) => {
     handleChangeIsMenuOpen,
   } = props;
   const { t } = useTranslation();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenProfile,
+    onOpen: onOpenProfile,
+    onClose: onCloseProfile,
+  } = useDisclosure();
   const { user: userOnStore, clearUser } = userStore();
   const { remove } = storage();
   const navigate = useNavigate();
@@ -101,8 +112,12 @@ export const DrawerMenu = (props: Props) => {
             </UserName>
           </MenuButton>
           <MenuList>
-            <MenuItem>{t("components.drawer_menu.profile")}</MenuItem>
-            <MenuItem onClick={onOpen}>
+            <MenuItem onClick={onOpenProfile}>
+              {t("components.drawer_menu.profile")}
+            </MenuItem>
+            <MenuItem>{t("components.drawer_menu.change_password")}</MenuItem>
+            <Divider />
+            <MenuItem onClick={onOpenLogout} color="red">
               {t("components.drawer_menu.logout")}
             </MenuItem>
           </MenuList>
@@ -124,10 +139,12 @@ export const DrawerMenu = (props: Props) => {
       <AlertConfirm
         title="Sair do sistema"
         description="Deseja realmente sair do sistema?"
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isOpenLogout}
+        onClose={onCloseLogout}
         onConfirm={handleLogout}
       />
+
+      <Profile isOpen={isOpenProfile} onClose={onCloseProfile} />
     </Container>
   );
 };

@@ -20,11 +20,7 @@ import { loginRequests } from "../../services/requests/login";
 import { userStore } from "../../store/user";
 import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { storage } from "../../services/storage";
-
-interface FormProps {
-  email: string;
-  password: string;
-}
+import { FormProps } from "./types";
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
 const { USER } = ApplicationStorage;
