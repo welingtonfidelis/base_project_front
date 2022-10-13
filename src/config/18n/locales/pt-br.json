@@ -7,6 +7,8 @@
     },
     "profile": {
       "page_title": "Perfil",
+      "input_email": "Email",
+      "input_name": "Nome",
       "success_request_message": "Sucesso! Seu perfil foi atualizado.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     }

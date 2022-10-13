@@ -10,9 +10,8 @@ const initialUserState = {
 export const userStore = create<State & Action>((set) => ({
   user: initialUserState,
 
-  updateUser: (data) => set(() => {
-    console.log('data: ', data);
-    return ({ user: data })}
+  updateUser: (data) => set((state) => {
+    return ({ user: { ...state.user, ...data } })}
     ),
   clearUser: () => set(() => ({ user: initialUserState })),
 }));
