@@ -73,27 +73,27 @@ export const Login = () => {
             validationSchema={validateFormFields}
             onSubmit={handleSubmit}
           >
-            {(props) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form>
                 <Field name="email">
-                  {({ field, form }: any) => (
+                  {({ field }: any) => (
                     <FormControl
-                      isInvalid={form.errors.email && form.touched.email}
+                      isInvalid={!!errors.email && touched.email}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.login.input_user_email")}
                       />
-                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      <FormErrorMessage>{errors.email}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
 
                 <Field name="password">
-                  {({ field, form }: any) => (
+                  {({ field }: any) => (
                     <FormControl
-                      isInvalid={form.errors.password && form.touched.password}
+                      isInvalid={!!errors.password && touched.password}
                       mb="2"
                     >
                       <Input
@@ -101,7 +101,7 @@ export const Login = () => {
                         placeholder={t("pages.login.input_password")}
                       />
                       <FormErrorMessage>
-                        {form.errors.password}
+                        {errors.password}
                       </FormErrorMessage>
                     </FormControl>
                   )}
@@ -114,7 +114,7 @@ export const Login = () => {
                 <ActionContainer>
                   <Button
                     colorScheme="blue"
-                    isLoading={props.isSubmitting}
+                    isLoading={isSubmitting}
                     type="submit"
                   >
                     {t("pages.login.button_login")}

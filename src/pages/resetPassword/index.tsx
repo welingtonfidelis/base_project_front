@@ -14,10 +14,7 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import { formValidate } from "./helper/formValidate";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { resetPasswordRequests } from "../../services/requests/resetPassword";
-
-interface FormProps {
-  email: string;
-}
+import { FormProps } from "./types";
 
 const initialFormValues = {
   email: "",
@@ -56,19 +53,19 @@ export const ResetPassword = () => {
             validationSchema={validateFormFields}
             onSubmit={handleSubmit}
           >
-            {(props) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form>
                 <Field name="email">
-                  {({ field, form }: any) => (
+                  {({ field }: any) => (
                     <FormControl
-                      isInvalid={form.errors.email && form.touched.email}
+                      isInvalid={!!errors.email && touched.email}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.reset_password.input_user_email")}
                       />
-                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                      <FormErrorMessage>{errors.email}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -76,7 +73,7 @@ export const ResetPassword = () => {
                 <ActionContainer>
                   <Button
                     colorScheme="blue"
-                    isLoading={props.isSubmitting}
+                    isLoading={isSubmitting}
                     type="submit"
                   >
                     {t("pages.reset_password.button_reset")}

@@ -56,7 +56,7 @@ export const Profile = (props: Props) => {
         validationSchema={validateFormFields}
         onSubmit={handleSubmit}
       >
-        {(props) => (
+        {({ errors, touched, isSubmitting }) => (
           <Form>
             <AvatarContent>
               <Avatar
@@ -68,8 +68,8 @@ export const Profile = (props: Props) => {
             </AvatarContent>
 
             <Field name="name">
-              {({ field, form }: any) => (
-                <FormControl isInvalid={form.errors.name && form.touched.name}>
+              {({ field }: any) => (
+                <FormControl isInvalid={!!errors.name && touched.name}>
                   <FormLabel mt="2" mb="0.2">
                     {t("components.profile.input_name")}
                   </FormLabel>
@@ -77,13 +77,13 @@ export const Profile = (props: Props) => {
                     {...field}
                     placeholder={t("components.profile.input_name")}
                   />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                  <FormErrorMessage>{errors.name}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
 
             <Field name="email">
-              {({ field, form }: any) => (
+              {({ field }: any) => (
                 <FormControl>
                   <FormLabel mt="2" mb="0.2">
                     {t("components.profile.input_email")}
@@ -103,7 +103,7 @@ export const Profile = (props: Props) => {
               </Button>
               <Button
                 colorScheme="blue"
-                isLoading={props.isSubmitting}
+                isLoading={isSubmitting}
                 type="submit"
               >
                 {t("generic.button_save")}
