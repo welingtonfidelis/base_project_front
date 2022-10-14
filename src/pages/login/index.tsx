@@ -33,7 +33,7 @@ const initialFormValues = {
 export const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { validateEmailField, validatePasswordField } = formValidate();
+  const validateFormFields = formValidate();
   const { login } = loginRequests();
   const { updateUser } = userStore();
   const { set } = storage();
@@ -44,7 +44,7 @@ export const Login = () => {
   ) => {
     const { ok, data } = await login(values.email, values.password);
     actions.setSubmitting(false);
-    
+
     if (ok && data) {
       updateUser(data);
       set(USER, data);
@@ -68,10 +68,14 @@ export const Login = () => {
         </WellcomeMessageText>
 
         <FormContainer>
-          <Formik initialValues={initialFormValues} onSubmit={handleSubmit}>
+          <Formik
+            initialValues={initialFormValues}
+            validationSchema={validateFormFields}
+            onSubmit={handleSubmit}
+          >
             {(props) => (
               <Form>
-                <Field name="email" validate={validateEmailField}>
+                <Field name="email">
                   {({ field, form }: any) => (
                     <FormControl
                       isInvalid={form.errors.email && form.touched.email}
@@ -86,7 +90,7 @@ export const Login = () => {
                   )}
                 </Field>
 
-                <Field name="password" validate={validatePasswordField}>
+                <Field name="password">
                   {({ field, form }: any) => (
                     <FormControl
                       isInvalid={form.errors.password && form.touched.password}

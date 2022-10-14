@@ -11,6 +11,15 @@
       "input_name": "Nome",
       "success_request_message": "Sucesso! Seu perfil foi atualizado.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
+    },
+    "profile_change_password": {
+      "page_title": "Alterar Senha",
+      "input_old_password": "Senha antiga",
+      "input_new_password": "Nova senha",
+      "input_repeated_new_password": "Repita a nova senha",
+      "input_repeated_new_password_invalid": "Senhas diferentes",
+      "success_request_message": "Sucesso! Sua senha foi atualizada.",
+      "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     }
   },
   "pages": {

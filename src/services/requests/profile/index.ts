@@ -8,18 +8,19 @@ import { OmitCommonProps } from "@chakra-ui/react";
 
 export const ProfileRequests = () => {
   const updateProfile = async (
-    user: OmitCommonProps<User, 'permissions'>
+    user: OmitCommonProps<User, "permissions">
   ): Promise<ResponseInterface<{}>> => {
     try {
       // temporaly
       await delay(1000);
-      
-      toast.success(i18n.t('components.profile.success_request_message') as string);
+
+      toast.success(
+        i18n.t("components.profile.success_request_message") as string
+      );
 
       return Promise.resolve({
-        ok: true
+        ok: true,
       });
-
     } catch (error) {
       toast.error(i18n.t("components.profile.error_request_message") as string);
 
@@ -29,5 +30,35 @@ export const ProfileRequests = () => {
     }
   };
 
-  return { updateProfile };
+  const updateProfilePassword = async (
+    old_password: string,
+    new_password: string
+  ): Promise<ResponseInterface<{}>> => {
+    try {
+      // temporaly
+      await delay(1000);
+
+      toast.success(
+        i18n.t(
+          "components.profile_change_password.success_request_message"
+        ) as string
+      );
+
+      return Promise.resolve({
+        ok: true,
+      });
+    } catch (error) {
+      toast.error(
+        i18n.t(
+          "components.profile_change_password.error_request_message"
+        ) as string
+      );
+
+      return Promise.resolve({
+        ok: false,
+      });
+    }
+  };
+
+  return { updateProfile, updateProfilePassword };
 };

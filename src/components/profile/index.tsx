@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Formik, Form, Field, FormikHelpers, FormikProps } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 
 import { Modal } from "../modal";
 import { FormProps, Props } from "./types";
@@ -22,7 +22,7 @@ export const Profile = (props: Props) => {
   const { t } = useTranslation();
   const { user: userOnStore, updateUser } = userStore();
   const { updateProfile } = ProfileRequests();
-  const { validateNameField } = formValidate();
+  const validateFormFields = formValidate();
 
   const initialFormValues = {
     name: userOnStore.name,
@@ -45,13 +45,17 @@ export const Profile = (props: Props) => {
 
   return (
     <Modal
-      title="Perfil"
+      title={t("components.profile.page_title")}
       onConfirm={() => {}}
       isOpen={isOpen}
       onClose={onClose}
       deactiveModalButtons
     >
-      <Formik initialValues={initialFormValues} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialFormValues}
+        validationSchema={validateFormFields}
+        onSubmit={handleSubmit}
+      >
         {(props) => (
           <Form>
             <AvatarContent>
@@ -63,12 +67,9 @@ export const Profile = (props: Props) => {
               />
             </AvatarContent>
 
-            <Field name="name" validate={validateNameField}>
+            <Field name="name">
               {({ field, form }: any) => (
-                <FormControl
-                  isInvalid={form.errors.name && form.touched.name}
-                  // mb="2"
-                >
+                <FormControl isInvalid={form.errors.name && form.touched.name}>
                   <FormLabel mt="2" mb="0.2">
                     {t("components.profile.input_name")}
                   </FormLabel>

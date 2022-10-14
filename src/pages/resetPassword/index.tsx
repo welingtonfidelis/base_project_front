@@ -25,7 +25,7 @@ const initialFormValues = {
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
-  const { validateEmailField } = formValidate();
+  const validateFormFields = formValidate();
   const { resetPassword } = resetPasswordRequests();
 
   const { t } = useTranslation();
@@ -51,10 +51,14 @@ export const ResetPassword = () => {
         </WellcomeMessageText>
 
         <FormContainer>
-          <Formik initialValues={initialFormValues} onSubmit={handleSubmit}>
+          <Formik
+            initialValues={initialFormValues}
+            validationSchema={validateFormFields}
+            onSubmit={handleSubmit}
+          >
             {(props) => (
               <Form>
-                <Field name="email" validate={validateEmailField}>
+                <Field name="email">
                   {({ field, form }: any) => (
                     <FormControl
                       isInvalid={form.errors.email && form.touched.email}

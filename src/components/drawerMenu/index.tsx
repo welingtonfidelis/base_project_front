@@ -28,6 +28,7 @@ import { storage } from "../../services/storage";
 import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { Profile } from "../profile";
+import { ProfileChangePassword } from "../profileChangePassword";
 
 const { USER } = ApplicationStorage;
 const { ROOT } = ApplicationRoutes;
@@ -50,6 +51,11 @@ export const DrawerMenu = (props: Props) => {
     isOpen: isOpenProfile,
     onOpen: onOpenProfile,
     onClose: onCloseProfile,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenProfileChangePassword,
+    onOpen: onOpenProfileChangePassword,
+    onClose: onCloseProfileChangePassword,
   } = useDisclosure();
   const { user: userOnStore, clearUser } = userStore();
   const { remove } = storage();
@@ -115,7 +121,9 @@ export const DrawerMenu = (props: Props) => {
             <MenuItem onClick={onOpenProfile}>
               {t("components.drawer_menu.profile")}
             </MenuItem>
-            <MenuItem>{t("components.drawer_menu.change_password")}</MenuItem>
+            <MenuItem onClick={onOpenProfileChangePassword}>
+              {t("components.drawer_menu.change_password")}
+            </MenuItem>
             <Divider />
             <MenuItem onClick={onOpenLogout} color="red">
               {t("components.drawer_menu.logout")}
@@ -145,6 +153,10 @@ export const DrawerMenu = (props: Props) => {
       />
 
       <Profile isOpen={isOpenProfile} onClose={onCloseProfile} />
+      <ProfileChangePassword
+        isOpen={isOpenProfileChangePassword}
+        onClose={onCloseProfileChangePassword}
+      />
     </Container>
   );
 };
