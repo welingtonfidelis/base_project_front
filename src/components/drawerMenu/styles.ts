@@ -86,12 +86,13 @@ export const Container = styled.div`
   `}
 `;
 
-export const AvatarContent = styled.div`
+export const LogoImageContent = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.separator};
   margin-bottom: 8px;
   padding-bottom: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 export const CloseMenuCotent = styled.div`
@@ -129,7 +130,7 @@ export const MenuContent = styled.div`
   height: calc(100% - 89px);
 
   & span {
-    margin: 4px 0;
+    margin: 2px 0;
   }
 `;
 
@@ -137,7 +138,7 @@ export const DrawerMenuItem = styled.span<{ selected: boolean }>`
   background: ${(props) => (props.selected ? props.theme.colors.tertiary : "")};
   color: ${(props) => (props.selected ? "white" : "")};
   border-radius: 4px;
-  padding: 4px;
+  padding: 8px;
   transition: 0.5s;
 
   &:hover {

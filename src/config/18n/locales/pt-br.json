@@ -1,10 +1,13 @@
 {
   "components": {
-    "drawer_menu": {
-      "profile": "Perfil",
-      "change_password": "Trocar de senhar",
-      "logout": "Sair do sistema"
+    "page_header": {
+      "menu_item_profile": "Perfil",
+      "menu_item_change_password": "Trocar de senha",
+      "menu_item_logout": "Sair do sistema",
+      "alert_title_logout": "Sair do sistema",
+      "alert_description_logout": "Deseja realmente sair do sistema?"
     },
+    "drawer_menu": {},
     "profile": {
       "page_title": "Perfil",
       "input_email": "Email",
