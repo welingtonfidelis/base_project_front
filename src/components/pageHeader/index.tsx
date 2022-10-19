@@ -19,12 +19,12 @@ import { Profile } from "../profile";
 import { ProfileChangePassword } from "../profileChangePassword";
 
 import { Container, IconBackContainer, TitleContainer } from "./styles";
-import { PageHeaderProps } from "./types";
+import { Props } from "./types";
 
 const { USER } = ApplicationStorage;
 const { ROOT } = ApplicationRoutes;
 
-export const PageHeader = (props: PageHeaderProps) => {
+export const PageHeader = (props: Props) => {
   const { title, hiddenUserMenu, leftIcon } = props;
   const { t } = useTranslation();
   const {

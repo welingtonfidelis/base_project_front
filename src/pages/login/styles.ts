@@ -16,6 +16,7 @@ export const Content = styled.div`
   min-height: 24rem;
   width: 100%;
   border: 1px solid ${(props) => props.theme.colors.separator};
+  box-shadow: 1px 0px 12px 2px rgba(0, 0, 0, 0.35);
   border-radius: ${(props) => props.theme.border.radius};
   background: #fff;
   padding: 0.5rem;

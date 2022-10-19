@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   margin-bottom: 0.5rem;
-  height: 2.2rem;
+  padding-bottom: 0.5rem;
+  height: 4rem;
+  box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.35);
 `;
 
 export const IconBackContainer = styled.div`

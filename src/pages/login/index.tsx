@@ -16,7 +16,7 @@ import logoImage from "../../assets/logo.png";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { formValidate } from "./helper/formValidate";
-import { loginRequests } from "../../services/requests/login";
+import { userRequests } from "../../services/requests/user";
 import { userStore } from "../../store/user";
 import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { storage } from "../../services/storage";
@@ -34,7 +34,7 @@ export const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const validateFormFields = formValidate();
-  const { login } = loginRequests();
+  const { login } = userRequests();
   const { updateUser } = userStore();
   const { set } = storage();
 
@@ -42,7 +42,7 @@ export const Login = () => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    const { ok, data } = await login(values.email, values.password);
+    const { ok, data } = await login(values);
     actions.setSubmitting(false);
 
     if (ok && data) {

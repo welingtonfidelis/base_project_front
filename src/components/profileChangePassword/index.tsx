@@ -11,8 +11,9 @@ import {
   Input,
   ModalFooter,
 } from "@chakra-ui/react";
-import { ProfileRequests } from "../../services/requests/profile";
+
 import { formValidate } from "./helper/formValidate";
+import { userRequests } from "../../services/requests/user";
 
 const initialFormValues = {
   old_password: "",
@@ -23,14 +24,14 @@ const initialFormValues = {
 export const ProfileChangePassword = (props: Props) => {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
-  const { updateProfilePassword } = ProfileRequests();
+  const { updatePassword } = userRequests();
   const validateFormFields = formValidate();
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    const { ok } = await updateProfilePassword(
+    const { ok } = await updatePassword(
       values.old_password,
       values.new_password
     );

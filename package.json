@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^11.18.5",
     "react-icons": "^4.4.0",
+    "react-pagination-bar": "^2.0.1",
     "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.8",
     "styled-components": "^5.3.5",

@@ -12,7 +12,8 @@ import {
   Input,
   ModalFooter,
 } from "@chakra-ui/react";
-import { ProfileRequests } from "../../services/requests/profile";
+
+import { userRequests } from "../../services/requests/user";
 import { userStore } from "../../store/user";
 import { AvatarContent } from "./styles";
 import { formValidate } from "./helper/formValidate";
@@ -21,7 +22,7 @@ export const Profile = (props: Props) => {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
   const { user: userOnStore, updateUser } = userStore();
-  const { updateProfile } = ProfileRequests();
+  const { updateProfile } = userRequests();
   const validateFormFields = formValidate();
 
   const initialFormValues = {

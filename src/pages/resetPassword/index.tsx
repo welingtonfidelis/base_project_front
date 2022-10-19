@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { formValidate } from "./helper/formValidate";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
-import { resetPasswordRequests } from "../../services/requests/resetPassword";
+import { userRequests } from "../../services/requests/user";
 import { FormProps } from "./types";
 
 const initialFormValues = {
@@ -23,7 +23,7 @@ const initialFormValues = {
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const validateFormFields = formValidate();
-  const { resetPassword } = resetPasswordRequests();
+  const { resetPassword } = userRequests();
 
   const { t } = useTranslation();
 
