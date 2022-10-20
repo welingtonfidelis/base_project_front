@@ -22,18 +22,10 @@ export const DrawerMenu = (props: Props) => {
     isMenuOpen,
     handleChangeIsMenuOpen,
   } = props;
-
+  
   const firstRender = useRef(true);
 
-  const isMobileScreen = useMemo(() => {
-    const mobileWitdth = window.innerWidth <= 600;
-
-    return mobileWitdth;
-  }, [window.innerWidth]);
-
   const menuContainerClassName = useMemo(() => {
-    if (!isMobileScreen) return "";
-
     if (firstRender.current) {
       firstRender.current = false;
       return "";
@@ -46,20 +38,17 @@ export const DrawerMenu = (props: Props) => {
 
   const handleChangeOptionMenu = (value: string) => {
     handleSelectMenuOption(value);
-
-    if (isMobileScreen) handleChangeIsMenuOpen(false);
+    handleChangeIsMenuOpen(false);
   };
 
   return (
     <Container className={menuContainerClassName}>
-      {isMobileScreen && (
-        <CloseMenuCotent>
-          <FaTimes onClick={() => handleChangeIsMenuOpen(false)} size={18} />
-        </CloseMenuCotent>
-      )}
+      <CloseMenuCotent className="mobile-icon-close-drawer">
+        <FaTimes onClick={() => handleChangeIsMenuOpen(false)} size={18} />
+      </CloseMenuCotent>
 
       <LogoImageContent>
-        <Image boxSize="7.5rem" src={logoImage}/>
+        <Image boxSize="7.5rem" src={logoImage} />
       </LogoImageContent>
 
       <MenuContent>

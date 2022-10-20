@@ -25,12 +25,6 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
       return { label: t(item.label), value: item.path };
     });
 
-  const isMobileScreen = useMemo(() => {
-    const mobileWitdth = window.innerWidth <= 600;
-
-    return mobileWitdth;
-  }, [window.innerWidth]);
-
   const pageTitle = useMemo(() => {
     return (
       menuOptions.find((item) => item.value === selectedMenuOption)?.label || ""
@@ -38,18 +32,10 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
   }, [selectedMenuOption]);
 
   useEffect(() => {
-    const initialPage = menuOptions?.[0].value;
+    const initialPage = menuOptions?.[0]?.value;
     setSelectedMenuOption(initialPage);
     navigate(initialPage);
   }, []);
-
-  const PageHeaderLeftIcon = () => {
-    if (isMobileScreen) {
-      return <FaBars color="#fff" onClick={() => setIsMenuOpen(true)} />;
-    }
-
-    return <></>;
-  };
 
   const handleSelectMenuOption = (value: string) => {
     setSelectedMenuOption(value);
@@ -68,7 +54,16 @@ export const AuthenticatedLayout = ({ children }: React.PropsWithChildren) => {
             handleChangeIsMenuOpen={setIsMenuOpen}
           />
           <MainContent>
-            <PageHeader title={pageTitle} leftIcon={<PageHeaderLeftIcon />} />
+            <PageHeader
+              title={pageTitle}
+              leftIcon={
+                <FaBars
+                  className="mobile-icon-open-drawer"
+                  color="#fff"
+                  onClick={() => setIsMenuOpen(true)}
+                />
+              }
+            />
             <Main>{children}</Main>
           </MainContent>
         </>
