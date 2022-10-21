@@ -48,7 +48,8 @@
       "page_title": "Dashboard"
     },
     "user_list": {
-      "page_title": "Usuários"
+      "page_title": "Usuários",
+      "error_request_message": "Algo deu errado ao tentar carregar a lista de usuários. Por favor, tente novamente."
     }
   },
   "generic": {

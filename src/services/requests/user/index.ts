@@ -147,8 +147,8 @@ export const userRequests = () => {
         .fill({})
         .map((item, index) => ({
           id: index + page,
-          name: `Usuario Teste ${index + 1}`,
-          email: `usuario_teste_${index + 1}@email.com`,
+          name: `Usuario Teste ${index * page}`,
+          email: `usuario_teste_${index * page}@email.com`,
           is_blocked: index % 2 === 0,
           permissions: [MANAGER, USER],
         }));

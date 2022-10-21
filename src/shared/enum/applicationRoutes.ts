@@ -2,5 +2,5 @@ export enum ApplicationRoutes {
   ROOT = "/",
   RESET_PASSWORD = "/reset-password",
   DASHBOARD = "/dashboard",
-  USER_LIST = '/user-list'
+  USER_LIST = '/user'
 }
