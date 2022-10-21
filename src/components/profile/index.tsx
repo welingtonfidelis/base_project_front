@@ -13,7 +13,7 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 
-import { userRequests } from "../../services/requests/user";
+import { userRequests } from "../../services/requests/user/index_old";
 import { userStore } from "../../store/user";
 import { AvatarContent } from "./styles";
 import { formValidate } from "./helper/formValidate";

@@ -3,6 +3,7 @@ import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "styled-components";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ToastContainer } from "react-toastify";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { AppRouter } from "./AppRouter";
 import { userStore } from "./store/user";
@@ -23,6 +24,7 @@ const { USER } = ApplicationStorage;
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
+  const queryClient = new QueryClient();
   const { updateUser } = userStore();
   const { get } = storage();
 
@@ -30,11 +32,11 @@ export const App = () => {
     const userOnStorage = get(USER);
     if (userOnStorage) updateUser(userOnStorage);
 
-    if (config.isMockEnable()) {
+    if (config.IS_MOCK_ENABLE) {
       worker.start({
         onUnhandledRequest(req: any) {
           // For debugger MSW mock handlers error
-          console.warn('Found an unhandled request on MSW', req);
+          console.warn("Found an unhandled request on MSW", req);
         },
       });
     }
@@ -46,11 +48,13 @@ export const App = () => {
     <ChakraProvider theme={theme}>
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={light}>
-          <GlobalStyles />
-          <Preloader isLoading={isLoading}>
-            <AppRouter />
-          </Preloader>
-          <ToastContainer autoClose={false} />
+          <QueryClientProvider client={queryClient}>
+            <GlobalStyles />
+            <Preloader isLoading={isLoading}>
+              <AppRouter />
+            </Preloader>
+            <ToastContainer autoClose={false} />
+          </QueryClientProvider>
         </ThemeProvider>
       </I18nextProvider>
     </ChakraProvider>

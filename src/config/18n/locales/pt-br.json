@@ -32,7 +32,9 @@
       "forgot_password_text": "Esqueceu sua senha? Clique aqui",
       "error_request_message": "Algo deu errado. Por favor, verifique seu usuário/email e senha e tente novamente.",
       "input_user_email": "Usuário ou Email",
+      "input_user_email_invalid": "Usuário ou Email inválido",
       "input_password": "Senha",
+      "input_password_invalid": "Senha inválida",
       "button_login": "Entrar"
     },
     "reset_password": {

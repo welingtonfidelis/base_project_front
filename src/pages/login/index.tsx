@@ -16,17 +16,19 @@ import logoImage from "../../assets/logo.png";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { formValidate } from "./helper/formValidate";
-import { userRequests } from "../../services/requests/user";
 import { userStore } from "../../store/user";
 import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { storage } from "../../services/storage";
 import { FormProps } from "./types";
+import { useLogin } from "../../services/requests/user";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
 const { USER } = ApplicationStorage;
 
 const initialFormValues = {
-  email: "",
+  user_name: "",
   password: "",
 };
 
@@ -34,7 +36,7 @@ export const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const validateFormFields = formValidate();
-  const { login } = userRequests();
+  const { login, isLoading } = useLogin();
   const { updateUser } = userStore();
   const { set } = storage();
 
@@ -42,14 +44,33 @@ export const Login = () => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    const { ok, data } = await login(values);
-    actions.setSubmitting(false);
+    login(values, {
+      onSuccess(data) {
+        console.log("data: ", data);
 
-    if (ok && data) {
-      updateUser(data);
-      set(USER, data);
-      navigate(DASHBOARD);
-    }
+        if (data) {
+          updateUser(data);
+          set(USER, data);
+          navigate(DASHBOARD);
+        }
+      },
+      onError(error: any) {
+        console.log("error: ", error);
+        if (error?.response?.status === 404) {
+          actions.setErrors({
+            user_name: t("pages.login.input_user_email_invalid"),
+          });
+        }
+
+        if (error?.response?.status === 401) {
+          actions.setErrors({
+            password: t("pages.login.input_password_invalid"),
+          });
+        }
+
+        toast.error(t("pages.login.error_request_message"));
+      },
+    });
   };
 
   const handleResetPassword = () => {
@@ -73,19 +94,19 @@ export const Login = () => {
             validationSchema={validateFormFields}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({ errors, touched }) => (
               <Form>
-                <Field name="email">
+                <Field name="user_name">
                   {({ field }: any) => (
                     <FormControl
-                      isInvalid={!!errors.email && touched.email}
+                      isInvalid={!!errors.user_name && touched.user_name}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.login.input_user_email")}
                       />
-                      <FormErrorMessage>{errors.email}</FormErrorMessage>
+                      <FormErrorMessage>{errors.user_name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -100,9 +121,7 @@ export const Login = () => {
                         {...field}
                         placeholder={t("pages.login.input_password")}
                       />
-                      <FormErrorMessage>
-                        {errors.password}
-                      </FormErrorMessage>
+                      <FormErrorMessage>{errors.password}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -114,7 +133,7 @@ export const Login = () => {
                 <ActionContainer>
                   <Button
                     colorScheme="blue"
-                    isLoading={isSubmitting}
+                    isLoading={isLoading}
                     type="submit"
                   >
                     {t("pages.login.button_login")}

@@ -13,4 +13,4 @@ export class DB extends Dexie {
   }
 }
 
-export const localDB = new DB();
+export const mockDB = new DB();

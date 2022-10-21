@@ -4,7 +4,7 @@ import { ResponseInterface } from "../types";
 
 // Request
 export interface LoginPayload {
-  email: string;
+  user_name: string;
   password: string;
 }
 
@@ -24,8 +24,6 @@ export interface ListUsersPayload {
 }
 
 // Response
-export interface LoginResponse extends ResponseInterface<LoggedUser> {}
-
 export interface UpdateProfileResponse extends ResponseInterface<{}> {}
 
 export interface UpdatePasswordResponse extends ResponseInterface<{}> {}

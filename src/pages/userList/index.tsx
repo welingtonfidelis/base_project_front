@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FiUser, FiTrash2 } from "react-icons/fi";
 
 import { User } from "../../domains/user";
-import { userRequests } from "../../services/requests/user";
+import { userRequests } from "../../services/requests/user/index_old";
 import { Container, MainContent } from "./styles";
 
 import { Pagination } from "../../components/pagination";

@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 import { formValidate } from "./helper/formValidate";
-import { userRequests } from "../../services/requests/user";
+import { userRequests } from "../../services/requests/user/index_old";
 
 const initialFormValues = {
   old_password: "",
