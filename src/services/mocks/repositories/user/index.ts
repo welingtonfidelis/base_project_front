@@ -1,3 +1,4 @@
+import { User } from "../../../../domains/user";
 import { users } from "../../data/users";
 import { DB, mockDB } from "../db";
 
@@ -15,6 +16,14 @@ class UserDB {
       .or("email")
       .equals(user_name)
       .toArray();
+  }
+
+  findById(id: number) {
+    return this.db.users.where("id").equals(id).toArray();
+  }
+
+  update(id: number, data: Partial<User>) {
+    return this.db.users.update(id, data);    
   }
 }
 

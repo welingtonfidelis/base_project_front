@@ -13,7 +13,9 @@ const api = axios.create({
 //   console.log(config.status);
 //   return config;
 // }, (error) => {
-  
+//   console.log('error: ', error);
+//   if (error?.response?.status === 403) {
+//   }
 // })
 
 /**

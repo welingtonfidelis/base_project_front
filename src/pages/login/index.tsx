@@ -21,7 +21,6 @@ import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { storage } from "../../services/storage";
 import { FormProps } from "./types";
 import { useLogin } from "../../services/requests/user";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;

@@ -11,7 +11,9 @@
     "profile": {
       "page_title": "Perfil",
       "input_email": "Email",
+      "input_id": "Código",
       "input_name": "Nome",
+      "input_user_name": "Nome de usuário",
       "success_request_message": "Sucesso! Seu perfil foi atualizado.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     },

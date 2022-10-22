@@ -9,10 +9,9 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../services/requests/user";
 
-import { storage } from "../../services/storage";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
-import { ApplicationStorage } from "../../shared/enum/applicationStorage";
 import { userStore } from "../../store/user";
 import { AlertConfirm } from "../alertConfirm";
 import { Profile } from "../profile";
@@ -21,7 +20,6 @@ import { ProfileChangePassword } from "../profileChangePassword";
 import { Container, IconBackContainer, TitleContainer } from "./styles";
 import { Props } from "./types";
 
-const { USER } = ApplicationStorage;
 const { ROOT } = ApplicationRoutes;
 
 export const PageHeader = (props: Props) => {
@@ -43,12 +41,12 @@ export const PageHeader = (props: Props) => {
     onClose: onCloseProfileChangePassword,
   } = useDisclosure();
   const { user: userOnStore, clearUser } = userStore();
-  const { remove } = storage();
+  const { logout } = useLogout();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     clearUser();
-    remove(USER);
+    logout();
     navigate(ROOT);
   };
 

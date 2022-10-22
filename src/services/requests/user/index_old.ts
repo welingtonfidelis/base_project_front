@@ -7,39 +7,13 @@ import { LoggedUser } from "../../../domains/user";
 import {
   ListUsersPayload,
   ListUsersResponse,
-  ResetPasswordResponse,
   UpdatePasswordPayload,
   UpdatePasswordResponse,
-  UpdateProfilePayload,
-  UpdateProfileResponse,
 } from "./types";
 
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
 
 export const userRequests = () => {
-  const updateProfile = async (
-    data: UpdateProfilePayload
-  ): Promise<UpdateProfileResponse> => {
-    try {
-      // temporaly
-      await delay(1000);
-
-      toast.success(
-        i18n.t("components.profile.success_request_message") as string
-      );
-
-      return Promise.resolve({
-        ok: true,
-      });
-    } catch (error) {
-      toast.error(i18n.t("components.profile.error_request_message") as string);
-
-      return Promise.resolve({
-        ok: false,
-      });
-    }
-  };
-
   const updatePassword = async (
     data: UpdatePasswordPayload
   ): Promise<UpdatePasswordResponse> => {
@@ -105,5 +79,5 @@ export const userRequests = () => {
     }
   };
 
-  return { resetPassword, login, updateProfile, updatePassword, listUsers };
+  return { updatePassword, listUsers };
 };

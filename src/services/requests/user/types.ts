@@ -16,16 +16,15 @@ export interface UpdatePasswordPayload {
 export interface ResetPasswordPayload {
   user_name: string;
 }
-export interface UpdateProfilePayload
-  extends OmitCommonProps<LoggedUser, "permissions"> {}
+export interface UpdateProfilePayload {
+  name: string;
+}
 
 export interface ListUsersPayload {
   page: number;
 }
 
 // Response
-export interface UpdateProfileResponse extends ResponseInterface<{}> {}
-
 export interface UpdatePasswordResponse extends ResponseInterface<{}> {}
 
 export interface ListUsersResponse
