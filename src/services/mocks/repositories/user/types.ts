@@ -1,5 +1,5 @@
 import { User } from "../../../../domains/user";
 
-export interface UserDB extends User {
+export interface UserFullDB extends User {
     password: string;
 }

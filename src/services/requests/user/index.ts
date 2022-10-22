@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 import { EndPoints } from "../../../shared/enum/endPoints";
 
-import { getProfile, login, logout, resetPassword, updateProfile } from "./apiRequests";
+import { getProfile, login, logout, resetPassword, updatePassword, updateProfile } from "./apiRequests";
 
 const { PROFILE } = EndPoints;
 
@@ -22,6 +22,12 @@ export const useResetPassword = () => {
   const { mutate, isLoading } = useMutation(resetPassword);
   
   return { resetPassword: mutate, isLoading };
+}
+
+export const useUpdatePassword = () => {  
+  const { mutate, isLoading } = useMutation(updatePassword);
+  
+  return { updatePassword: mutate, isLoading };
 }
 
 export const useUpdateProfile = () => {  

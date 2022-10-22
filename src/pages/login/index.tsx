@@ -115,6 +115,7 @@ export const Login = () => {
                     >
                       <Input
                         {...field}
+                        type="password"
                         placeholder={t("pages.login.input_password")}
                       />
                       <FormErrorMessage>{errors.password}</FormErrorMessage>

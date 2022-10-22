@@ -6,6 +6,7 @@ import { EndPoints } from "../../../../shared/enum/endPoints";
 import {
   LoginPayload,
   ResetPasswordPayload,
+  UpdatePasswordPayload,
 } from "../../../requests/user/types";
 import { delay } from "../../../util/delayFunction";
 import { userDB } from "../../repositories/user";
@@ -72,6 +73,60 @@ export const userHandler = [
           return res(
             ctx.status(404),
             ctx.json({ message: "Invalid user_name or email" })
+          );
+        }
+
+        return res(ctx.json({}));
+      } catch (error) {
+        console.log("error: ", error);
+        return res(ctx.status(500));
+      }
+    }
+  ),
+
+  rest.post(
+    config.REST_API_URL + EndPoints.UPDATE_PASSWORD,
+    async (req, res, ctx) => {
+      try {
+        await delay(1000);
+
+        const { old_password, new_password } =
+          (await req.json()) as UpdatePasswordPayload;
+
+        const userOnSession = sessionStorage.getItem(USER_SESSION);
+
+        if (!userOnSession) {
+          return res(
+            ctx.status(403),
+            ctx.json({ message: "User not authenticated" })
+          );
+        }
+
+        const userOnSessionParsed = JSON.parse(userOnSession);
+        const [user] = await userDB.findById(userOnSessionParsed.id);
+
+        if (!user || user.is_blocked) {
+          return res(
+            ctx.status(404),
+            ctx.json({ message: "Invalid user session" })
+          );
+        }
+
+        if (user.password !== old_password) {
+          return res(
+            ctx.status(401),
+            ctx.json({ message: "Invalid old password" })
+          );
+        }
+
+        const wasUpdated = await userDB.update(userOnSessionParsed.id, {
+          password: new_password,
+        });
+
+        if (!wasUpdated) {
+          return res(
+            ctx.status(400),
+            ctx.json({ message: "Error during update" })
           );
         }
 

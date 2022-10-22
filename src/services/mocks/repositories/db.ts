@@ -1,9 +1,9 @@
 
 import Dexie, { Table } from 'dexie';
-import { UserDB } from './user/types';
+import { UserFullDB } from './user/types';
 
 export class DB extends Dexie {
-  users!: Table<UserDB>; 
+  users!: Table<UserFullDB>; 
 
   constructor() {
     super('base_project_front_db');

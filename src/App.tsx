@@ -17,6 +17,9 @@ import { light } from "./config/styles/styled-component-theme";
 import { theme } from "./config/styles/chackra-ui-theme";
 import "react-toastify/dist/ReactToastify.css";
 import { getProfile } from "./services/requests/user/apiRequests";
+import { ApplicationRoutes } from "./shared/enum/applicationRoutes";
+
+const { ROOT } = ApplicationRoutes;
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,9 +29,11 @@ export const App = () => {
 
   const getUserProfile = async () => {
     try {
-      const data = await getProfile();
+      if (window.location.pathname !== ROOT) {
+        const data = await getProfile();
 
-      if (data) updateUser(data);
+        if (data) updateUser(data);
+      }
     } finally {
       setIsLoading(false);
     }

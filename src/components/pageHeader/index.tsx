@@ -15,7 +15,7 @@ import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { userStore } from "../../store/user";
 import { AlertConfirm } from "../alertConfirm";
 import { Profile } from "../profile";
-import { ProfileChangePassword } from "../profileChangePassword";
+import { ProfileUpdatePassword } from "../profileUpdatePassword";
 
 import { Container, IconBackContainer, TitleContainer } from "./styles";
 import { Props } from "./types";
@@ -36,9 +36,9 @@ export const PageHeader = (props: Props) => {
     onClose: onCloseProfile,
   } = useDisclosure();
   const {
-    isOpen: isOpenProfileChangePassword,
-    onOpen: onOpenProfileChangePassword,
-    onClose: onCloseProfileChangePassword,
+    isOpen: isOpenProfileUpdatePassword,
+    onOpen: onOpenProfileUpdatePassword,
+    onClose: onCloseProfileUpdatePassword,
   } = useDisclosure();
   const { user: userOnStore, clearUser } = userStore();
   const { logout } = useLogout();
@@ -69,7 +69,7 @@ export const PageHeader = (props: Props) => {
             <MenuItem onClick={onOpenProfile}>
               {t("components.page_header.menu_item_profile")}
             </MenuItem>
-            <MenuItem onClick={onOpenProfileChangePassword}>
+            <MenuItem onClick={onOpenProfileUpdatePassword}>
               {t("components.page_header.menu_item_change_password")}
             </MenuItem>
             <Divider />
@@ -90,9 +90,9 @@ export const PageHeader = (props: Props) => {
 
       <Profile isOpen={isOpenProfile} onClose={onCloseProfile} />
 
-      <ProfileChangePassword
-        isOpen={isOpenProfileChangePassword}
-        onClose={onCloseProfileChangePassword}
+      <ProfileUpdatePassword
+        isOpen={isOpenProfileUpdatePassword}
+        onClose={onCloseProfileUpdatePassword}
       />
     </Container>
   );

@@ -14,6 +14,8 @@ import {
 
 import { formValidate } from "./helper/formValidate";
 import { userRequests } from "../../services/requests/user/index_old";
+import { useUpdatePassword } from "../../services/requests/user";
+import { toast } from "react-toastify";
 
 const initialFormValues = {
   old_password: "",
@@ -21,26 +23,52 @@ const initialFormValues = {
   repeated_new_password: "",
 };
 
-export const ProfileChangePassword = (props: Props) => {
+export const ProfileUpdatePassword = (props: Props) => {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
-  const { updatePassword } = userRequests();
+  // const { updatePassword } = userRequests();
+  const { updatePassword, isLoading } = useUpdatePassword();
   const validateFormFields = formValidate();
+
+  // const handleSubmit = async (
+  //   values: FormProps,
+  //   actions: FormikHelpers<FormProps>
+  // ) => {
+  //   const { ok } = await updatePassword(
+  //     values.old_password,
+  //     values.new_password
+  //   );
+
+  //   actions.setSubmitting(false);
+
+  //   if (ok) {
+  //     onClose();
+  //   }
+  // };
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    const { ok } = await updatePassword(
-      values.old_password,
-      values.new_password
-    );
+    updatePassword(values, {
+      onSuccess() {
+        toast.success(
+          t("components.profile_change_password.success_request_message")
+        );
+        onClose();
+      },
+      onError(error: any) {
+        if (error?.response?.status === 401) {
+          actions.setErrors({
+            old_password: t("pages.login.input_password_invalid"),
+          });
+        }
 
-    actions.setSubmitting(false);
-
-    if (ok) {
-      onClose();
-    }
+        toast.error(
+          t("components.profile_change_password.error_request_message")
+        );
+      },
+    });
   };
 
   return (
@@ -56,7 +84,7 @@ export const ProfileChangePassword = (props: Props) => {
         validationSchema={validateFormFields}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched }) => (
           <Form>
             <Field name="old_password">
               {({ field }: any) => (
@@ -129,7 +157,7 @@ export const ProfileChangePassword = (props: Props) => {
               <Button onClick={onClose} colorScheme="gray" marginEnd={"2"}>
                 {t("generic.button_cancel")}
               </Button>
-              <Button colorScheme="blue" isLoading={isSubmitting} type="submit">
+              <Button colorScheme="blue" isLoading={isLoading} type="submit">
                 {t("generic.button_save")}
               </Button>
             </ModalFooter>

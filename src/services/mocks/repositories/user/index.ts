@@ -1,6 +1,6 @@
-import { User } from "../../../../domains/user";
 import { users } from "../../data/users";
 import { DB, mockDB } from "../db";
+import { UserFullDB } from "./types";
 
 class UserDB {
   db: DB;
@@ -22,7 +22,7 @@ class UserDB {
     return this.db.users.where("id").equals(id).toArray();
   }
 
-  update(id: number, data: Partial<User>) {
+  update(id: number, data: Partial<UserFullDB>) {
     return this.db.users.update(id, data);    
   }
 }

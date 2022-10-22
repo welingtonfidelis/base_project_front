@@ -25,7 +25,6 @@ export interface ListUsersPayload {
 }
 
 // Response
-export interface UpdatePasswordResponse extends ResponseInterface<{}> {}
 
 export interface ListUsersResponse
   extends ResponseInterface<{
