@@ -14,7 +14,7 @@ export interface UpdatePasswordPayload {
 }
 
 export interface ResetPasswordPayload {
-  email: string;
+  user_name: string;
 }
 export interface UpdateProfilePayload
   extends OmitCommonProps<LoggedUser, "permissions"> {}
@@ -27,8 +27,6 @@ export interface ListUsersPayload {
 export interface UpdateProfileResponse extends ResponseInterface<{}> {}
 
 export interface UpdatePasswordResponse extends ResponseInterface<{}> {}
-
-export interface ResetPasswordResponse extends ResponseInterface<{}> {}
 
 export interface ListUsersResponse
   extends ResponseInterface<{

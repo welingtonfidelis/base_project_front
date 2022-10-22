@@ -13,17 +13,18 @@ import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { formValidate } from "./helper/formValidate";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
-import { userRequests } from "../../services/requests/user/index_old";
 import { FormProps } from "./types";
+import { useResetPassword } from "../../services/requests/user";
+import { toast } from "react-toastify";
 
 const initialFormValues = {
-  email: "",
+  user_name: "",
 };
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const validateFormFields = formValidate();
-  const { resetPassword } = userRequests();
+  const { resetPassword, isLoading } = useResetPassword();
 
   const { t } = useTranslation();
 
@@ -31,11 +32,23 @@ export const ResetPassword = () => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    const { ok } = await resetPassword(values.email);
+    resetPassword(values, {
+      onSuccess(_) {
+        toast.success(t("pages.reset_password.success_request_message"));
 
-    if (ok) navigate(-1);
+        navigate(-1);
+      },
+      onError(error: any) {
+        console.log("error: ", error);
+        if (error?.response?.status === 404) {
+          actions.setErrors({
+            user_name: t("pages.login.input_user_email_invalid"),
+          });
+        }
 
-    actions.setSubmitting(false);
+        toast.error(t("pages.reset_password.error_request_message"));
+      },
+    });
   };
 
   return (
@@ -53,19 +66,19 @@ export const ResetPassword = () => {
             validationSchema={validateFormFields}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({ errors, touched }) => (
               <Form>
-                <Field name="email">
+                <Field name="user_name">
                   {({ field }: any) => (
                     <FormControl
-                      isInvalid={!!errors.email && touched.email}
+                      isInvalid={!!errors.user_name && touched.user_name}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.reset_password.input_user_email")}
                       />
-                      <FormErrorMessage>{errors.email}</FormErrorMessage>
+                      <FormErrorMessage>{errors.user_name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
@@ -73,7 +86,7 @@ export const ResetPassword = () => {
                 <ActionContainer>
                   <Button
                     colorScheme="blue"
-                    isLoading={isSubmitting}
+                    isLoading={isLoading}
                     type="submit"
                   >
                     {t("pages.reset_password.button_reset")}

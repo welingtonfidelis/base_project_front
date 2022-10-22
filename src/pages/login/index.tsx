@@ -46,8 +46,6 @@ export const Login = () => {
   ) => {
     login(values, {
       onSuccess(data) {
-        console.log("data: ", data);
-
         if (data) {
           updateUser(data);
           set(USER, data);
@@ -55,7 +53,6 @@ export const Login = () => {
         }
       },
       onError(error: any) {
-        console.log("error: ", error);
         if (error?.response?.status === 404) {
           actions.setErrors({
             user_name: t("pages.login.input_user_email_invalid"),

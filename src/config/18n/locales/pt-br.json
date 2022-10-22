@@ -43,7 +43,7 @@
       "success_request_message": "Sucesso! Enviamos um email para você recuperar sua senha.",
       "error_request_message": "Algo deu errado. Por favor, verifique seu usuário/email e tente novamente.",
       "input_user_email": "Usuário ou Email",
-      "wrong_user_password_text": "Usuário ou email inválidos! Por favor, tente novamente.",
+      "input_user_email_invalid": "Usuário ou Email inválido",
       "button_reset": "Enviar"
     },
     "dashboard": {

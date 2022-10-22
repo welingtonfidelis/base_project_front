@@ -1,11 +1,15 @@
 import { useMutation } from "react-query";
 
-import { loginPost } from "./apiRequests";
+import { login, resetPassword } from "./apiRequests";
 
-export const useLogin = () => {
-  console.log(import.meta.env.VITE_REST_API_URL);
-  
-  const { mutate, isLoading } = useMutation(loginPost);
+export const useLogin = () => {  
+  const { mutate, isLoading } = useMutation(login);
   
   return { login: mutate, isLoading };
+}
+
+export const useResetPassword = () => {  
+  const { mutate, isLoading } = useMutation(resetPassword);
+  
+  return { resetPassword: mutate, isLoading };
 }

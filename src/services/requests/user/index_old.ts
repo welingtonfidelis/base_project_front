@@ -7,8 +7,6 @@ import { LoggedUser } from "../../../domains/user";
 import {
   ListUsersPayload,
   ListUsersResponse,
-  LoginPayload,
-  LoginResponse,
   ResetPasswordResponse,
   UpdatePasswordPayload,
   UpdatePasswordResponse,
@@ -19,44 +17,6 @@ import {
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
 
 export const userRequests = () => {
-  const login = async (data: LoginPayload): Promise<LoginResponse> => {
-    try {
-      // temporaly
-      await delay(1000);
-      const { email, password } = data;
-      let permissions = [];
-      let name = "";
-
-      if (email === "admin") {
-        permissions = [ADMIN, MANAGER, USER];
-        name = "Admin User 1";
-      } else if (email === "manager") {
-        name = "Manager User 1";
-        permissions = [MANAGER, USER];
-      } else if (email === "user") {
-        name = "User 1";
-        permissions = [USER];
-      } else throw new Error("invalid user");
-
-      const user: LoggedUser = {
-        name,
-        email: "test@email.com",
-        permissions,
-      };
-
-      return Promise.resolve({
-        ok: true,
-        data: user,
-      });
-    } catch (error) {
-      toast.error(i18n.t("pages.login.error_request_message") as string);
-
-      return Promise.resolve({
-        ok: false,
-      });
-    }
-  };
-
   const updateProfile = async (
     data: UpdateProfilePayload
   ): Promise<UpdateProfileResponse> => {
@@ -101,31 +61,6 @@ export const userRequests = () => {
         i18n.t(
           "components.profile_change_password.error_request_message"
         ) as string
-      );
-
-      return Promise.resolve({
-        ok: false,
-      });
-    }
-  };
-
-  const resetPassword = async (
-    email: string
-  ): Promise<ResetPasswordResponse> => {
-    try {
-      // temporaly
-      await delay(1000);
-
-      toast.success(
-        i18n.t("pages.reset_password.success_request_message") as string
-      );
-
-      return Promise.resolve({
-        ok: true,
-      });
-    } catch (error) {
-      toast.error(
-        i18n.t("pages.reset_password.error_request_message") as string
       );
 
       return Promise.resolve({
