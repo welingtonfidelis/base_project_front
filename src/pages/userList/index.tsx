@@ -1,54 +1,35 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FiUser, FiTrash2 } from "react-icons/fi";
+import { useMemo, useState } from "react";
+import { FiTrash2 } from "react-icons/fi";
 
-import { User } from "../../domains/user";
-import { userRequests } from "../../services/requests/user/index_old";
 import { Container, MainContent } from "./styles";
 
 import { Pagination } from "../../components/pagination";
 import { Preloader } from "../../components/preloader";
 import { Table } from "../../components/table";
 import { Avatar } from "@chakra-ui/react";
+import { useGetListUsers } from "../../services/requests/user";
+import { t } from "i18next";
 
 export const UserList = () => {
-  const [userList, setUserList] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalUsers, setTotalUsers] = useState(0);
-  const [getUserListLoading, setGetUserListLoading] = useState(false);
+  const { data, isLoading } = useGetListUsers({page: currentPage -1})
 
-  const { listUsers } = userRequests();
-
-  const getUserList = async () => {
-    setGetUserListLoading(true);
-
-    const { ok, data } = await listUsers({ page: currentPage });
-
-    if (ok && data) {
-      setUserList(data.users);
-      setTotalUsers(data.total);
-    }
-
-    setGetUserListLoading(false);
-  };
-
-  useEffect(() => {
-    getUserList();
-  }, [currentPage]);
-
-  const columnHeader = useMemo(() => ["", "Nome", "Email", "Editar"], []);
+  const columnHeader = useMemo(() => t('pages.user_list.table_header_columns').split('/'), []);
   const columnData = useMemo(() => {
-    return userList.map((item) => [
+    if (!data) return [];
+
+    return data?.users.map((item) => [
       <Avatar name={item.name} />,
       item.name,
       item.email,
       <FiTrash2 />,
     ]);
-  }, [userList]);
+  }, [data]);
 
   return (
     <Container>
       <MainContent>
-        <Preloader isLoading={getUserListLoading}>
+        <Preloader isLoading={isLoading}>
           <Table columnHeader={columnHeader} columnData={columnData} />
         </Preloader>
       </MainContent>
@@ -56,7 +37,7 @@ export const UserList = () => {
       <Pagination
         currentPage={currentPage}
         onPageChange={setCurrentPage}
-        totalItems={totalUsers}
+        totalItems={data?.total || 0}
       />
     </Container>
   );

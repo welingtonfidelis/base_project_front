@@ -9,6 +9,19 @@ class UserDB {
     this.db = mockDB;
   }
 
+  count() {
+    return this.db.users.count();
+  }
+
+  find(page: number) {
+    const pageSize = 20;
+    
+    return this.db.users
+      .offset(page * pageSize)
+      .limit(pageSize)
+      .toArray();
+  }
+
   findByUserNameOrEmail(user_name: string) {
     return this.db.users
       .where("user_name")
@@ -23,7 +36,7 @@ class UserDB {
   }
 
   update(id: number, data: Partial<UserFullDB>) {
-    return this.db.users.update(id, data);    
+    return this.db.users.update(id, data);
   }
 }
 

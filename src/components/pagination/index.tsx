@@ -12,7 +12,7 @@ import { Container } from "./styles";
 
 export const Pagination = (props: Props) => {
   const { currentPage, onPageChange, totalItems, itemsPerPage } = props;
-  const perPage = itemsPerPage || 50;
+  const perPage = itemsPerPage || 20;
 
   return (
     <Container hasContent={totalItems > perPage}>

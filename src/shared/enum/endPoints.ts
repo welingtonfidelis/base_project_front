@@ -1,4 +1,5 @@
 export enum EndPoints {
+  USERS = "/users",
   LOGIN = "/users/login",
   LOGOUT = "/users/logout",
   RESET_PASSWORD = "/users/reset-password",

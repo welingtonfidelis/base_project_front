@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 import { formValidate } from "./helper/formValidate";
-import { userRequests } from "../../services/requests/user/index_old";
 import { useUpdatePassword } from "../../services/requests/user";
 import { toast } from "react-toastify";
 
@@ -26,25 +25,8 @@ const initialFormValues = {
 export const ProfileUpdatePassword = (props: Props) => {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
-  // const { updatePassword } = userRequests();
   const { updatePassword, isLoading } = useUpdatePassword();
   const validateFormFields = formValidate();
-
-  // const handleSubmit = async (
-  //   values: FormProps,
-  //   actions: FormikHelpers<FormProps>
-  // ) => {
-  //   const { ok } = await updatePassword(
-  //     values.old_password,
-  //     values.new_password
-  //   );
-
-  //   actions.setSubmitting(false);
-
-  //   if (ok) {
-  //     onClose();
-  //   }
-  // };
 
   const handleSubmit = async (
     values: FormProps,

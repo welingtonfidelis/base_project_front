@@ -1,34 +1,65 @@
-import { LoggedUser, Profile } from "../../../domains/user";
+import { LoggedUser, Profile, User } from "../../../domains/user";
 import { EndPoints } from "../../../shared/enum/endPoints";
 import RestRequestService from "../api";
-import { LoginPayload, ResetPasswordPayload, UpdatePasswordPayload, UpdateProfilePayload } from "./types";
+import {
+  ListUsersPayload,
+  ListUsersResponse,
+  LoginPayload,
+  ResetPasswordPayload,
+  UpdatePasswordPayload,
+  UpdateProfilePayload,
+} from "./types";
 
 export const login = async (payload: LoginPayload) => {
-  const { data: response } = await RestRequestService.post<LoggedUser>(EndPoints.LOGIN, payload);
+  const { data: response } = await RestRequestService.post<LoggedUser>(
+    EndPoints.LOGIN,
+    payload
+  );
   return response;
 };
 
 export const logout = async () => {
-  const { data: response } = await RestRequestService.post<LoggedUser>(EndPoints.LOGOUT);
+  const { data: response } = await RestRequestService.post<{}>(
+    EndPoints.LOGOUT
+  );
   return response;
 };
 
 export const resetPassword = async (payload: ResetPasswordPayload) => {
-  const { data: response } = await RestRequestService.post<{}>(EndPoints.RESET_PASSWORD, payload);
+  const { data: response } = await RestRequestService.post<{}>(
+    EndPoints.RESET_PASSWORD,
+    payload
+  );
   return response;
 };
 
 export const updatePassword = async (payload: UpdatePasswordPayload) => {
-  const { data: response } = await RestRequestService.post<{}>(EndPoints.UPDATE_PASSWORD, payload);
+  const { data: response } = await RestRequestService.post<{}>(
+    EndPoints.UPDATE_PASSWORD,
+    payload
+  );
   return response;
 };
 
 export const getProfile = async () => {
-  const { data: response } = await RestRequestService.get<Profile>(EndPoints.PROFILE);
+  const { data: response } = await RestRequestService.get<Profile>(
+    EndPoints.PROFILE
+  );
   return response;
 };
 
 export const updateProfile = async (payload: UpdateProfilePayload) => {
-  const { data: response } = await RestRequestService.patch<{}>(EndPoints.PROFILE, payload);
+  const { data: response } = await RestRequestService.patch<{}>(
+    EndPoints.PROFILE,
+    payload
+  );
+  return response;
+};
+
+export const getUserList = async (params: ListUsersPayload) => {
+  const { data: response } = await RestRequestService.get<ListUsersResponse>(
+    EndPoints.USERS,
+    { params }
+  );
   return response;
 };

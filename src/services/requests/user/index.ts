@@ -1,40 +1,49 @@
 import { useMutation, useQuery } from "react-query";
 import { EndPoints } from "../../../shared/enum/endPoints";
 
-import { getProfile, login, logout, resetPassword, updatePassword, updateProfile } from "./apiRequests";
+import {
+  getProfile,
+  getUserList,
+  login,
+  logout,
+  resetPassword,
+  updatePassword,
+  updateProfile,
+} from "./apiRequests";
+import { ListUsersPayload } from "./types";
 
-const { PROFILE } = EndPoints;
+const { PROFILE, USERS } = EndPoints;
 
 // ===== MUTATES ===== //
-export const useLogin = () => {  
+export const useLogin = () => {
   const { mutate, isLoading } = useMutation(login);
-  
+
   return { login: mutate, isLoading };
-}
+};
 
-export const useLogout = () => {  
+export const useLogout = () => {
   const { mutate, isLoading } = useMutation(logout);
-  
+
   return { logout: mutate, isLoading };
-}
+};
 
-export const useResetPassword = () => {  
+export const useResetPassword = () => {
   const { mutate, isLoading } = useMutation(resetPassword);
-  
+
   return { resetPassword: mutate, isLoading };
-}
+};
 
-export const useUpdatePassword = () => {  
+export const useUpdatePassword = () => {
   const { mutate, isLoading } = useMutation(updatePassword);
-  
-  return { updatePassword: mutate, isLoading };
-}
 
-export const useUpdateProfile = () => {  
+  return { updatePassword: mutate, isLoading };
+};
+
+export const useUpdateProfile = () => {
   const { mutate, isLoading } = useMutation(updateProfile);
-  
+
   return { updateProfile: mutate, isLoading };
-}
+};
 
 // ===== QUERIES ===== //
 export const useGetProfile = () => {
@@ -43,4 +52,14 @@ export const useGetProfile = () => {
   const { data, refetch, isLoading } = useQuery(getQueryKey(), getProfile);
 
   return { getQueryKey, refetch, data, isLoading };
-}
+};
+
+export const useGetListUsers = (params: ListUsersPayload) => {
+  const getQueryKey = () => [USERS, params];
+
+  const { data, refetch, isLoading } = useQuery(getQueryKey(), () =>
+    getUserList(params)
+  );
+
+  return { getQueryKey, refetch, data, isLoading };
+};

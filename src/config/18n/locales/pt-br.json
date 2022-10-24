@@ -53,6 +53,7 @@
     },
     "user_list": {
       "page_title": "Usuários",
+      "table_header_columns": "/Nome/Email/Editar",
       "error_request_message": "Algo deu errado ao tentar carregar a lista de usuários. Por favor, tente novamente."
     }
   },

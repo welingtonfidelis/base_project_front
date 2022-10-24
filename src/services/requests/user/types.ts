@@ -25,9 +25,7 @@ export interface ListUsersPayload {
 }
 
 // Response
-
-export interface ListUsersResponse
-  extends ResponseInterface<{
-    total: number;
-    users: User[];
-  }> {}
+export interface ListUsersResponse {
+  total: number;
+  users: User[];
+}

@@ -4,6 +4,7 @@ import { config } from "../../../../config";
 import { User } from "../../../../domains/user";
 import { EndPoints } from "../../../../shared/enum/endPoints";
 import {
+  ListUsersPayload,
   LoginPayload,
   ResetPasswordPayload,
   UpdatePasswordPayload,
@@ -193,6 +194,35 @@ export const userHandler = [
       }
 
       return res(ctx.json({}));
+    } catch (error) {
+      console.log("error: ", error);
+      return res(ctx.status(500));
+    }
+  }),
+
+  rest.get(config.REST_API_URL + EndPoints.USERS, async (req, res, ctx) => {
+    try {
+      await delay(1000);
+
+      const page = Number(req.url.searchParams.get("page"));
+      const userOnSession = sessionStorage.getItem(USER_SESSION);
+
+      if (!userOnSession) {
+        return res(
+          ctx.status(403),
+          ctx.json({ message: "User not authenticated" })
+        );
+      }
+
+      const total = await userDB.count();
+      const users = await userDB.find(page);
+
+      return res(
+        ctx.json({
+          total,
+          users,
+        })
+      );
     } catch (error) {
       console.log("error: ", error);
       return res(ctx.status(500));
