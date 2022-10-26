@@ -1,6 +1,4 @@
-import { OmitCommonProps } from "@chakra-ui/react";
-import { LoggedUser, User } from "../../../domains/user";
-import { ResponseInterface } from "../types";
+import { User } from "../../../domains/user";
 
 // Request
 export interface LoginPayload {
@@ -18,6 +16,15 @@ export interface ResetPasswordPayload {
 }
 export interface UpdateProfilePayload {
   name: string;
+}
+
+export interface UpdateUserPayload {
+  id: number;
+  data: Partial<Omit<User, 'id'>>
+}
+
+export interface DeleteUserPayload {
+  id: number;
 }
 
 export interface ListUsersPayload {

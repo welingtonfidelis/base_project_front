@@ -53,8 +53,26 @@
     },
     "user_list": {
       "page_title": "Usuários",
-      "table_header_columns": "/Nome/Email/Editar",
-      "error_request_message": "Algo deu errado ao tentar carregar a lista de usuários. Por favor, tente novamente."
+      "table_header_columns": "/Nome/Email/Bloqueado/Editar",
+      "table_action_edit": "Editar",
+      "table_action_block": "Bloquear",
+      "table_action_unblock": "Desbloquear",
+      "table_action_delete": "Excluir",
+      "alert_title_block_user": "Bloquear usuário",
+      "alert_description_block_user": "Deseja realmente bloquear este usuário ({{user_name}})?",
+      "alert_title_unblock_user": "Desbloquear usuário",
+      "alert_description_unblock_user": "Deseja realmente desbloquear este usuário ({{user_name}})?",
+      "alert_title_delete_user": "Excluir usuário",
+      "alert_description_delete_user": "Deseja realmente excluir este usuário ({{user_name}})?",
+      "error_request_message": "Algo deu errado ao tentar carregar a lista de usuários. Por favor, tente novamente.",
+      "success_request_block_message": "Sucesso! Usuário atualizado.",
+      "error_request_block_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
+      "success_request_delete_message": "Sucesso! Usuário excluído.",
+      "error_request_delete_message": "Algo deu errado. Por favor, verifique as informações e tente novamente."
+    },
+    "user_detail": {
+      "page_title": "Usuário",
+      "error_request_message": "Algo deu errado ao tentar carregar este usuário. Por favor, tente novamente."
     }
   },
   "generic": {

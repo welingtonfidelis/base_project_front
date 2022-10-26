@@ -9,17 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import isNil from "lodash/isNil";
+
 import { Props } from "./types";
 
 export const AlertConfirm = (props: Props) => {
-  const { title, description, isOpen, onConfirm, onClose } = props;
+  const { title, description, isOpen, isLoading, onConfirm, onClose } = props;
   const cancelRef = useRef(null);
   const { t } = useTranslation();
-
-  const handleConfirm = () => {
-    onClose();
-    onConfirm();
-  }
 
   return (
     <AlertDialog
@@ -41,7 +38,7 @@ export const AlertConfirm = (props: Props) => {
             <Button ref={cancelRef} onClick={onClose}>
               {t("generic.button_no")}
             </Button>
-            <Button colorScheme="red" onClick={handleConfirm} ml={3}>
+            <Button colorScheme="red" onClick={onConfirm} ml={3} isLoading={isLoading}>
               {t("generic.button_yes")}
             </Button>
           </AlertDialogFooter>

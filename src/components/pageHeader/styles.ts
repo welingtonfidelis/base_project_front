@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
-  /* height: 2.2rem; */
   background: ${(props) => props.theme.colors.primary};
 `;
 

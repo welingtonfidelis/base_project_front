@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { EndPoints } from "../../../shared/enum/endPoints";
 
 import {
+  deleteUser,
   getProfile,
   getUserList,
   login,
@@ -9,10 +10,11 @@ import {
   resetPassword,
   updatePassword,
   updateProfile,
+  updateUser,
 } from "./apiRequests";
 import { ListUsersPayload } from "./types";
 
-const { PROFILE, USERS } = EndPoints;
+const { PROFILE, GET } = EndPoints.USERS;
 
 // ===== MUTATES ===== //
 export const useLogin = () => {
@@ -45,6 +47,18 @@ export const useUpdateProfile = () => {
   return { updateProfile: mutate, isLoading };
 };
 
+export const useUpdateUser = () => {
+  const { mutate, isLoading } = useMutation(updateUser);
+
+  return { updateUser: mutate, isLoading };
+};
+
+export const useDeleteUser = () => {
+  const { mutate, isLoading } = useMutation(deleteUser);
+
+  return { deleteUser: mutate, isLoading };
+};
+
 // ===== QUERIES ===== //
 export const useGetProfile = () => {
   const getQueryKey = () => [PROFILE];
@@ -55,7 +69,7 @@ export const useGetProfile = () => {
 };
 
 export const useGetListUsers = (params: ListUsersPayload) => {
-  const getQueryKey = () => [USERS, params];
+  const getQueryKey = () => [GET, params];
 
   const { data, refetch, isLoading } = useQuery(getQueryKey(), () =>
     getUserList(params)

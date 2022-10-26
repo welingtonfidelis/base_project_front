@@ -8,12 +8,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../../services/requests/user";
 
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { userStore } from "../../store/user";
 import { AlertConfirm } from "../alertConfirm";
+import { IconButton } from "../iconButton";
 import { Profile } from "../profile";
 import { ProfileUpdatePassword } from "../profileUpdatePassword";
 
@@ -44,6 +46,18 @@ export const PageHeader = (props: Props) => {
   const { logout } = useLogout();
   const navigate = useNavigate();
 
+  const LeftIcon = () => {
+    return (
+      leftIcon || (
+        <IconButton
+          icon={<FaArrowLeft size={22} color="#fff" />}
+          onClick={() => navigate(-1)}
+          title={t("generic.button_back_page")}
+        />
+      )
+    );
+  };
+
   const handleLogout = () => {
     clearUser();
     logout();
@@ -52,7 +66,9 @@ export const PageHeader = (props: Props) => {
 
   return (
     <Container>
-      <IconBackContainer>{leftIcon}</IconBackContainer>
+      <IconBackContainer>
+        <LeftIcon />
+      </IconBackContainer>
 
       <TitleContainer>{title}</TitleContainer>
 

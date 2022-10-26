@@ -38,6 +38,10 @@ class UserDB {
   update(id: number, data: Partial<UserFullDB>) {
     return this.db.users.update(id, data);
   }
+
+  delete(id: number) {
+    return this.db.users.delete(id);
+  }
 }
 
 export const userDB = new UserDB();
