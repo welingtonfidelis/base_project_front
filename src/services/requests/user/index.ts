@@ -4,6 +4,7 @@ import { EndPoints } from "../../../shared/enum/endPoints";
 import {
   deleteUser,
   getProfile,
+  getUserById,
   getUserList,
   login,
   logout,
@@ -12,9 +13,9 @@ import {
   updateProfile,
   updateUser,
 } from "./apiRequests";
-import { ListUsersPayload } from "./types";
+import { GetUserByIdPayload, ListUsersPayload } from "./types";
 
-const { PROFILE, GET } = EndPoints.USERS;
+const { PROFILE, LIST, GET } = EndPoints.USERS;
 
 // ===== MUTATES ===== //
 export const useLogin = () => {
@@ -69,10 +70,20 @@ export const useGetProfile = () => {
 };
 
 export const useGetListUsers = (params: ListUsersPayload) => {
-  const getQueryKey = () => [GET, params];
+  const getQueryKey = () => [LIST, params];
 
   const { data, refetch, isLoading } = useQuery(getQueryKey(), () =>
     getUserList(params)
+  );
+
+  return { getQueryKey, refetch, data, isLoading };
+};
+
+export const useGetUserById = (params: GetUserByIdPayload) => {
+  const getQueryKey = () => [GET, params];
+
+  const { data, refetch, isLoading } = useQuery(getQueryKey(), () =>
+    getUserById(params)
   );
 
   return { getQueryKey, refetch, data, isLoading };

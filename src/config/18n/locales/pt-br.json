@@ -64,15 +64,21 @@
       "alert_description_unblock_user": "Deseja realmente desbloquear este usuário ({{user_name}})?",
       "alert_title_delete_user": "Excluir usuário",
       "alert_description_delete_user": "Deseja realmente excluir este usuário ({{user_name}})?",
-      "error_request_message": "Algo deu errado ao tentar carregar a lista de usuários. Por favor, tente novamente.",
       "success_request_block_message": "Sucesso! Usuário atualizado.",
       "error_request_block_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
       "success_request_delete_message": "Sucesso! Usuário excluído.",
       "error_request_delete_message": "Algo deu errado. Por favor, verifique as informações e tente novamente."
     },
-    "user_detail": {
-      "page_title": "Usuário",
-      "error_request_message": "Algo deu errado ao tentar carregar este usuário. Por favor, tente novamente."
+    "user_new_edit": {
+      "page_new_title": "Cadastrar Usuário",
+      "page_edit_title": "Editar Usuário",
+      "page_id": "Código",
+      "input_name": "Nome",
+      "input_name_invalid": "Nome inválido",
+      "input_user_name": "Usuário",
+      "input_user_name_invalid": "Usuário inválido",
+      "input_email": "Email",
+      "input_email_format_invalid": "Formato de email inválido"
     }
   },
   "generic": {

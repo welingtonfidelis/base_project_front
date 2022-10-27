@@ -1,6 +1,7 @@
 export const EndPoints = {
   USERS: {
-    GET: "/users",
+    LIST: "/users",
+    GET: "/users/:id",
     LOGIN: "/users/login",
     LOGOUT: "/users/logout",
     RESET_PASSWORD: "/users/reset-password",

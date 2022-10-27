@@ -31,6 +31,10 @@ export interface ListUsersPayload {
   page: number;
 }
 
+export interface GetUserByIdPayload {
+  id?: number;
+}
+
 // Response
 export interface ListUsersResponse {
   total: number;

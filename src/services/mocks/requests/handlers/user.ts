@@ -13,10 +13,22 @@ import { delay } from "../../../util/delayFunction";
 import { userDB } from "../../repositories/user";
 import { ApplicationMockKey } from "./types";
 
+const { REST_API_URL } = config;
 const { USER_SESSION } = ApplicationMockKey;
+const {
+  LOGIN,
+  LOGOUT,
+  PROFILE,
+  RESET_PASSWORD,
+  UPDATE_PASSWORD,
+  LIST,
+  GET,
+  UPDATE,
+  DELETE,
+} = EndPoints.USERS;
 
 export const userHandler = [
-  rest.post(config.REST_API_URL + EndPoints.USERS.LOGIN, async (req, res, ctx) => {
+  rest.post(`${REST_API_URL}${LOGIN}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -48,7 +60,7 @@ export const userHandler = [
     }
   }),
 
-  rest.post(config.REST_API_URL + EndPoints.USERS.LOGOUT, async (req, res, ctx) => {
+  rest.post(`${REST_API_URL}${LOGOUT}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -61,85 +73,79 @@ export const userHandler = [
     }
   }),
 
-  rest.post(
-    config.REST_API_URL + EndPoints.USERS.RESET_PASSWORD,
-    async (req, res, ctx) => {
-      try {
-        await delay(1000);
+  rest.post(`${REST_API_URL}${RESET_PASSWORD}`, async (req, res, ctx) => {
+    try {
+      await delay(1000);
 
-        const { user_name } = (await req.json()) as ResetPasswordPayload;
-        const [user] = await userDB.findByUserNameOrEmail(user_name);
+      const { user_name } = (await req.json()) as ResetPasswordPayload;
+      const [user] = await userDB.findByUserNameOrEmail(user_name);
 
-        if (!user || user.is_blocked) {
-          return res(
-            ctx.status(404),
-            ctx.json({ message: "Invalid user_name or email" })
-          );
-        }
-
-        return res(ctx.json({}));
-      } catch (error) {
-        console.log("error: ", error);
-        return res(ctx.status(500));
+      if (!user || user.is_blocked) {
+        return res(
+          ctx.status(404),
+          ctx.json({ message: "Invalid user_name or email" })
+        );
       }
+
+      return res(ctx.json({}));
+    } catch (error) {
+      console.log("error: ", error);
+      return res(ctx.status(500));
     }
-  ),
+  }),
 
-  rest.post(
-    config.REST_API_URL + EndPoints.USERS.UPDATE_PASSWORD,
-    async (req, res, ctx) => {
-      try {
-        await delay(1000);
+  rest.post(`${REST_API_URL}${UPDATE_PASSWORD}`, async (req, res, ctx) => {
+    try {
+      await delay(1000);
 
-        const { old_password, new_password } =
-          (await req.json()) as UpdatePasswordPayload;
+      const { old_password, new_password } =
+        (await req.json()) as UpdatePasswordPayload;
 
-        const userOnSession = sessionStorage.getItem(USER_SESSION);
+      const userOnSession = sessionStorage.getItem(USER_SESSION);
 
-        if (!userOnSession) {
-          return res(
-            ctx.status(403),
-            ctx.json({ message: "User not authenticated" })
-          );
-        }
-
-        const userOnSessionParsed = JSON.parse(userOnSession);
-        const [user] = await userDB.findById(userOnSessionParsed.id);
-
-        if (!user || user.is_blocked) {
-          return res(
-            ctx.status(404),
-            ctx.json({ message: "Invalid user session" })
-          );
-        }
-
-        if (user.password !== old_password) {
-          return res(
-            ctx.status(401),
-            ctx.json({ message: "Invalid old password" })
-          );
-        }
-
-        const wasUpdated = await userDB.update(userOnSessionParsed.id, {
-          password: new_password,
-        });
-
-        if (!wasUpdated) {
-          return res(
-            ctx.status(400),
-            ctx.json({ message: "Error during update" })
-          );
-        }
-
-        return res(ctx.json({}));
-      } catch (error) {
-        console.log("error: ", error);
-        return res(ctx.status(500));
+      if (!userOnSession) {
+        return res(
+          ctx.status(403),
+          ctx.json({ message: "User not authenticated" })
+        );
       }
-    }
-  ),
 
-  rest.get(config.REST_API_URL + EndPoints.USERS.PROFILE, async (req, res, ctx) => {
+      const userOnSessionParsed = JSON.parse(userOnSession);
+      const [user] = await userDB.findById(userOnSessionParsed.id);
+
+      if (!user || user.is_blocked) {
+        return res(
+          ctx.status(404),
+          ctx.json({ message: "Invalid user session" })
+        );
+      }
+
+      if (user.password !== old_password) {
+        return res(
+          ctx.status(401),
+          ctx.json({ message: "Invalid old password" })
+        );
+      }
+
+      const wasUpdated = await userDB.update(userOnSessionParsed.id, {
+        password: new_password,
+      });
+
+      if (!wasUpdated) {
+        return res(
+          ctx.status(400),
+          ctx.json({ message: "Error during update" })
+        );
+      }
+
+      return res(ctx.json({}));
+    } catch (error) {
+      console.log("error: ", error);
+      return res(ctx.status(500));
+    }
+  }),
+
+  rest.get(`${REST_API_URL}${PROFILE}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -169,7 +175,7 @@ export const userHandler = [
     }
   }),
 
-  rest.patch(config.REST_API_URL + EndPoints.USERS.PROFILE, async (req, res, ctx) => {
+  rest.patch(`${REST_API_URL}${PROFILE}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -185,7 +191,7 @@ export const userHandler = [
 
       const userOnSessionParsed = JSON.parse(userOnSession);
       const wasUpdated = await userDB.update(userOnSessionParsed.id, payload);
-      console.log('wasUpdated: ', wasUpdated);
+      console.log("wasUpdated: ", wasUpdated);
 
       if (!wasUpdated) {
         return res(
@@ -201,13 +207,13 @@ export const userHandler = [
     }
   }),
 
-  rest.patch(config.REST_API_URL + EndPoints.USERS.UPDATE, async (req, res, ctx) => {
+  rest.patch(`${REST_API_URL}${UPDATE}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
       const { id } = req.params;
       const payload = (await req.json()) as Partial<User>;
-      
+
       const wasUpdated = await userDB.update(Number(id), payload);
 
       if (!wasUpdated) {
@@ -224,12 +230,12 @@ export const userHandler = [
     }
   }),
 
-  rest.delete(config.REST_API_URL + EndPoints.USERS.DELETE, async (req, res, ctx) => {
+  rest.delete(`${REST_API_URL}${DELETE}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
       const { id } = req.params;
-      
+
       await userDB.delete(Number(id));
 
       return res(ctx.json({}));
@@ -239,7 +245,7 @@ export const userHandler = [
     }
   }),
 
-  rest.get(config.REST_API_URL + EndPoints.USERS.GET, async (req, res, ctx) => {
+  rest.get(`${REST_API_URL}${LIST}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -262,6 +268,20 @@ export const userHandler = [
           users,
         })
       );
+    } catch (error) {
+      console.log("error: ", error);
+      return res(ctx.status(500));
+    }
+  }),
+
+  rest.get(`${REST_API_URL}${GET}`, async (req, res, ctx) => {
+    try {
+      await delay(1000);
+
+      const { id } = req.params;
+      const [user] = await userDB.findById(Number(id));
+
+      return res(ctx.json(user));
     } catch (error) {
       console.log("error: ", error);
       return res(ctx.status(500));

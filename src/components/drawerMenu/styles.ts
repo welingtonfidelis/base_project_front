@@ -41,8 +41,8 @@ export const Container = styled.div`
 
 export const LogoImageContent = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.separator};
-  margin-bottom: 8px;
-  padding-bottom: 8px;
+  margin-bottom: .5rem;
+  padding-bottom: .5rem;
   display: flex;
   flex-direction: column;
   align-items: center;

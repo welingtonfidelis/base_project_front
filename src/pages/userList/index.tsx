@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { BsGearFill } from "react-icons/bs";
@@ -26,7 +26,7 @@ import { AlertConfirm } from "../../components/alertConfirm";
 import { User } from "../../domains/user";
 import { toast } from "react-toastify";
 import { useQueryData } from "../../shared/hooks/usequeryData";
-const { USER_DETAIL } = ApplicationRoutes;
+const { USER_EDIT } = ApplicationRoutes;
 
 export const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -134,7 +134,7 @@ export const UserList = () => {
         <MenuList>
           <MenuItem
             onClick={() =>
-              navigate(USER_DETAIL.replace(":id", String(item.id)))
+              navigate(USER_EDIT.replace(":id", String(item.id)))
             }
           >
             {t("pages.user_list.table_action_edit")}
