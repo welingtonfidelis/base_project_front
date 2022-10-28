@@ -10,4 +10,7 @@ export const EndPoints = {
     UPDATE: "/users/:id",
     DELETE: "/users/:id",
   },
+  PERMISSIONS: {
+    LIST: "/permissions"
+  }
 }
