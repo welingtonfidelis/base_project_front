@@ -13,10 +13,12 @@ class UserDB {
     return this.db.users.count();
   }
 
-  find(page: number) {
+  find(page: number, loggedUserId: number) {
     const pageSize = 20;
-    
+
     return this.db.users
+      .where("id")
+      .notEqual(loggedUserId)
       .offset(page * pageSize)
       .limit(pageSize)
       .toArray();

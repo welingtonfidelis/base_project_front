@@ -3,6 +3,7 @@ import { rest } from "msw";
 
 import { config } from "../../../../config";
 import { User } from "../../../../domains/user";
+import { ApplicationPermissions } from "../../../../shared/enum/applicationPermissions";
 import { EndPoints } from "../../../../shared/enum/endPoints";
 import {
   LoginPayload,
@@ -11,10 +12,12 @@ import {
 } from "../../../requests/user/types";
 import { delay } from "../../../util/delayFunction";
 import { userDB } from "../../repositories/user";
+import { UserFullDB } from "../../repositories/user/types";
 import { ApplicationMockKey } from "./types";
 
 const { REST_API_URL } = config;
 const { USER_SESSION } = ApplicationMockKey;
+const { ADMIN, MANAGER } = ApplicationPermissions;
 const {
   LOGIN,
   LOGOUT,
@@ -259,13 +262,23 @@ export const userHandler = [
         );
       }
 
+      const userOnSessionParsed = JSON.parse(userOnSession);
       const total = await userDB.count();
-      const users = await userDB.find(page);
+      const users = await userDB.find(page, userOnSessionParsed.id);
+      let filteredUsers: UserFullDB[] = [];
+
+      if (userOnSessionParsed.permissions.includes(ADMIN)) {
+        filteredUsers = users;
+      } else if (userOnSessionParsed.permissions.includes(MANAGER)) {
+        filteredUsers = users.filter(
+          (item) => !item.permissions.includes(ADMIN)
+        );
+      }
 
       return res(
         ctx.json({
           total,
-          users,
+          users: filteredUsers,
         })
       );
     } catch (error) {

@@ -1,19 +1,25 @@
 import {
   Avatar,
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
+  Switch,
 } from "@chakra-ui/react";
 import { Field, Formik, Form } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import { PageHeader } from "../../components/pageHeader";
 import { Preloader } from "../../components/preloader";
 import { AvatarContent } from "../../components/profile/styles";
-import { useGetUserById } from "../../services/requests/user";
+import { useGetListPermissions } from "../../services/requests/permission";
+import { useGetUserById, useUpdateUser } from "../../services/requests/user";
+import { BordedContainer } from "../../shared/stytes/input";
 import { formValidate } from "./helper/formValidate";
 import {
   Container,
@@ -26,12 +32,13 @@ import { FormProps } from "./types";
 export const UserDetail = () => {
   const params = useParams();
   const id = params.id;
-  const { data, isLoading } = useGetUserById({ id: Number(id) });
   const validateFormFields = formValidate();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  console.log("data: ", data);
+  const { data, isLoading } = useGetUserById({ id: Number(id) });
+  const { data: dataPermissions, isLoading: isLoadingGetListPermissions } =
+    useGetListPermissions();
+  const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
 
   const initialFormValues = useMemo(() => {
     return {
@@ -39,23 +46,32 @@ export const UserDetail = () => {
       name: data?.name || "",
       user_name: data?.user_name || "",
       email: data?.email || "",
+      is_blocked: data?.is_blocked || false,
       permissions: data?.permissions || [],
     };
   }, [data]);
 
   const handleSubmit = async (values: FormProps) => {
-    console.log("values: ", values);
-    // updateProfile(values, {
-    //   onSuccess() {
-    //     toast.success(t("pages.user_new_edit.success_request_message"));
-    //     updateUser(values);
-    //     refetch();
-    //     onClose();
-    //   },
-    //   onError() {
-    //     toast.error(t("pages.user_new_edit.error_request_message"));
-    //   },
-    // });
+    if (id) {
+      updateUser(
+        { id: Number(id), data: values },
+        {
+          onSuccess() {
+            toast.success(
+              t("pages.user_new_edit.success_request_edit_message", {
+                user_name: values.name,
+              })
+            );
+            navigate(-1);
+          },
+          onError() {
+            toast.error(t("pages.user_new_edit.success_request_edit_message"));
+          },
+        }
+      );
+
+      return;
+    }
   };
 
   return (
@@ -92,17 +108,30 @@ export const UserDetail = () => {
                       {({ field }: any) => (
                         <FormControl>
                           <FormLabel mt="2" mb="0.2">
-                            {t("pages.user_new_edit.page_id")}
+                            {t("pages.user_new_edit.input_id")}
                           </FormLabel>
                           <Input
                             {...field}
                             disabled
-                            placeholder={t("pages.user_new_edit.page_id")}
+                            placeholder={t("pages.user_new_edit.input_id")}
                           />
                         </FormControl>
                       )}
                     </Field>
                   )}
+
+                  <Field name="is_blocked">
+                    {({ field }: any) => (
+                      <FormControl>
+                        <FormLabel mt="2" mb="0.2">
+                          {t("pages.user_new_edit.input_is_blocked")}
+                        </FormLabel>
+                        <BordedContainer>
+                          <Switch {...field} isChecked={field.value} />
+                        </BordedContainer>
+                      </FormControl>
+                    )}
+                  </Field>
 
                   <Field name="name">
                     {({ field }: any) => (
@@ -150,6 +179,37 @@ export const UserDetail = () => {
                       </FormControl>
                     )}
                   </Field>
+
+                  <Field name="permissions">
+                    {({ field }: any) => (
+                      <FormControl
+                        isInvalid={!!errors.permissions && touched.permissions}
+                      >
+                        <FormLabel mt="2" mb="0.2">
+                          {t("pages.user_new_edit.input_permissions")}
+                        </FormLabel>
+                        <BordedContainer>
+                          {dataPermissions?.map((item) => {
+                            return (
+                              <Checkbox
+                                {...field}
+                                marginEnd={6}
+                                value={item.value}
+                                defaultChecked={data?.permissions.includes(
+                                  item.value
+                                )}
+                              >
+                                {item.name}
+                              </Checkbox>
+                            );
+                          })}
+                        </BordedContainer>
+                        <FormErrorMessage>
+                          {errors.permissions}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
                 </FomrInputContainer>
 
                 <FormButtonContainer>
@@ -157,7 +217,11 @@ export const UserDetail = () => {
                     {t("generic.button_cancel")}
                   </Button>
 
-                  <Button colorScheme="blue" isLoading={false} type="submit">
+                  <Button
+                    colorScheme="blue"
+                    isLoading={isLoadingUpdateUser}
+                    type="submit"
+                  >
                     {t("generic.button_save")}
                   </Button>
                 </FormButtonContainer>

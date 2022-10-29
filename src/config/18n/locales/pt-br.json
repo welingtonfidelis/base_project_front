@@ -72,13 +72,20 @@
     "user_new_edit": {
       "page_new_title": "Cadastrar Usuário",
       "page_edit_title": "Editar Usuário",
-      "page_id": "Código",
+      "input_id": "Código",
+      "input_is_blocked": "Bloqueado",
       "input_name": "Nome",
       "input_name_invalid": "Nome inválido",
       "input_user_name": "Usuário",
       "input_user_name_invalid": "Usuário inválido",
       "input_email": "Email",
-      "input_email_format_invalid": "Formato de email inválido"
+      "input_email_format_invalid": "Formato de email inválido",
+      "input_permissions": "Permissões",
+      "input_permissions_min_invalid": "Escolha ao menos uma permissão para este usuário",
+      "success_request_edit_message": "Sucesso! Usuário '{{user_name}}' atualizado",
+      "error_request_edit_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
+      "success_request_new_message": "Sucesso! Usuário criado",
+      "error_request_new_message": "Algo deu errado. Por favor, verifique as informações e tente novamente."
     }
   },
   "generic": {
