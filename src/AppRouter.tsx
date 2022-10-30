@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LayoutRenderer } from "./components/layouts";
 import { routes } from "./routes";
-import { checkPermissionsService } from "./services/checkPermissions";
+import { checkPermissionsService } from "./services/util/checkPermissions";
 
 export const AppRouter = () => {
   const { checkPermissions } = checkPermissionsService();

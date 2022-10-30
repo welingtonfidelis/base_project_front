@@ -1,7 +1,7 @@
 import isArray from "lodash/isArray";
 
-import { ApplicationPermissions } from "../shared/enum/applicationPermissions";
-import { userStore } from "../store/user";
+import { ApplicationPermissions } from "../../shared/enum/applicationPermissions";
+import { userStore } from "../../store/user";
 
 export const checkPermissionsService = () => {
   const { user } = userStore();

@@ -193,6 +193,7 @@ export const UserDetail = () => {
                             return (
                               <Checkbox
                                 {...field}
+                                key={item.id}
                                 marginEnd={6}
                                 value={item.value}
                                 defaultChecked={data?.permissions.includes(

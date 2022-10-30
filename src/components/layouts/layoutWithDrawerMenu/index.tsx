@@ -4,7 +4,7 @@ import { FaBars } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { routes } from "../../../routes";
-import { checkPermissionsService } from "../../../services/checkPermissions";
+import { checkPermissionsService } from "../../../services/util/checkPermissions";
 import { DrawerMenu } from "../../drawerMenu";
 import { PageHeader } from "../../pageHeader";
 import { Container, Main, MainContent } from "./styles";
