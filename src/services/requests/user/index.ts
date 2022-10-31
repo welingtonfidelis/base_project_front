@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { EndPoints } from "../../../shared/enum/endPoints";
 
 import {
+  createUser,
   deleteUser,
   getProfile,
   getUserById,
@@ -46,6 +47,12 @@ export const useUpdateProfile = () => {
   const { mutate, isLoading } = useMutation(updateProfile);
 
   return { updateProfile: mutate, isLoading };
+};
+
+export const useCreateUser = () => {
+  const { mutate, isLoading } = useMutation(createUser);
+
+  return { createUser: mutate, isLoading };
 };
 
 export const useUpdateUser = () => {

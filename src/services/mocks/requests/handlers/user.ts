@@ -26,6 +26,7 @@ const {
   UPDATE_PASSWORD,
   LIST,
   GET,
+  CREATE,
   UPDATE,
   DELETE,
 } = EndPoints.USERS;
@@ -223,6 +224,28 @@ export const userHandler = [
         return res(
           ctx.status(400),
           ctx.json({ message: "Error during update" })
+        );
+      }
+
+      return res(ctx.json({}));
+    } catch (error) {
+      console.log("error: ", error);
+      return res(ctx.status(500));
+    }
+  }),
+
+  rest.post(`${REST_API_URL}${CREATE}`, async (req, res, ctx) => {
+    try {
+      await delay(1000);
+
+      const payload = (await req.json()) as UserFullDB;
+
+      const wasUpdated = await userDB.create(payload);
+
+      if (!wasUpdated) {
+        return res(
+          ctx.status(400),
+          ctx.json({ message: "Error during create" })
         );
       }
 

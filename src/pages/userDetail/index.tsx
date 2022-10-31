@@ -18,7 +18,11 @@ import { PageHeader } from "../../components/pageHeader";
 import { Preloader } from "../../components/preloader";
 import { AvatarContent } from "../../components/profile/styles";
 import { useGetListPermissions } from "../../services/requests/permission";
-import { useGetUserById, useUpdateUser } from "../../services/requests/user";
+import {
+  useCreateUser,
+  useGetUserById,
+  useUpdateUser,
+} from "../../services/requests/user";
 import { BordedContainer } from "../../shared/stytes/input";
 import { formValidate } from "./helper/formValidate";
 import {
@@ -36,13 +40,13 @@ export const UserDetail = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data, isLoading } = useGetUserById({ id: Number(id) });
-  const { data: dataPermissions, isLoading: isLoadingGetListPermissions } =
+  const { data: dataPermissions, isLoading: isLoadingGetPermissions } =
     useGetListPermissions();
   const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
+  const { createUser, isLoading: isLoadingCreateUser } = useCreateUser();
 
   const initialFormValues = useMemo(() => {
     return {
-      id: data?.id || 0,
       name: data?.name || "",
       user_name: data?.user_name || "",
       email: data?.email || "",
@@ -65,13 +69,27 @@ export const UserDetail = () => {
             navigate(-1);
           },
           onError() {
-            toast.error(t("pages.user_new_edit.success_request_edit_message"));
+            toast.error(t("pages.user_new_edit.error_request_edit_message"));
           },
         }
       );
 
       return;
     }
+
+    createUser(values, {
+      onSuccess() {
+        toast.success(
+          t("pages.user_new_edit.success_request_new_message", {
+            user_name: values.name,
+          })
+        );
+        navigate(-1);
+      },
+      onError() {
+        toast.error(t("pages.user_new_edit.error_request_new_message"));
+      },
+    });
   };
 
   return (
@@ -104,20 +122,20 @@ export const UserDetail = () => {
                   </AvatarContent>
 
                   {id && (
-                    <Field name="id">
-                      {({ field }: any) => (
+                    // <Field name="id">
+                    //   {({ field }: any) => (
                         <FormControl>
                           <FormLabel mt="2" mb="0.2">
                             {t("pages.user_new_edit.input_id")}
                           </FormLabel>
                           <Input
-                            {...field}
+                            value={id}
                             disabled
                             placeholder={t("pages.user_new_edit.input_id")}
                           />
                         </FormControl>
-                      )}
-                    </Field>
+                      // )}
+                    // </Field>
                   )}
 
                   <Field name="is_blocked">
@@ -220,7 +238,7 @@ export const UserDetail = () => {
 
                   <Button
                     colorScheme="blue"
-                    isLoading={isLoadingUpdateUser}
+                    isLoading={isLoadingUpdateUser || isLoadingCreateUser}
                     type="submit"
                   >
                     {t("generic.button_save")}

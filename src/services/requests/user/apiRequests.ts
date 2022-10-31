@@ -2,6 +2,8 @@ import { LoggedUser, Profile, User } from "../../../domains/user";
 import { EndPoints } from "../../../shared/enum/endPoints";
 import RestRequestService from "../api";
 import {
+  CreateUserPayload,
+  CreateUserResponse,
   DeleteUserPayload,
   GetUserByIdPayload,
   ListUsersPayload,
@@ -21,6 +23,7 @@ const {
   UPDATE_PASSWORD,
   LIST,
   GET,
+  CREATE,
   UPDATE,
   DELETE,
 } = EndPoints.USERS;
@@ -62,6 +65,14 @@ export const getProfile = async () => {
 export const updateProfile = async (payload: UpdateProfilePayload) => {
   const { data: response } = await RestRequestService.patch<{}>(
     PROFILE,
+    payload
+  );
+  return response;
+};
+
+export const createUser = async (payload: CreateUserPayload) => {
+  const { data: response } = await RestRequestService.post<CreateUserResponse>(
+    CREATE,
     payload
   );
   return response;

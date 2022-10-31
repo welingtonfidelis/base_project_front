@@ -4,4 +4,5 @@ export enum ApplicationRoutes {
   DASHBOARD = "/dashboard",
   USER_LIST = "/users",
   USER_EDIT = "/user/:id",
+  USER_NEW = "/user"
 }

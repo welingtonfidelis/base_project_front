@@ -7,6 +7,7 @@ export const EndPoints = {
     RESET_PASSWORD: "/users/reset-password",
     UPDATE_PASSWORD: "/users/update-password",
     PROFILE: "/users/profile",
+    CREATE: "/users",
     UPDATE: "/users/:id",
     DELETE: "/users/:id",
   },

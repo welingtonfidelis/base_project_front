@@ -60,6 +60,7 @@
       "table_action_delete": "Excluir",
       "input_search_id":  "Código",
       "input_search_name":  "Nome",
+      "button_new_user": "Novo Usuário",
       "alert_title_block_user": "Bloquear usuário",
       "alert_description_block_user": "Deseja realmente bloquear este usuário ({{user_name}})?",
       "alert_title_unblock_user": "Desbloquear usuário",

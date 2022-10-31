@@ -6,6 +6,7 @@ import { DebounceInput } from "react-debounce-input";
 import isEmpty from "lodash/isEmpty";
 import {
   Avatar,
+  Button,
   Divider,
   Input,
   Menu,
@@ -39,7 +40,7 @@ import { urlParams } from "../../services/util/urlParams";
 import { ListUsersPayload } from "../../services/requests/user/types";
 import { PageFilterType } from "./types";
 
-const { USER_EDIT } = ApplicationRoutes;
+const { USER_EDIT, USER_NEW } = ApplicationRoutes;
 const { PAGE, ID, NAME } = PageFilterType;
 
 const initialFilterValues = {
@@ -215,16 +216,24 @@ export const UserList = () => {
               maxWidth={40}
               value={pageFilter[ID]}
               onChange={(e) => handleChangePageFilter(ID, e.target.value)}
-              element={(field: any) => <Input {...field}/>}
+              element={(field: any) => <Input {...field} />}
             />
 
             <DebounceInput
               debounceTimeout={500}
               placeholder={t("pages.user_list.input_search_name")}
+              marginEnd={3}
               value={pageFilter[NAME]}
               onChange={(e) => handleChangePageFilter(NAME, e.target.value)}
               element={(field: any) => <Input {...field} />}
             />
+            <Button
+              minWidth={32}
+              colorScheme="blue"
+              onClick={() => navigate(USER_NEW)}
+            >
+              {t("pages.user_list.button_new_user")}
+            </Button>
           </SearchInputContent>
           <Divider />
           <Table columnHeader={columnHeader} columnData={columnData} />

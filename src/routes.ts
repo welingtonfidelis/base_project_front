@@ -9,7 +9,7 @@ import { UserList } from "./pages/userList";
 import { NotFound } from "./pages/notFound";
 import { UserDetail } from "./pages/userDetail";
 
-const { ROOT, RESET_PASSWORD, DASHBOARD, USER_LIST, USER_EDIT } =
+const { ROOT, RESET_PASSWORD, DASHBOARD, USER_LIST, USER_EDIT, USER_NEW } =
   ApplicationRoutes;
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
 
@@ -44,6 +44,14 @@ export const routes = [
     element: UserList,
     layout: LayoutWithDrawerMenu,
     isMenuOption: true,
+    permissions: [ADMIN, MANAGER],
+  },
+  {
+    label: "pages.user.page_new_title",
+    path: USER_NEW,
+    element: UserDetail,
+    layout: GuestLayout,
+    isMenuOption: false,
     permissions: [ADMIN, MANAGER],
   },
   {

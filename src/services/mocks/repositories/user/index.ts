@@ -38,6 +38,10 @@ class UserDB {
     return this.db.users.where("id").equals(id).toArray();
   }
 
+  create(data: Omit<UserFullDB, 'id'>) {
+    return this.db.users.add(data);
+  }
+
   update(id: number, data: Partial<UserFullDB>) {
     return this.db.users.update(id, data);
   }
