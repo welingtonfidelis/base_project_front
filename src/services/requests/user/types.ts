@@ -18,6 +18,8 @@ export interface UpdateProfilePayload {
   name: string;
 }
 
+export interface CreateUserPayload extends Omit<User, 'id'>{}
+
 export interface UpdateUserPayload {
   id: number;
   data: Partial<Omit<User, 'id'>>
@@ -29,6 +31,8 @@ export interface DeleteUserPayload {
 
 export interface ListUsersPayload {
   page: number;
+  id?: string;
+  name?: string;
 }
 
 export interface GetUserByIdPayload {
@@ -39,4 +43,10 @@ export interface GetUserByIdPayload {
 export interface ListUsersResponse {
   total: number;
   users: User[];
+}
+
+export interface CreateUserResponse {
+  password: string;
+  user_name: string;
+  email: string;
 }

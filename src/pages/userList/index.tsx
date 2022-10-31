@@ -1,9 +1,13 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { BsGearFill } from "react-icons/bs";
+import { DebounceInput } from "react-debounce-input";
+import isEmpty from "lodash/isEmpty";
 import {
   Avatar,
+  Divider,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -21,17 +25,35 @@ import {
 } from "../../services/requests/user";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 
-import { Container, EditIconContent, MainContent } from "./styles";
+import {
+  Container,
+  EditIconContent,
+  MainContent,
+  SearchInputContent,
+} from "./styles";
 import { AlertConfirm } from "../../components/alertConfirm";
 import { User } from "../../domains/user";
 import { toast } from "react-toastify";
 import { useQueryData } from "../../shared/hooks/usequeryData";
+import { urlParams } from "../../services/util/urlParams";
+import { ListUsersPayload } from "../../services/requests/user/types";
+import { PageFilterType } from "./types";
+
 const { USER_EDIT } = ApplicationRoutes;
+const { PAGE, ID, NAME } = PageFilterType;
+
+const initialFilterValues = {
+  [PAGE]: 1,
+  [ID]: "",
+  [NAME]: "",
+};
 
 export const UserList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pageFilter, setPageFilter] =
+    useState<ListUsersPayload>(initialFilterValues);
   const [selectedBlockUser, setSelectedBlockUser] = useState<User | null>();
   const [selectedDeleteUser, setSelectedDeleteUser] = useState<User | null>();
+  const { getParams, setParams } = urlParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const {
@@ -44,9 +66,7 @@ export const UserList = () => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const { getQueryKey, data, isLoading } = useGetListUsers({
-    page: currentPage - 1,
-  });
+  const { getQueryKey, data, isLoading } = useGetListUsers(pageFilter);
   const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
   const { deleteUser, isLoading: isLoadingDeleteUser } = useDeleteUser();
   const { setStoreData, deleteStoreData } = useQueryData(
@@ -63,6 +83,23 @@ export const UserList = () => {
     setSelectedDeleteUser(user);
     onOpenDelete();
   };
+
+  useEffect(() => {
+    const urlPageParam = getParams();
+
+    if (!isEmpty(urlPageParam)) {
+      const filters: any = {};
+      Object.entries(urlPageParam).forEach((item) => {
+        const [key, value] = item;
+        if (Object.values(PageFilterType).includes(key as any)) {
+          filters[key] = value;
+        }
+      });
+
+      setPageFilter(filters);
+      return;
+    }
+  }, []);
 
   const handleBlockUser = useCallback(() => {
     if (!selectedBlockUser) return;
@@ -113,6 +150,18 @@ export const UserList = () => {
     );
   }, [selectedDeleteUser]);
 
+  const handleChangePageFilter = (key: PageFilterType, value: string) => {
+    setPageFilter((oldState) => {
+      return {
+        ...oldState,
+        [key]: value,
+      };
+    });
+
+    console.log("key: ", key, value);
+    setParams(key, value);
+  };
+
   const columnHeader = useMemo(
     () => t("pages.user_list.table_header_columns").split("/"),
     []
@@ -133,9 +182,7 @@ export const UserList = () => {
         </MenuButton>
         <MenuList>
           <MenuItem
-            onClick={() =>
-              navigate(USER_EDIT.replace(":id", String(item.id)))
-            }
+            onClick={() => navigate(USER_EDIT.replace(":id", String(item.id)))}
           >
             {t("pages.user_list.table_action_edit")}
           </MenuItem>
@@ -159,13 +206,34 @@ export const UserList = () => {
     <Container>
       <MainContent>
         <Preloader isLoading={isLoading}>
+          <SearchInputContent>
+            <DebounceInput
+              debounceTimeout={500}
+              placeholder={t("pages.user_list.input_search_id")}
+              type="number"
+              marginEnd={3}
+              maxWidth={40}
+              value={pageFilter[ID]}
+              onChange={(e) => handleChangePageFilter(ID, e.target.value)}
+              element={(field: any) => <Input {...field}/>}
+            />
+
+            <DebounceInput
+              debounceTimeout={500}
+              placeholder={t("pages.user_list.input_search_name")}
+              value={pageFilter[NAME]}
+              onChange={(e) => handleChangePageFilter(NAME, e.target.value)}
+              element={(field: any) => <Input {...field} />}
+            />
+          </SearchInputContent>
+          <Divider />
           <Table columnHeader={columnHeader} columnData={columnData} />
         </Preloader>
       </MainContent>
 
       <Pagination
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        currentPage={Number(pageFilter.page)}
+        onPageChange={(page) => handleChangePageFilter(PAGE, String(page))}
         totalItems={data?.total || 0}
       />
 

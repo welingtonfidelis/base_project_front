@@ -58,6 +58,8 @@
       "table_action_block": "Bloquear",
       "table_action_unblock": "Desbloquear",
       "table_action_delete": "Excluir",
+      "input_search_id":  "Código",
+      "input_search_name":  "Nome",
       "alert_title_block_user": "Bloquear usuário",
       "alert_description_block_user": "Deseja realmente bloquear este usuário ({{user_name}})?",
       "alert_title_unblock_user": "Desbloquear usuário",
@@ -93,6 +95,7 @@
     "button_cancel": "Cancelar",
     "button_yes": "Sim",
     "button_no": "Não",
+    "button_search": "Buscar",
     "button_back_page": "Voltar para página anterior",
     "required_input_value": "Campo obrigatório"
   }
