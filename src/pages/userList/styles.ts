@@ -12,11 +12,6 @@ export const MainContent = styled.div`
   overflow-y: auto;
 `;
 
-export const SearchInputContent = styled.div`
-  display: flex;
-  margin-bottom: 0.5rem;
-`;
-
 export const EditIconContent = styled.div`
   color: ${(props) => props.theme.colors.primary};
 `;

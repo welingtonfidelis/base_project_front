@@ -1,14 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { BsGearFill } from "react-icons/bs";
-import { DebounceInput } from "react-debounce-input";
 import isEmpty from "lodash/isEmpty";
 import {
   Avatar,
-  Button,
   Divider,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -19,28 +16,18 @@ import {
 import { Pagination } from "../../components/pagination";
 import { Preloader } from "../../components/preloader";
 import { Table } from "../../components/table";
-import {
-  useDeleteUser,
-  useGetListUsers,
-  useUpdateUser,
-} from "../../services/requests/user";
+import { useGetListUsers } from "../../services/requests/user";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 
-import {
-  Container,
-  EditIconContent,
-  MainContent,
-  SearchInputContent,
-} from "./styles";
-import { AlertConfirm } from "../../components/alertConfirm";
+import { Container, EditIconContent, MainContent } from "./styles";
 import { User } from "../../domains/user";
-import { toast } from "react-toastify";
-import { useQueryData } from "../../shared/hooks/usequeryData";
 import { urlParams } from "../../services/util/urlParams";
 import { ListUsersPayload } from "../../services/requests/user/types";
-import { PageFilterType } from "./types";
+import { Alert } from "./components/alert";
+import { PageFilter } from "./components/pageFilter";
+import { PageFilterType } from "./components/pageFilter/types";
 
-const { USER_EDIT, USER_NEW } = ApplicationRoutes;
+const { USER_EDIT } = ApplicationRoutes;
 const { PAGE, ID, NAME } = PageFilterType;
 
 const initialFilterValues = {
@@ -52,8 +39,7 @@ const initialFilterValues = {
 export const UserList = () => {
   const [pageFilter, setPageFilter] =
     useState<ListUsersPayload>(initialFilterValues);
-  const [selectedBlockUser, setSelectedBlockUser] = useState<User | null>();
-  const [selectedDeleteUser, setSelectedDeleteUser] = useState<User | null>();
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { getParams, setParams } = urlParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -68,21 +54,33 @@ export const UserList = () => {
     onClose: onCloseDelete,
   } = useDisclosure();
   const { getQueryKey, data, isLoading } = useGetListUsers(pageFilter);
-  const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
-  const { deleteUser, isLoading: isLoadingDeleteUser } = useDeleteUser();
-  const { setStoreData, deleteStoreData } = useQueryData(
-    getQueryKey(),
-    "users"
-  );
 
-  const handleOpenAlertBlockUser = (user: User) => {
-    setSelectedBlockUser(user);
-    onOpenBlock();
+  const handleOpenAlert = (user: User, type: "block" | "delete") => {
+    switch (type) {
+      case "block":
+        onOpenBlock();
+        break;
+
+      default:
+        onOpenDelete();
+        break;
+    }
+
+    setSelectedUser(user);
   };
 
-  const handleOpenAlertDeleteUser = (user: User) => {
-    setSelectedDeleteUser(user);
-    onOpenDelete();
+  const handleCloseAlert = (type: "block" | "delete") => {
+    switch (type) {
+      case "block":
+        onCloseBlock();
+        break;
+
+      default:
+        onCloseDelete();
+        break;
+    }
+
+    setSelectedUser(null);
   };
 
   useEffect(() => {
@@ -102,55 +100,6 @@ export const UserList = () => {
     }
   }, []);
 
-  const handleBlockUser = useCallback(() => {
-    if (!selectedBlockUser) return;
-
-    const { id } = selectedBlockUser;
-    const is_blocked = !selectedBlockUser.is_blocked;
-    updateUser(
-      { id, data: { is_blocked } },
-      {
-        onSuccess() {
-          toast.success(t("pages.user_list.success_request_block_message"));
-          setStoreData(
-            {
-              is_blocked,
-            },
-            [id],
-            "id"
-          );
-
-          onCloseBlock();
-          setSelectedBlockUser(null);
-        },
-        onError() {
-          toast.error(t("pages.user_list.error_request_block_message"));
-        },
-      }
-    );
-  }, [selectedBlockUser]);
-
-  const handleDeleteUser = useCallback(() => {
-    if (!selectedDeleteUser) return;
-
-    const { id } = selectedDeleteUser;
-    deleteUser(
-      { id },
-      {
-        onSuccess() {
-          toast.success(t("pages.user_list.success_request_delete_message"));
-          deleteStoreData([id], "id");
-
-          onCloseDelete();
-          setSelectedDeleteUser(null);
-        },
-        onError() {
-          toast.error(t("pages.user_list.error_request_delete_message"));
-        },
-      }
-    );
-  }, [selectedDeleteUser]);
-
   const handleChangePageFilter = (key: PageFilterType, value: string) => {
     setPageFilter((oldState) => {
       return {
@@ -159,7 +108,6 @@ export const UserList = () => {
       };
     });
 
-    console.log("key: ", key, value);
     setParams(key, value);
   };
 
@@ -189,13 +137,13 @@ export const UserList = () => {
           </MenuItem>
           <MenuItem
             color="yellow.500"
-            onClick={() => handleOpenAlertBlockUser(item)}
+            onClick={() => handleOpenAlert(item, "block")}
           >
             {item.is_blocked
               ? t("pages.user_list.table_action_unblock")
               : t("pages.user_list.table_action_block")}
           </MenuItem>
-          <MenuItem color="red" onClick={() => handleOpenAlertDeleteUser(item)}>
+          <MenuItem color="red" onClick={() => handleOpenAlert(item, "delete")}>
             {t("pages.user_list.table_action_delete")}
           </MenuItem>
         </MenuList>
@@ -207,34 +155,10 @@ export const UserList = () => {
     <Container>
       <MainContent>
         <Preloader isLoading={isLoading}>
-          <SearchInputContent>
-            <DebounceInput
-              debounceTimeout={500}
-              placeholder={t("pages.user_list.input_search_id")}
-              type="number"
-              marginEnd={3}
-              maxWidth={40}
-              value={pageFilter[ID]}
-              onChange={(e) => handleChangePageFilter(ID, e.target.value)}
-              element={(field: any) => <Input {...field} />}
-            />
-
-            <DebounceInput
-              debounceTimeout={500}
-              placeholder={t("pages.user_list.input_search_name")}
-              marginEnd={3}
-              value={pageFilter[NAME]}
-              onChange={(e) => handleChangePageFilter(NAME, e.target.value)}
-              element={(field: any) => <Input {...field} />}
-            />
-            <Button
-              minWidth={32}
-              colorScheme="blue"
-              onClick={() => navigate(USER_NEW)}
-            >
-              {t("pages.user_list.button_new_user")}
-            </Button>
-          </SearchInputContent>
+          <PageFilter
+            pageFilter={pageFilter}
+            handleChangePageFilter={handleChangePageFilter}
+          />
           <Divider />
           <Table columnHeader={columnHeader} columnData={columnData} />
         </Preloader>
@@ -246,36 +170,13 @@ export const UserList = () => {
         totalItems={data?.total || 0}
       />
 
-      <AlertConfirm
-        title={
-          selectedBlockUser?.is_blocked
-            ? t("pages.user_list.alert_title_unblock_user")
-            : t("pages.user_list.alert_title_block_user")
-        }
-        description={
-          selectedBlockUser?.is_blocked
-            ? t("pages.user_list.alert_description_unblock_user", {
-                user_name: selectedBlockUser?.user_name,
-              })
-            : t("pages.user_list.alert_description_block_user", {
-                user_name: selectedBlockUser?.user_name,
-              })
-        }
-        isOpen={isOpenBlock}
-        onClose={onCloseBlock}
-        onConfirm={handleBlockUser}
-        isLoading={isLoadingUpdateUser}
-      />
-
-      <AlertConfirm
-        title={t("pages.user_list.alert_title_delete_user")}
-        description={t("pages.user_list.alert_description_delete_user", {
-          user_name: selectedDeleteUser?.name,
-        })}
-        isOpen={isOpenDelete}
-        onClose={onCloseDelete}
-        onConfirm={handleDeleteUser}
-        isLoading={isLoadingDeleteUser}
+      <Alert
+        isOpenBlock={isOpenBlock}
+        onCloseBlock={() => handleCloseAlert("block")}
+        isOpenDelete={isOpenDelete}
+        onCloseDelete={() => handleCloseAlert("delete")}
+        selectedUser={selectedUser}
+        queryKey={getQueryKey()}
       />
     </Container>
   );
