@@ -9,12 +9,20 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import isNil from "lodash/isNil";
 
 import { Props } from "./types";
 
 export const AlertConfirm = (props: Props) => {
-  const { title, description, isOpen, isLoading, onConfirm, onClose } = props;
+  const {
+    title,
+    description,
+    isOpen,
+    isLoading,
+    onConfirmText,
+    onCancelText,
+    onConfirm,
+    onClose,
+  } = props;
   const cancelRef = useRef(null);
   const { t } = useTranslation();
 
@@ -30,17 +38,22 @@ export const AlertConfirm = (props: Props) => {
             {title}
           </AlertDialogHeader>
 
-          <AlertDialogBody>
-            {description}
-          </AlertDialogBody>
+          <AlertDialogBody>{description}</AlertDialogBody>
 
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onClose}>
-              {t("generic.button_no")}
+              {onCancelText || t("generic.button_no")}
             </Button>
-            <Button colorScheme="red" onClick={onConfirm} ml={3} isLoading={isLoading}>
-              {t("generic.button_yes")}
-            </Button>
+            {onConfirm && (
+              <Button
+                colorScheme="red"
+                onClick={onConfirm}
+                ml={3}
+                isLoading={isLoading}
+              >
+                {onConfirmText || t("generic.button_yes")}
+              </Button>
+            )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>

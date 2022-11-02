@@ -7,9 +7,10 @@ import {
   FormLabel,
   Input,
   Switch,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Field, Formik, Form } from "formik";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,6 +25,7 @@ import {
   useUpdateUser,
 } from "../../services/requests/user";
 import { BordedContainer } from "../../shared/stytes/input";
+import { Alert } from "./components/alert";
 import { formValidate } from "./helper/formValidate";
 import {
   Container,
@@ -44,6 +46,16 @@ export const UserDetail = () => {
     useGetListPermissions();
   const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
   const { createUser, isLoading: isLoadingCreateUser } = useCreateUser();
+  const [newUserData, setNewUserData] = useState({
+    email: "",
+    user_name: "",
+    password: "",
+  });
+  const {
+    isOpen: isOpenNewUser,
+    onOpen: onOpenNewUser,
+    onClose: onCloseNewUser,
+  } = useDisclosure();
 
   const initialFormValues = useMemo(() => {
     return {
@@ -78,13 +90,13 @@ export const UserDetail = () => {
     }
 
     createUser(values, {
-      onSuccess() {
-        toast.success(
-          t("pages.user_new_edit.success_request_new_message", {
-            user_name: values.name,
-          })
-        );
-        navigate(-1);
+      onSuccess({ email, user_name, password }) {
+        setNewUserData({
+          user_name,
+          email,
+          password,
+        });
+        onOpenNewUser();
       },
       onError() {
         toast.error(t("pages.user_new_edit.error_request_new_message"));
@@ -92,6 +104,10 @@ export const UserDetail = () => {
     });
   };
 
+  const handleCloseAlert = () => {
+    onCloseNewUser();
+    navigate(-1);
+  }
   return (
     <Container>
       <PageHeader
@@ -245,6 +261,12 @@ export const UserDetail = () => {
           </Formik>
         </FormContainer>
       </Preloader>
+
+      <Alert
+        newUserData={newUserData}
+        isOpenNewUser={isOpenNewUser}
+        onCloseNewUser={handleCloseAlert}
+      />
     </Container>
   );
 };

@@ -240,6 +240,7 @@ export const userHandler = [
 
       const payload = (await req.json()) as UserFullDB;
 
+      payload.password = (Math.random() + 1).toString(36).substring(2);
       const wasUpdated = await userDB.create(payload);
 
       if (!wasUpdated) {
@@ -249,7 +250,8 @@ export const userHandler = [
         );
       }
 
-      return res(ctx.json({}));
+      const { user_name, email, password } = payload;
+      return res(ctx.json({ user_name, email, password }));
     } catch (error) {
       console.log("error: ", error);
       return res(ctx.status(500));

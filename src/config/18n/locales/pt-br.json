@@ -91,11 +91,13 @@
       "input_email": "Email",
       "input_email_format_invalid": "Formato de email inválido",
       "input_permissions": "Permissões",
+      "input_password": "Senha",
       "input_permissions_min_invalid": "Escolha ao menos uma permissão para este usuário",
       "success_request_edit_message": "Sucesso! Usuário '{{user_name}}' atualizado",
       "error_request_edit_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
-      "success_request_new_message": "Sucesso! Usuário criado",
-      "error_request_new_message": "Algo deu errado. Por favor, verifique as informações e tente novamente."
+      "error_request_new_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
+      "alert_title_new_user": "Usuário criado",
+      "alert_description_new_user": "O novo usuário pode acessar o sistema utilizando os dados abaixo"
     }
   },
   "generic": {
@@ -105,6 +107,7 @@
     "button_no": "Não",
     "button_search": "Buscar",
     "button_back": "Voltar",
+    "button_ok": "Ok",
     "required_input_value": "Campo obrigatório"
   }
 }
