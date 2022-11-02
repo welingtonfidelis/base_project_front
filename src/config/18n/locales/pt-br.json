@@ -31,6 +31,10 @@
     }
   },
   "pages": {
+    "not_found": {
+      "title_message": "Oops!",
+      "description_message": "Página não encontrada"
+    },
     "login": {
       "page_title": "Login",
       "welcome_message": "Por favor, insira seus dados abaixo.",
@@ -100,7 +104,7 @@
     "button_yes": "Sim",
     "button_no": "Não",
     "button_search": "Buscar",
-    "button_back_page": "Voltar para página anterior",
+    "button_back": "Voltar",
     "required_input_value": "Campo obrigatório"
   }
 }
