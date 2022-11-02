@@ -1,8 +1,10 @@
+import { EmptyState } from "../../components/emptyState";
+import { Container } from "./styles";
 
 export const Dashboard = () => {
-    return (
-        <>
-            <h2>Dashboard ...............</h2>
-        </>
-    )
-}
+  return (
+    <Container>
+      <EmptyState />
+    </Container>
+  );
+};

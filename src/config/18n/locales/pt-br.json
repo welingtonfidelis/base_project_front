@@ -25,6 +25,9 @@
       "input_repeated_new_password_invalid": "Senhas diferentes",
       "success_request_message": "Sucesso! Sua senha foi atualizada.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
+    },
+    "empty_state": {
+      "message": "Sem dados para mostra aqui."
     }
   },
   "pages": {
