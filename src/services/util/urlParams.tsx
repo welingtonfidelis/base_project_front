@@ -10,7 +10,6 @@ export const urlParams = () => {
 
   const getParams = (key?: string): GetParamsResponse | undefined => {
     const parsedParams = parse(location.search);
-    console.log("parsedParams: ", parsedParams);
 
     if (key) return parsedParams[key] as GetParamsResponse;
 
@@ -19,8 +18,11 @@ export const urlParams = () => {
 
   const setParams = (key: string, value: string | number) => {
     const oldParams = (getParams() || {}) as any;
+    oldParams[key] = value;
 
-    setSearchParams(stringify({ ...oldParams, [key]: value }));
+    if (!value) delete oldParams[key];
+
+    setSearchParams(stringify(oldParams));
   };
 
   return { getParams, setParams };
