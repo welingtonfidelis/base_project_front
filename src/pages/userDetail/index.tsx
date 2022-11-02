@@ -122,20 +122,16 @@ export const UserDetail = () => {
                   </AvatarContent>
 
                   {id && (
-                    // <Field name="id">
-                    //   {({ field }: any) => (
-                        <FormControl>
-                          <FormLabel mt="2" mb="0.2">
-                            {t("pages.user_new_edit.input_id")}
-                          </FormLabel>
-                          <Input
-                            value={id}
-                            disabled
-                            placeholder={t("pages.user_new_edit.input_id")}
-                          />
-                        </FormControl>
-                      // )}
-                    // </Field>
+                    <FormControl>
+                      <FormLabel mt="2" mb="0.2">
+                        {t("pages.user_new_edit.input_id")}
+                      </FormLabel>
+                      <Input
+                        value={id}
+                        disabled
+                        placeholder={t("pages.user_new_edit.input_id")}
+                      />
+                    </FormControl>
                   )}
 
                   <Field name="is_blocked">
@@ -214,7 +210,7 @@ export const UserDetail = () => {
                                 key={item.id}
                                 marginEnd={6}
                                 value={item.value}
-                                defaultChecked={data?.permissions.includes(
+                                defaultChecked={data?.permissions?.includes(
                                   item.value
                                 )}
                               >
