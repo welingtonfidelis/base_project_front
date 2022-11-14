@@ -12,7 +12,8 @@ export interface UpdatePasswordPayload {
 }
 
 export interface ResetPasswordPayload {
-  user_name: string;
+  username: string;
+  language: string;
 }
 export interface UpdateProfilePayload {
   name: string;

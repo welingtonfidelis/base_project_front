@@ -18,7 +18,8 @@ import { useResetPassword } from "../../services/requests/user";
 import { toast } from "react-toastify";
 
 const initialFormValues = {
-  user_name: "",
+  username: "",
+  language:  "pt"
 };
 
 export const ResetPassword = () => {
@@ -32,6 +33,7 @@ export const ResetPassword = () => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
+    console.log('values: ', values);
     resetPassword(values, {
       onSuccess(_) {
         toast.success(t("pages.reset_password.success_request_message"));
@@ -39,10 +41,9 @@ export const ResetPassword = () => {
         navigate(-1);
       },
       onError(error: any) {
-        console.log("error: ", error);
         if (error?.response?.status === 404) {
           actions.setErrors({
-            user_name: t("pages.login.input_user_email_invalid"),
+            username: t("pages.login.input_user_email_invalid"),
           });
         }
 
@@ -68,17 +69,17 @@ export const ResetPassword = () => {
           >
             {({ errors, touched }) => (
               <Form>
-                <Field name="user_name">
+                <Field name="username">
                   {({ field }: any) => (
                     <FormControl
-                      isInvalid={!!errors.user_name && touched.user_name}
+                      isInvalid={!!errors.username && touched.username}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.reset_password.input_user_email")}
                       />
-                      <FormErrorMessage>{errors.user_name}</FormErrorMessage>
+                      <FormErrorMessage>{errors.username}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>

@@ -1,3 +1,4 @@
 export interface FormProps {
-  user_name: string;
+  username: string;
+  language: string;
 }
