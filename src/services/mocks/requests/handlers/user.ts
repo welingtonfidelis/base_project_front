@@ -36,13 +36,13 @@ export const userHandler = [
     try {
       await delay(1000);
 
-      const { user_name, password } = (await req.json()) as LoginPayload;
-      const [user] = await userDB.findByUserNameOrEmail(user_name);
+      const { username, password } = (await req.json()) as LoginPayload;
+      const [user] = await userDB.findByUserNameOrEmail(username);
 
       if (!user) {
         return res(
           ctx.status(404),
-          ctx.json({ message: "Invalid user_name or email" })
+          ctx.json({ message: "Invalid username or email" })
         );
       }
 
@@ -81,13 +81,13 @@ export const userHandler = [
     try {
       await delay(1000);
 
-      const { user_name } = (await req.json()) as ResetPasswordPayload;
-      const [user] = await userDB.findByUserNameOrEmail(user_name);
+      const { username } = (await req.json()) as ResetPasswordPayload;
+      const [user] = await userDB.findByUserNameOrEmail(username);
 
       if (!user || user.is_blocked) {
         return res(
           ctx.status(404),
-          ctx.json({ message: "Invalid user_name or email" })
+          ctx.json({ message: "Invalid username or email" })
         );
       }
 
@@ -250,8 +250,8 @@ export const userHandler = [
         );
       }
 
-      const { user_name, email, password } = payload;
-      return res(ctx.json({ user_name, email, password }));
+      const { username, email, password } = payload;
+      return res(ctx.json({ username, email, password }));
     } catch (error) {
       console.log("error: ", error);
       return res(ctx.status(500));

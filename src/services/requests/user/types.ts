@@ -2,7 +2,7 @@ import { User } from "../../../domains/user";
 
 // Request
 export interface LoginPayload {
-  user_name: string;
+  username: string;
   password: string;
 }
 

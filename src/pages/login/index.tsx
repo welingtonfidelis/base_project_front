@@ -27,7 +27,7 @@ const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
 const { USER } = ApplicationStorage;
 
 const initialFormValues = {
-  user_name: "",
+  username: "",
   password: "",
 };
 
@@ -54,7 +54,7 @@ export const Login = () => {
       onError(error: any) {
         if (error?.response?.status === 404) {
           actions.setErrors({
-            user_name: t("pages.login.input_user_email_invalid"),
+            username: t("pages.login.input_user_email_invalid"),
           });
         }
 
@@ -92,17 +92,17 @@ export const Login = () => {
           >
             {({ errors, touched }) => (
               <Form>
-                <Field name="user_name">
+                <Field name="username">
                   {({ field }: any) => (
                     <FormControl
-                      isInvalid={!!errors.user_name && touched.user_name}
+                      isInvalid={!!errors.username && touched.username}
                       mb="2"
                     >
                       <Input
                         {...field}
                         placeholder={t("pages.login.input_user_email")}
                       />
-                      <FormErrorMessage>{errors.user_name}</FormErrorMessage>
+                      <FormErrorMessage>{errors.username}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>

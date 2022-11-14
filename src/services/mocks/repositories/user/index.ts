@@ -25,12 +25,12 @@ class UserDB {
       .toArray();
   }
 
-  findByUserNameOrEmail(user_name: string) {
+  findByUserNameOrEmail(username: string) {
     return this.db.users
-      .where("user_name")
-      .equals(user_name)
+      .where("username")
+      .equals(username)
       .or("email")
-      .equals(user_name)
+      .equals(username)
       .toArray();
   }
 
