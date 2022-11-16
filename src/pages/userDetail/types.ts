@@ -1,6 +1,6 @@
 export interface FormProps {
     name: string;
-    user_name: string;
+    username: string;
     email: string;
     is_blocked: boolean;
     permissions: string[]

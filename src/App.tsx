@@ -26,6 +26,7 @@ export const App = () => {
 
   const queryClient = new QueryClient();
   const { updateUser } = userStore();
+  const navigateToRoot = () => window.history.replaceState(null, "", ROOT);
 
   const getUserProfile = async () => {
     try {
@@ -33,7 +34,10 @@ export const App = () => {
         const data = await getProfile();
 
         if (data) updateUser(data);
+        else navigateToRoot();
       }
+    } catch {
+      navigateToRoot();
     } finally {
       setIsLoading(false);
     }

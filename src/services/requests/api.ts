@@ -1,22 +1,28 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
+const { ROOT } = ApplicationRoutes;
 import { config } from "../../config";
+import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 
 export type RequestConfig = AxiosRequestConfig;
 export type Response<T> = AxiosResponse<T>;
 
 const api = axios.create({
   baseURL: config.REST_API_URL,
+  withCredentials: true,
 });
 
-// api.interceptors.response.use((config) => { 
-//   console.log(config.status);
-//   return config;
-// }, (error) => {
-//   console.log('error: ', error);
-//   if (error?.response?.status === 403) {
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     console.log("error: ", error.response);
+
+//     if (error.response.data.message === "Not authenticated") {
+//     }
+
+//     return Promise.reject(error.response.data.err);
 //   }
-// })
+// );
 
 /**
  * Service to encapsulate axios in case we want to remove axios later on.
@@ -60,18 +66,18 @@ class RestRequestService {
     return api.patch<T, Response<T>>(url, data, config);
   }
 
-    /**
+  /**
    * Performs a PATCH request.
    * @param url - Request url
    * @param config  - Request configs
    */
-     public static put<T>(
-      url: string,
-      data?: unknown,
-      config?: RequestConfig
-    ): Promise<Response<T>> {
-      return api.put<T, Response<T>>(url, data, config);
-    }
+  public static put<T>(
+    url: string,
+    data?: unknown,
+    config?: RequestConfig
+  ): Promise<Response<T>> {
+    return api.put<T, Response<T>>(url, data, config);
+  }
 
   /**
    * Performs a GET request.

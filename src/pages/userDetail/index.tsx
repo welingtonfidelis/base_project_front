@@ -48,7 +48,7 @@ export const UserDetail = () => {
   const { createUser, isLoading: isLoadingCreateUser } = useCreateUser();
   const [newUserData, setNewUserData] = useState({
     email: "",
-    user_name: "",
+    username: "",
     password: "",
   });
   const {
@@ -60,7 +60,7 @@ export const UserDetail = () => {
   const initialFormValues = useMemo(() => {
     return {
       name: data?.name || "",
-      user_name: data?.user_name || "",
+      username: data?.username || "",
       email: data?.email || "",
       is_blocked: data?.is_blocked || false,
       permissions: data?.permissions || [],
@@ -75,7 +75,7 @@ export const UserDetail = () => {
           onSuccess() {
             toast.success(
               t("pages.user_new_edit.success_request_edit_message", {
-                user_name: values.name,
+                username: values.name,
               })
             );
             navigate(-1);
@@ -90,9 +90,9 @@ export const UserDetail = () => {
     }
 
     createUser(values, {
-      onSuccess({ email, user_name, password }) {
+      onSuccess({ email, username, password }) {
         setNewUserData({
-          user_name,
+          username,
           email,
           password,
         });
@@ -178,19 +178,19 @@ export const UserDetail = () => {
                     )}
                   </Field>
 
-                  <Field name="user_name">
+                  <Field name="username">
                     {({ field }: any) => (
                       <FormControl
-                        isInvalid={!!errors.user_name && touched.user_name}
+                        isInvalid={!!errors.username && touched.username}
                       >
                         <FormLabel mt="2" mb="0.2">
-                          {t("pages.user_new_edit.input_user_name")}
+                          {t("pages.user_new_edit.input_username")}
                         </FormLabel>
                         <Input
                           {...field}
-                          placeholder={t("pages.user_new_edit.input_user_name")}
+                          placeholder={t("pages.user_new_edit.input_username")}
                         />
-                        <FormErrorMessage>{errors.user_name}</FormErrorMessage>
+                        <FormErrorMessage>{errors.username}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
@@ -223,14 +223,14 @@ export const UserDetail = () => {
                             return (
                               <Checkbox
                                 {...field}
-                                key={item.id}
+                                key={item}
                                 marginEnd={6}
-                                value={item.value}
+                                value={item}
                                 defaultChecked={data?.permissions?.includes(
-                                  item.value
+                                  item
                                 )}
                               >
-                                {item.name}
+                                {item}
                               </Checkbox>
                             );
                           })}

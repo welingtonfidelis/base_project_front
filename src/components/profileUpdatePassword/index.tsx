@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
+import omit from "lodash/omit";
 
 import { Modal } from "../modal";
 import { FormProps, Props } from "./types";
@@ -32,7 +33,7 @@ export const ProfileUpdatePassword = (props: Props) => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    updatePassword(values, {
+    updatePassword(omit(values, 'repeated_new_password'), {
       onSuccess() {
         toast.success(
           t("components.profile_change_password.success_request_message")

@@ -1,8 +1,8 @@
-import { LoggedUser } from "../../domains/user";
+import { Profile } from "../../domains/user";
 
-export type State = { user: LoggedUser };
+export type State = { user: Profile };
 
 export type Action = {
-  updateUser: (data: Partial<LoggedUser>) => void;
+  updateUser: (data: Partial<Profile>) => void;
   clearUser: () => void;
 };

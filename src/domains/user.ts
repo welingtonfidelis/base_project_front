@@ -1,5 +1,6 @@
 export interface LoggedUser {
   name: string;
+  email: string;
   permissions: string[];
 }
 
@@ -18,6 +19,9 @@ export interface Profile {
   id: number;
   name: string;
   email: string;
-  user_name: string;
+  username: string;
+  image_url: string;
+  image_key: string;
+  created_at: string;
   permissions: string[];
 }

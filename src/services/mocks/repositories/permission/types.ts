@@ -1,3 +1,3 @@
-import { Permission } from "../../../../domains/permission";
+import { Permission } from "../../../../domains/permission_";
 
 export interface PermissionFullDB extends Permission {}

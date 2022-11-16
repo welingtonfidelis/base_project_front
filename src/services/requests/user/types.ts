@@ -19,7 +19,13 @@ export interface UpdateProfilePayload {
   name: string;
 }
 
-export interface CreateUserPayload extends Omit<User, 'id'>{}
+export interface CreateUserPayload {
+  name: string;
+  email: string;
+  username: string;
+  is_blocked: boolean;
+  permissions: string[];
+}
 
 export interface UpdateUserPayload {
   id: number;
@@ -48,6 +54,6 @@ export interface ListUsersResponse {
 
 export interface CreateUserResponse {
   password: string;
-  user_name: string;
+  username: string;
   email: string;
 }

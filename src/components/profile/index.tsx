@@ -2,9 +2,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
-
-import { Modal } from "../modal";
-import { FormProps, Props } from "./types";
+import omit from "lodash/omit";
 import {
   Avatar,
   Button,
@@ -15,6 +13,8 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 
+import { Modal } from "../modal";
+import { FormProps, Props } from "./types";
 import { userStore } from "../../store/user";
 import { AvatarContent } from "./styles";
 import { formValidate } from "./helper/formValidate";
@@ -33,13 +33,13 @@ export const Profile = (props: Props) => {
     return {
       id: data?.id || 0,
       name: data?.name || "",
-      user_name: data?.user_name || "",
+      username: data?.username || "",
       email: data?.email || "",
     };
   }, [data]);
 
   const handleSubmit = async (values: FormProps) => {
-    updateProfile(values, {
+    updateProfile(omit(values, 'id'), {
       onSuccess() {
         toast.success(t("components.profile.success_request_message"));
         updateUser(values);
@@ -71,7 +71,7 @@ export const Profile = (props: Props) => {
               <AvatarContent>
                 <Avatar
                   name={data?.name}
-                  src="" //https://bit.ly/dan-abramov
+                  src={data?.image_url}
                   size={"xl"}
                   mb="3"
                 />
@@ -107,32 +107,32 @@ export const Profile = (props: Props) => {
                 )}
               </Field>
 
-              <Field name="user_name">
+              <Field name="username">
                 {({ field }: any) => (
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.username && touched.username}>
                     <FormLabel mt="2" mb="0.2">
-                      {t("components.profile.input_user_name")}
+                      {t("components.profile.input_username")}
                     </FormLabel>
                     <Input
                       {...field}
-                      disabled
-                      placeholder={t("components.profile.input_user_name")}
+                      placeholder={t("components.profile.input_username")}
                     />
+                    <FormErrorMessage>{errors.username}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
 
               <Field name="email">
                 {({ field }: any) => (
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.email && touched.email}>
                     <FormLabel mt="2" mb="0.2">
                       {t("components.profile.input_email")}
                     </FormLabel>
                     <Input
                       {...field}
-                      disabled
                       placeholder={t("components.profile.input_email")}
                     />
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>

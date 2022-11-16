@@ -3,7 +3,7 @@ export interface Props {
   onCloseNewUser: () => void;
   newUserData: {
     email: string;
-    user_name: string;
+    username: string;
     password: string;
   };
 }

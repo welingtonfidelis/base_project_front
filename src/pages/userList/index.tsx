@@ -32,8 +32,8 @@ const { PAGE, ID, NAME } = PageFilterType;
 
 const initialFilterValues = {
   [PAGE]: 1,
-  [ID]: "",
-  [NAME]: "",
+  // [ID]: "",
+  // [NAME]: "",
 };
 
 export const UserList = () => {

@@ -17,14 +17,11 @@ import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { formValidate } from "./helper/formValidate";
 import { userStore } from "../../store/user";
-import { ApplicationStorage } from "../../shared/enum/applicationStorage";
-import { storage } from "../../services/storage";
 import { FormProps } from "./types";
 import { useLogin } from "../../services/requests/user";
 import { toast } from "react-toastify";
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
-const { USER } = ApplicationStorage;
 
 const initialFormValues = {
   username: "",
@@ -37,7 +34,6 @@ export const Login = () => {
   const validateFormFields = formValidate();
   const { login, isLoading } = useLogin();
   const { updateUser } = userStore();
-  const { set } = storage();
 
   const handleSubmit = async (
     values: FormProps,
@@ -47,7 +43,6 @@ export const Login = () => {
       onSuccess(data) {
         if (data) {
           updateUser(data);
-          set(USER, data);
           navigate(DASHBOARD);
         }
       },

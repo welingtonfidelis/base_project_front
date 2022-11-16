@@ -20,7 +20,7 @@ const {
   LOGOUT,
   PROFILE,
   RESET_PASSWORD,
-  UPDATE_PASSWORD,
+  UPDATE_PROFILE_PASSWORD,
   LIST,
   GET,
   CREATE,
@@ -50,8 +50,8 @@ export const resetPassword = async (payload: ResetPasswordPayload) => {
 };
 
 export const updatePassword = async (payload: UpdatePasswordPayload) => {
-  const { data: response } = await RestRequestService.post<{}>(
-    UPDATE_PASSWORD,
+  const { data: response } = await RestRequestService.patch<{}>(
+    UPDATE_PROFILE_PASSWORD,
     payload
   );
   return response;
@@ -100,7 +100,7 @@ export const deleteUser = async (params: DeleteUserPayload) => {
 export const getUserList = async (params: ListUsersPayload) => {
   const { data: response } = await RestRequestService.get<ListUsersResponse>(
     LIST,
-    { params }
+    { params: { ...params, limit: 20 } }
   );
   return response;
 };
@@ -108,7 +108,7 @@ export const getUserList = async (params: ListUsersPayload) => {
 export const getUserById = async (params: GetUserByIdPayload) => {
   const { id } = params;
 
-  if (!id) return;;
+  if (!id) return;
 
   const { data: response } = await RestRequestService.get<User>(
     GET.replace(":id", String(id))

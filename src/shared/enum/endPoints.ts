@@ -5,7 +5,7 @@ export const EndPoints = {
     LOGIN: "/users/login",
     LOGOUT: "/users/logout",
     RESET_PASSWORD: "/users/reset-password",
-    UPDATE_PASSWORD: "/users/update-password",
+    UPDATE_PROFILE_PASSWORD: "/users/profile/password",
     PROFILE: "/users/profile",
     CREATE: "/users",
     UPDATE: "/users/:id",

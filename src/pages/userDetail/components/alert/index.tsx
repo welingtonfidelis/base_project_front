@@ -8,14 +8,14 @@ export const Alert = (props: Props) => {
   const { t } = useTranslation();
 
   const newUserDescription = useMemo(() => {
-    const { user_name, email, password } = newUserData;
+    const { username, email, password } = newUserData;
     return (
       <>
         <span>{t("pages.user_new_edit.alert_description_new_user")}</span>
         <br />
         <br />
-        <span>{t("pages.user_new_edit.input_user_name")}: </span>
-        <strong>{user_name}</strong>
+        <span>{t("pages.user_new_edit.input_username")}: </span>
+        <strong>{username}</strong>
         <br />
         <span>{t("pages.user_new_edit.input_email")}: </span>
         <strong>{email}</strong>

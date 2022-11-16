@@ -4,6 +4,8 @@ export interface Props {
 }
 
 export interface FormProps {
+  id: number;
   name: string;
   email: string;
+  username: string;
 }

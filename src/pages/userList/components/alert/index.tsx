@@ -81,10 +81,10 @@ export const Alert = (props: Props) => {
         description={
           selectedUser?.is_blocked
             ? t("pages.user_list.alert_description_unblock_user", {
-                user_name: selectedUser?.user_name,
+                name: selectedUser?.name,
               })
             : t("pages.user_list.alert_description_block_user", {
-                user_name: selectedUser?.user_name,
+                name: selectedUser?.name,
               })
         }
         isOpen={isOpenBlock}
@@ -96,7 +96,7 @@ export const Alert = (props: Props) => {
       <AlertConfirm
         title={t("pages.user_list.alert_title_delete_user")}
         description={t("pages.user_list.alert_description_delete_user", {
-          user_name: selectedUser?.name,
+          name: selectedUser?.name,
         })}
         isOpen={isOpenDelete}
         onClose={onCloseDelete}

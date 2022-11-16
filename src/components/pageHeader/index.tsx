@@ -10,13 +10,13 @@ import {
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../services/requests/user";
 
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { userStore } from "../../store/user";
 import { AlertConfirm } from "../alertConfirm";
 import { IconButton } from "../iconButton";
 import { Profile } from "../profile";
+import { useLogout } from "../../services/requests/user";
 import { ProfileUpdatePassword } from "../profileUpdatePassword";
 
 import { Container, IconBackContainer, TitleContainer } from "./styles";
