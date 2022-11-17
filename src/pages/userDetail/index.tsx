@@ -9,7 +9,7 @@ import {
   Switch,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Field, Formik, Form } from "formik";
+import { Field, Formik, Form, FormikHelpers } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,9 @@ import {
   useGetUserById,
   useUpdateUser,
 } from "../../services/requests/user";
-import { BordedContainer } from "../../shared/stytes/input";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { BordedContainer } from "../../shared/styles/input";
 import { Alert } from "./components/alert";
 import { formValidate } from "./helper/formValidate";
 import {
@@ -34,6 +36,8 @@ import {
   FormContainer,
 } from "./styles";
 import { FormProps } from "./types";
+
+const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
 export const UserDetail = () => {
   const params = useParams();
@@ -67,7 +71,10 @@ export const UserDetail = () => {
     };
   }, [data]);
 
-  const handleSubmit = async (values: FormProps) => {
+  const handleSubmit = async (
+    values: FormProps,
+    actions: FormikHelpers<FormProps>
+  ) => {
     if (id) {
       updateUser(
         { id: Number(id), data: values },
@@ -80,7 +87,21 @@ export const UserDetail = () => {
             );
             navigate(-1);
           },
-          onError() {
+          onError(error) {
+            const { message } = responseErrorHandler(error);
+
+            if (message === USERNAME_ALREADY_USED.message) {
+              actions.setErrors({
+                username: t("components.profile.input_username_already_used"),
+              });
+            }
+
+            if (message === EMAIL_ALREADY_USED.message) {
+              actions.setErrors({
+                email: t("components.profile.input_email_already_used"),
+              });
+            }
+
             toast.error(t("pages.user_new_edit.error_request_edit_message"));
           },
         }
@@ -98,7 +119,21 @@ export const UserDetail = () => {
         });
         onOpenNewUser();
       },
-      onError() {
+      onError(error) {
+        const { message } = responseErrorHandler(error);
+
+        if (message === USERNAME_ALREADY_USED.message) {
+          actions.setErrors({
+            username: t("components.profile.input_username_already_used"),
+          });
+        }
+
+        if (message === EMAIL_ALREADY_USED.message) {
+          actions.setErrors({
+            email: t("components.profile.input_email_already_used"),
+          });
+        }
+
         toast.error(t("pages.user_new_edit.error_request_new_message"));
       },
     });
@@ -107,7 +142,7 @@ export const UserDetail = () => {
   const handleCloseAlert = () => {
     onCloseNewUser();
     navigate(-1);
-  }
+  };
   return (
     <Container>
       <PageHeader
@@ -131,7 +166,7 @@ export const UserDetail = () => {
                   <AvatarContent>
                     <Avatar
                       name={values.name}
-                      src="" //https://bit.ly/dan-abramov
+                      src={data?.image_url} //https://bit.ly/dan-abramov
                       size={"xl"}
                       mb="3"
                     />

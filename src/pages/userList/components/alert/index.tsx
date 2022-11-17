@@ -6,7 +6,7 @@ import {
   useDeleteUser,
   useUpdateUser,
 } from "../../../../services/requests/user";
-import { useQueryData } from "../../../../shared/hooks/usequeryData";
+import { useQueryData } from "../../../../shared/hooks/useQueryData";
 import { Props } from "./types";
 
 export const Alert = (props: Props) => {

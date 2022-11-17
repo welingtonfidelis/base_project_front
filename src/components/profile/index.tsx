@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import omit from "lodash/omit";
 import {
@@ -20,6 +20,10 @@ import { AvatarContent } from "./styles";
 import { formValidate } from "./helper/formValidate";
 import { useGetProfile, useUpdateProfile } from "../../services/requests/user";
 import { Preloader } from "../preloader";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+
+const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
 export const Profile = (props: Props) => {
   const { isOpen, onClose } = props;
@@ -38,7 +42,7 @@ export const Profile = (props: Props) => {
     };
   }, [data]);
 
-  const handleSubmit = async (values: FormProps) => {
+  const handleSubmit = async (values: FormProps, actions: FormikHelpers<FormProps>) => {
     updateProfile(omit(values, 'id'), {
       onSuccess() {
         toast.success(t("components.profile.success_request_message"));
@@ -46,7 +50,21 @@ export const Profile = (props: Props) => {
         refetch();
         onClose();
       },
-      onError() {
+      onError(error) {
+        const { message } = responseErrorHandler(error);
+
+        if (message === USERNAME_ALREADY_USED.message) {
+          actions.setErrors({
+            username: t("components.profile.input_username_already_used"),
+          });
+        }
+
+        if (message === EMAIL_ALREADY_USED.message) {
+          actions.setErrors({
+            email: t("components.profile.input_email_already_used"),
+          });
+        }
+
         toast.error(t("components.profile.error_request_message"));
       },
     });

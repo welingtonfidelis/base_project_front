@@ -1,9 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import omit from "lodash/omit";
-
-import { Modal } from "../modal";
-import { FormProps, Props } from "./types";
 import {
   Button,
   FormControl,
@@ -13,9 +10,15 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 
+import { Modal } from "../modal";
+import { FormProps, Props } from "./types";
 import { formValidate } from "./helper/formValidate";
 import { useUpdatePassword } from "../../services/requests/user";
 import { toast } from "react-toastify";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+
+const { INVALID_OLD_PASSWORD } = HttpServerMessageEnum;
 
 const initialFormValues = {
   old_password: "",
@@ -41,7 +44,9 @@ export const ProfileUpdatePassword = (props: Props) => {
         onClose();
       },
       onError(error: any) {
-        if (error?.response?.status === 401) {
+        const { message } = responseErrorHandler(error);
+
+        if (message === INVALID_OLD_PASSWORD.message) {
           actions.setErrors({
             old_password: t("pages.login.input_password_invalid"),
           });

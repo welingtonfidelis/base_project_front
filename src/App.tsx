@@ -65,7 +65,7 @@ export const App = () => {
             <Preloader isLoading={isLoading}>
               <AppRouter />
             </Preloader>
-            <ToastContainer autoClose={false} />
+            <ToastContainer autoClose={5000} />
           </QueryClientProvider>
         </ThemeProvider>
       </I18nextProvider>

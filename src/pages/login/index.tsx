@@ -20,8 +20,11 @@ import { userStore } from "../../store/user";
 import { FormProps } from "./types";
 import { useLogin } from "../../services/requests/user";
 import { toast } from "react-toastify";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
 const { RESET_PASSWORD, DASHBOARD } = ApplicationRoutes;
+const { INVALID_USERNAME_OR_EMAIL, INVALID_PASSWORD } = HttpServerMessageEnum;
 
 const initialFormValues = {
   username: "",
@@ -46,14 +49,16 @@ export const Login = () => {
           navigate(DASHBOARD);
         }
       },
-      onError(error: any) {
-        if (error?.response?.status === 404) {
+      onError(error) {
+        const { message } = responseErrorHandler(error);
+
+        if (message === INVALID_USERNAME_OR_EMAIL.message) {
           actions.setErrors({
             username: t("pages.login.input_user_email_invalid"),
           });
         }
 
-        if (error?.response?.status === 401) {
+        if (message === INVALID_PASSWORD.message) {
           actions.setErrors({
             password: t("pages.login.input_password_invalid"),
           });

@@ -13,7 +13,9 @@
       "input_email": "Email",
       "input_id": "Código",
       "input_name": "Nome",
-      "input_user_name": "Nome de usuário",
+      "input_username": "Nome de usuário",
+      "input_username_already_used": "Nome de usuário já em uso",
+      "input_email_already_used": "Email já em uso",
       "success_request_message": "Sucesso! Seu perfil foi atualizado.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     },

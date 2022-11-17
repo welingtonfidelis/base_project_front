@@ -26,6 +26,7 @@ import { ListUsersPayload } from "../../services/requests/user/types";
 import { Alert } from "./components/alert";
 import { PageFilter } from "./components/pageFilter";
 import { PageFilterType } from "./components/pageFilter/types";
+import { toast } from "react-toastify";
 
 const { USER_EDIT } = ApplicationRoutes;
 const { PAGE, ID, NAME } = PageFilterType;
@@ -53,7 +54,11 @@ export const UserList = () => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const { getQueryKey, data, isLoading } = useGetListUsers(pageFilter);
+  const { getQueryKey, data, isLoading, error } = useGetListUsers(pageFilter);
+
+  if (error) {
+    toast.error(t("pages.user_list.error_request_delete_message"));
+  }
 
   const handleOpenAlert = (user: User, type: "block" | "delete") => {
     switch (type) {
@@ -119,7 +124,7 @@ export const UserList = () => {
     if (!data) return [];
 
     return data?.users.map((item) => [
-      <Avatar name={item.name} />,
+      <Avatar name={item.name} src={item.image_url} />,
       item.name,
       item.email,
       item.is_blocked ? t("generic.button_yes") : t("generic.button_no"),

@@ -16,10 +16,14 @@ import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { FormProps } from "./types";
 import { useResetPassword } from "../../services/requests/user";
 import { toast } from "react-toastify";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+
+const { INVALID_USERNAME_OR_EMAIL } = HttpServerMessageEnum;
 
 const initialFormValues = {
   username: "",
-  language:  "pt"
+  language: "pt",
 };
 
 export const ResetPassword = () => {
@@ -33,17 +37,19 @@ export const ResetPassword = () => {
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    console.log('values: ', values);
+    console.log("values: ", values);
     resetPassword(values, {
       onSuccess(_) {
         toast.success(t("pages.reset_password.success_request_message"));
 
         navigate(-1);
       },
-      onError(error: any) {
-        if (error?.response?.status === 404) {
+      onError(error) {
+        const { message } = responseErrorHandler(error);
+
+        if (message === INVALID_USERNAME_OR_EMAIL.message) {
           actions.setErrors({
-            username: t("pages.login.input_user_email_invalid"),
+            username: t("pages.reset_password.input_user_email_invalid"),
           });
         }
 

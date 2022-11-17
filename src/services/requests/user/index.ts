@@ -79,11 +79,11 @@ export const useGetProfile = () => {
 export const useGetListUsers = (params: ListUsersPayload) => {
   const getQueryKey = () => [LIST, params];
 
-  const { data, refetch, isLoading } = useQuery(getQueryKey(), () =>
+  const { data, refetch, isLoading, error } = useQuery(getQueryKey(), () =>
     getUserList(params)
   );
 
-  return { getQueryKey, refetch, data, isLoading };
+  return { getQueryKey, refetch, data, isLoading, error };
 };
 
 export const useGetUserById = (params: GetUserByIdPayload) => {
