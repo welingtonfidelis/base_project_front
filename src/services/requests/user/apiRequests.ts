@@ -12,6 +12,7 @@ import {
   ResetPasswordPayload,
   UpdatePasswordPayload,
   UpdateProfilePayload,
+  UpdateResetedPasswordPayload,
   UpdateUserPayload,
 } from "./types";
 
@@ -21,6 +22,7 @@ const {
   PROFILE,
   RESET_PASSWORD,
   UPDATE_PROFILE_PASSWORD,
+  UPDATE_RESETED_PASSWORD,
   LIST,
   GET,
   CREATE,
@@ -44,6 +46,14 @@ export const logout = async () => {
 export const resetPassword = async (payload: ResetPasswordPayload) => {
   const { data: response } = await RestRequestService.post<{}>(
     RESET_PASSWORD,
+    payload
+  );
+  return response;
+};
+
+export const updateResetedPassword = async (payload: UpdateResetedPasswordPayload) => {
+  const { data: response } = await RestRequestService.post<{}>(
+    UPDATE_RESETED_PASSWORD,
     payload
   );
   return response;

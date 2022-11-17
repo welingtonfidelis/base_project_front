@@ -51,11 +51,10 @@
     "reset_password": {
       "page_title": "Recuperar Senha",
       "welcome_message": "Por favor, insira seu usuário ou email abaixo.",
-      "success_request_message": "Sucesso! Enviamos um email para você recuperar sua senha.",
+      "success_request_message": "Sucesso! Enviamos um email para você recuperar sua senha. IMPORTANTE: precisa atualizar sua senha em até 15 minutos ou seu token expirará.",
       "error_request_message": "Algo deu errado. Por favor, verifique seu usuário/email e tente novamente.",
       "input_user_email": "Usuário ou Email",
-      "input_user_email_invalid": "Usuário ou Email inválido",
-      "button_reset": "Enviar"
+      "input_user_email_invalid": "Usuário ou Email inválido"
     },
     "dashboard": {
       "page_title": "Dashboard"
@@ -100,6 +99,17 @@
       "error_request_new_message": "Algo deu errado. Por favor, verifique as informações e tente novamente.",
       "alert_title_new_user": "Usuário criado",
       "alert_description_new_user": "O novo usuário pode acessar o sistema utilizando os dados abaixo"
+    },
+    "update_reseted_password": {
+      "page_title": "Recuperar Senha",
+      "welcome_message": "Olá, insira os dados abaixo para recuperar sua senha de acesso",
+      "input_old_password": "Senha antiga",
+      "input_new_password": "Nova senha",
+      "input_repeated_new_password": "Repita a nova senha",
+      "input_repeated_new_password_invalid": "Senhas diferentes",
+      "success_request_message": "Sucesso! Sua senha foi recuperada.",
+      "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente.",
+      "error_request_token_message": "Algo deu errado. Parece que seu token é inválido. Tente resetar sua senha novamente."
     }
   },
   "generic": {
@@ -110,6 +120,7 @@
     "button_search": "Buscar",
     "button_back": "Voltar",
     "button_ok": "Ok",
+    "button_send": "Enviar",
     "required_input_value": "Campo obrigatório"
   }
 }

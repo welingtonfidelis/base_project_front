@@ -11,6 +11,11 @@ export interface UpdatePasswordPayload {
   new_password: string;
 }
 
+export interface UpdateResetedPasswordPayload {
+  new_password: string;
+  token: string;
+}
+
 export interface ResetPasswordPayload {
   username: string;
   language: string;

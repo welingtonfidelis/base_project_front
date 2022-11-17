@@ -12,6 +12,7 @@ import {
   resetPassword,
   updatePassword,
   updateProfile,
+  updateResetedPassword,
   updateUser,
 } from "./apiRequests";
 import { GetUserByIdPayload, ListUsersPayload } from "./types";
@@ -41,6 +42,12 @@ export const useUpdatePassword = () => {
   const { mutate, isLoading } = useMutation(updatePassword);
 
   return { updatePassword: mutate, isLoading };
+};
+
+export const useUpdateResetedPassword = () => {
+  const { mutate, isLoading } = useMutation(updateResetedPassword);
+
+  return { updateResetedPassword: mutate, isLoading };
 };
 
 export const useUpdateProfile = () => {

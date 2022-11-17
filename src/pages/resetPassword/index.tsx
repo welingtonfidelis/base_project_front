@@ -1,4 +1,15 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+
+import { PageHeaderWithoutMenu } from "../../components/pageHeaderWithoutMenu";
+import { formValidate } from "./helper/formValidate";
+import { FormProps } from "./types";
+import { useResetPassword } from "../../services/requests/user";
+import { responseErrorHandler } from "../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
 import {
   ActionContainer,
@@ -7,17 +18,6 @@ import {
   FormContainer,
   WellcomeMessageText,
 } from "./styles";
-
-import { PageHeaderWithoutMenu } from "../../components/pageHeaderWithoutMenu";
-import { useNavigate } from "react-router-dom";
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import { formValidate } from "./helper/formValidate";
-import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
-import { FormProps } from "./types";
-import { useResetPassword } from "../../services/requests/user";
-import { toast } from "react-toastify";
-import { responseErrorHandler } from "../../shared/handlers/responseError";
-import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
 const { INVALID_USERNAME_OR_EMAIL } = HttpServerMessageEnum;
 
@@ -96,7 +96,7 @@ export const ResetPassword = () => {
                     isLoading={isLoading}
                     type="submit"
                   >
-                    {t("pages.reset_password.button_reset")}
+                    {t("generic.button_send")}
                   </Button>
                 </ActionContainer>
               </Form>

@@ -8,8 +8,9 @@ import { ResetPassword } from "./pages/resetPassword";
 import { UserList } from "./pages/userList";
 import { NotFound } from "./pages/notFound";
 import { UserDetail } from "./pages/userDetail";
+import { UpdateResetedPassword } from "./pages/updateResetedPassword";
 
-const { ROOT, RESET_PASSWORD, DASHBOARD, USER_LIST, USER_EDIT, USER_NEW } =
+const { ROOT, RESET_PASSWORD, UPDATE_RESETED_PASSWORD, DASHBOARD, USER_LIST, USER_EDIT, USER_NEW } =
   ApplicationRoutes;
 const { ADMIN, MANAGER, USER } = ApplicationPermissions;
 
@@ -26,6 +27,14 @@ export const routes = [
     label: "pages.reset_password.page_title",
     path: RESET_PASSWORD,
     element: ResetPassword,
+    layout: GuestLayout,
+    isMenuOption: false,
+    permissions: [],
+  },
+  {
+    label: "pages.update_reseted_password.page_title",
+    path: UPDATE_RESETED_PASSWORD,
+    element: UpdateResetedPassword,
     layout: GuestLayout,
     isMenuOption: false,
     permissions: [],

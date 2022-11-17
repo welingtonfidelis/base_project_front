@@ -32,6 +32,12 @@ export const HttpServerMessageEnum = {
     code: 400,
     use: "/users;",
   },
+  INVALID_RESET_TOKEN: {
+    name: "INVALID_RESET_TOKEN",
+    message: "Invalid reset token",
+    code: 400,
+    use: "/users;",
+  },
   BLOCKED_USER: {
     name: "BLOCKED_USER",
     message: "Blocked user",
