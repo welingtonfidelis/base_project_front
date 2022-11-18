@@ -34,6 +34,8 @@ export const Profile = (props: Props) => {
   const validateFormFields = formValidate();
 
   const initialFormValues = useMemo(() => {
+    if (data) updateUser(data);
+
     return {
       id: data?.id || 0,
       name: data?.name || "",
@@ -46,7 +48,6 @@ export const Profile = (props: Props) => {
     updateProfile(omit(values, 'id'), {
       onSuccess() {
         toast.success(t("components.profile.success_request_message"));
-        updateUser(values);
         refetch();
         onClose();
       },

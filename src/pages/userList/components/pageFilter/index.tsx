@@ -4,14 +4,13 @@ import { Button, Input } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { ApplicationRoutes } from "../../../../shared/enum/applicationRoutes";
-import { PageFilterType, Props } from "./types";
 import { SearchInputContent } from "./styles";
+import { userListPageStore } from "../../../../store/userListPage";
 
 const { USER_NEW } = ApplicationRoutes;
-const { ID, NAME } = PageFilterType;
 
-export const PageFilter = (props: Props) => {
-  const { pageFilter, handleChangePageFilter } = props;
+export const PageFilter = () => {
+  const { filters, updateFilterById, updateFilterByName } = userListPageStore();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -24,8 +23,8 @@ export const PageFilter = (props: Props) => {
           type="number"
           marginEnd={3}
           maxWidth={40}
-          value={pageFilter[ID]}
-          onChange={(e) => handleChangePageFilter(ID, e.target.value)}
+          value={filters.filter_by_id}
+          onChange={(e) => updateFilterById(e.target.value)}
           element={(field: any) => <Input {...field} />}
         />
 
@@ -33,8 +32,8 @@ export const PageFilter = (props: Props) => {
           debounceTimeout={500}
           placeholder={t("pages.user_list.input_search_name")}
           marginEnd={3}
-          value={pageFilter[NAME]}
-          onChange={(e) => handleChangePageFilter(NAME, e.target.value)}
+          value={filters.filter_by_name}
+          onChange={(e) => updateFilterByName(e.target.value)}
           element={(field: any) => <Input {...field} />}
         />
         <Button

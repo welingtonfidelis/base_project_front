@@ -43,8 +43,8 @@ export interface DeleteUserPayload {
 
 export interface ListUsersPayload {
   page: number;
-  id?: string;
-  name?: string;
+  filter_by_id?: string;
+  filter_by_name?: string;
 }
 
 export interface GetUserByIdPayload {

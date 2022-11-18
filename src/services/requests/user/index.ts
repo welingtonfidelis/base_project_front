@@ -84,6 +84,9 @@ export const useGetProfile = () => {
 };
 
 export const useGetListUsers = (params: ListUsersPayload) => {
+  if (!params.filter_by_id) delete params.filter_by_id;
+  if (!params.filter_by_name) delete params.filter_by_name;
+
   const getQueryKey = () => [LIST, params];
 
   const { data, refetch, isLoading, error } = useQuery(getQueryKey(), () =>

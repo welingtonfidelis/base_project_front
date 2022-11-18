@@ -77,7 +77,7 @@ export const PageHeader = (props: Props) => {
           <MenuButton>
             <Avatar
               name={userOnStore.name}
-              src="" //https://bit.ly/dan-abramov
+              src={userOnStore.image_url}
               size={"sm"}
             />
           </MenuButton>

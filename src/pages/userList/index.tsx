@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { BsGearFill } from "react-icons/bs";
-import isEmpty from "lodash/isEmpty";
 import {
   Avatar,
   Divider,
@@ -22,26 +21,16 @@ import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { Container, EditIconContent, MainContent } from "./styles";
 import { User } from "../../domains/user";
 import { urlParams } from "../../services/util/urlParams";
-import { ListUsersPayload } from "../../services/requests/user/types";
 import { Alert } from "./components/alert";
 import { PageFilter } from "./components/pageFilter";
-import { PageFilterType } from "./components/pageFilter/types";
 import { toast } from "react-toastify";
+import { userListPageStore } from "../../store/userListPage";
 
 const { USER_EDIT } = ApplicationRoutes;
-const { PAGE, ID, NAME } = PageFilterType;
-
-const initialFilterValues = {
-  [PAGE]: 1,
-  // [ID]: "",
-  // [NAME]: "",
-};
 
 export const UserList = () => {
-  const [pageFilter, setPageFilter] =
-    useState<ListUsersPayload>(initialFilterValues);
+  const { filters, updatePageNumber } = userListPageStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const { getParams, setParams } = urlParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const {
@@ -54,7 +43,7 @@ export const UserList = () => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const { getQueryKey, data, isLoading, error } = useGetListUsers(pageFilter);
+  const { getQueryKey, data, isLoading, error } = useGetListUsers(filters);
 
   if (error) {
     toast.error(t("pages.user_list.error_request_delete_message"));
@@ -88,33 +77,23 @@ export const UserList = () => {
     setSelectedUser(null);
   };
 
-  useEffect(() => {
-    const urlPageParam = getParams();
+  // ===> TODO get/set filters param URL
+  // useEffect(() => {
+  //   const urlPageParam = getParams();
 
-    if (!isEmpty(urlPageParam)) {
-      const filters: any = {};
-      Object.entries(urlPageParam).forEach((item) => {
-        const [key, value] = item;
-        if (Object.values(PageFilterType).includes(key as any)) {
-          filters[key] = value;
-        }
-      });
+  //   if (!isEmpty(urlPageParam)) {
+  //     Object.entries(urlPageParam).forEach((item) => {
+  //       const [key, value] = item;
+  //       if (Object.values(filtersType).includes(key as any)) {
+  //         console.log('key: ', key, value);
+  //       }
+  //     });
 
-      setPageFilter(filters);
-      return;
-    }
-  }, []);
+  //     return;
+  //   }
 
-  const handleChangePageFilter = (key: PageFilterType, value: string) => {
-    setPageFilter((oldState) => {
-      return {
-        ...oldState,
-        [key]: value,
-      };
-    });
-
-    setParams(key, value);
-  };
+  //   setMultipleParams(filters);
+  // }, [filters]);
 
   const columnHeader = useMemo(
     () => t("pages.user_list.table_header_columns").split("/"),
@@ -160,18 +139,15 @@ export const UserList = () => {
     <Container>
       <MainContent>
         <Preloader isLoading={isLoading}>
-          <PageFilter
-            pageFilter={pageFilter}
-            handleChangePageFilter={handleChangePageFilter}
-          />
+          <PageFilter />
           <Divider />
           <Table columnHeader={columnHeader} columnData={columnData} />
         </Preloader>
       </MainContent>
 
       <Pagination
-        currentPage={Number(pageFilter.page)}
-        onPageChange={(page) => handleChangePageFilter(PAGE, String(page))}
+        currentPage={filters.page}
+        onPageChange={updatePageNumber}
         totalItems={data?.total || 0}
       />
 
