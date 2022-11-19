@@ -23,7 +23,7 @@ const {
   LOGOUT,
   PROFILE,
   RESET_PASSWORD,
-  UPDATE_PASSWORD,
+  UPDATE_PROFILE_PASSWORD,
   LIST,
   GET,
   CREATE,
@@ -98,7 +98,7 @@ export const userHandler = [
     }
   }),
 
-  rest.post(`${REST_API_URL}${UPDATE_PASSWORD}`, async (req, res, ctx) => {
+  rest.post(`${REST_API_URL}${UPDATE_PROFILE_PASSWORD}`, async (req, res, ctx) => {
     try {
       await delay(1000);
 
@@ -183,8 +183,9 @@ export const userHandler = [
     try {
       await delay(1000);
 
-      const payload = (await req.json()) as Partial<User>;
+      const payload = req.body as Partial<User>;
       const userOnSession = sessionStorage.getItem(USER_SESSION);
+      console.log('userOnSession: ', userOnSession);
 
       if (!userOnSession) {
         return res(

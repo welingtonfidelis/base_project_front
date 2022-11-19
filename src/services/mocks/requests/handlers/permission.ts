@@ -1,9 +1,9 @@
 import { rest } from "msw";
 
 import { config } from "../../../../config";
+import { ApplicationPermissions } from "../../../../shared/enum/applicationPermissions";
 import { EndPoints } from "../../../../shared/enum/endPoints";
 import { delay } from "../../../util/delayFunction";
-import { permissionDB } from "../../repositories/permission";
 import { ApplicationMockKey } from "./types";
 
 const { REST_API_URL } = config;
@@ -25,8 +25,8 @@ export const permissionHandler = [
       }
 
       const userOnSessionParsed = JSON.parse(userOnSession);
-      const permissions = await permissionDB.find();
-      const filteredPermissions = permissions.filter((item) => userOnSessionParsed.permissions.includes(item.value));
+      const permissions = Object.values(ApplicationPermissions);
+      const filteredPermissions = permissions.filter((item) => userOnSessionParsed.permissions.includes(item));
 
       return res(ctx.json(filteredPermissions));
     } catch (error) {
