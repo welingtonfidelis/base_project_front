@@ -25,6 +25,7 @@
       "input_new_password": "Nova senha",
       "input_repeated_new_password": "Repita a nova senha",
       "input_repeated_new_password_invalid": "Senhas diferentes",
+      "button_delete_image": "Excluir imagem",
       "success_request_message": "Sucesso! Sua senha foi atualizada.",
       "error_request_message": "Algo deu errado. Por favor, verifique as informações inseridas e tente novamente."
     },

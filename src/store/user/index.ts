@@ -9,6 +9,7 @@ const initialUserState = {
   created_at: '', 
   name: "",
   email: "",
+  is_blocked: false,
   permissions: [],
 };
 

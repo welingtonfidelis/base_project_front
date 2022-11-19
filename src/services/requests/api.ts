@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-const { ROOT } = ApplicationRoutes;
 import { config } from "../../config";
 import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 

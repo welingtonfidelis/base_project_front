@@ -1,13 +1,15 @@
-import { LoggedUser, Profile, User } from "../../../domains/user";
 import { EndPoints } from "../../../shared/enum/endPoints";
 import RestRequestService from "../api";
 import {
   CreateUserPayload,
   CreateUserResponse,
   DeleteUserPayload,
+  GetProfileResponse,
   GetUserByIdPayload,
+  GetUserResponse,
   ListUsersPayload,
   ListUsersResponse,
+  LoggedUser,
   LoginPayload,
   ResetPasswordPayload,
   UpdatePasswordPayload,
@@ -68,7 +70,7 @@ export const updatePassword = async (payload: UpdatePasswordPayload) => {
 };
 
 export const getProfile = async () => {
-  const { data: response } = await RestRequestService.get<Profile>(PROFILE);
+  const { data: response } = await RestRequestService.get<GetProfileResponse>(PROFILE);
   return response;
 };
 
@@ -120,7 +122,7 @@ export const getUserById = async (params: GetUserByIdPayload) => {
 
   if (!id) return;
 
-  const { data: response } = await RestRequestService.get<User>(
+  const { data: response } = await RestRequestService.get<GetUserResponse>(
     GET.replace(":id", String(id))
   );
   return response;

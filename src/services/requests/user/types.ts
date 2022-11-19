@@ -52,10 +52,20 @@ export interface GetUserByIdPayload {
 }
 
 // Response
+export interface LoggedUser {
+  name: string;
+  email: string;
+  permissions: string[];
+}
+
 export interface ListUsersResponse {
   total: number;
   users: User[];
 }
+
+export interface GetProfileResponse extends User {}
+
+export interface GetUserResponse extends User {}
 
 export interface CreateUserResponse {
   password: string;

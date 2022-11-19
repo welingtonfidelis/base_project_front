@@ -1,8 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { toast } from "react-toastify";
-import omit from "lodash/omit";
 import {
   Avatar,
   Button,
@@ -16,7 +15,12 @@ import {
 import { Modal } from "../modal";
 import { FormProps, Props } from "./types";
 import { userStore } from "../../store/user";
-import { AvatarContent } from "./styles";
+import {
+  AvatarContent,
+  AvatarIcon,
+  AvatarImage,
+  AvatarImageDelete,
+} from "./styles";
 import { formValidate } from "./helper/formValidate";
 import { useGetProfile, useUpdateProfile } from "../../services/requests/user";
 import { Preloader } from "../preloader";
@@ -25,9 +29,13 @@ import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
 
 const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
+const FORM_VALUES_IGNORE = ["id"];
+
 export const Profile = (props: Props) => {
   const { isOpen, onClose } = props;
   const { t } = useTranslation();
+  const [localProfileImage, setLocalProfileImage] = useState<File | null>();
+  const [deleteProfileImage, setDeleteProfileImage] = useState(false);
   const { updateUser } = userStore();
   const { updateProfile, isLoading: isUpdateLoading } = useUpdateProfile();
   const { refetch, data, isLoading } = useGetProfile();
@@ -44,12 +52,49 @@ export const Profile = (props: Props) => {
     };
   }, [data]);
 
-  const handleSubmit = async (values: FormProps, actions: FormikHelpers<FormProps>) => {
-    updateProfile(omit(values, 'id'), {
+  const handleCloseModal = () => {
+    setLocalProfileImage(null);
+    setDeleteProfileImage(false);
+    onClose();
+  };
+
+  const handleDeleteProfileImage = () => {
+    if (localProfileImage) {
+      setLocalProfileImage(null);
+      return;
+    }
+
+    setDeleteProfileImage(true);
+    if (data) data.image_url = "";
+  };
+
+  const handleAddProfileImage = (files: FileList) => {
+    console.log('files: ', files);
+    setLocalProfileImage(files[0]);
+    setDeleteProfileImage(false);
+  };
+
+  const handleSubmit = async (
+    values: FormProps,
+    actions: FormikHelpers<FormProps>
+  ) => {
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (!FORM_VALUES_IGNORE.includes(key)) {
+        formData.set(key, value);
+      }
+    });
+
+    if (localProfileImage) formData.append("file", localProfileImage);
+
+    if (deleteProfileImage) formData.append("delete_image", "true");
+
+    updateProfile(formData as any, {
       onSuccess() {
         toast.success(t("components.profile.success_request_message"));
+        handleCloseModal();
         refetch();
-        onClose();
       },
       onError(error) {
         const { message } = responseErrorHandler(error);
@@ -76,7 +121,7 @@ export const Profile = (props: Props) => {
       title={t("components.profile.page_title")}
       onConfirm={() => {}}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleCloseModal}
       deactiveModalButtons
     >
       <Preloader isLoading={isLoading}>
@@ -85,15 +130,44 @@ export const Profile = (props: Props) => {
           validationSchema={validateFormFields}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, isSubmitting }) => (
+          {({ errors, touched }) => (
             <Form>
               <AvatarContent>
-                <Avatar
-                  name={data?.name}
-                  src={data?.image_url}
-                  size={"xl"}
-                  mb="3"
-                />
+                <label htmlFor="image_file">
+                  {localProfileImage || data?.image_url.length ? (
+                    <AvatarImage
+                      src={
+                        localProfileImage
+                          ? URL.createObjectURL(localProfileImage)
+                          : data?.image_url
+                      }
+                    />
+                  ) : (
+                    <AvatarIcon />
+                  )}
+                  <Input
+                    id="image_file"
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={(e) => {
+                      console.log('e: ', e);
+                      handleAddProfileImage(
+                        (e?.target?.files || []) as FileList
+                      );
+                    }}
+                  />
+                </label>
+                
+                {(localProfileImage || Boolean(data?.image_url.length)) &&
+                (
+                  <AvatarImageDelete
+                    title={t(
+                      "components.profile_change_password.button_delete_image"
+                    )}
+                    onClick={handleDeleteProfileImage}
+                  />
+                )}
               </AvatarContent>
 
               <Field name="id">
@@ -128,7 +202,9 @@ export const Profile = (props: Props) => {
 
               <Field name="username">
                 {({ field }: any) => (
-                  <FormControl isInvalid={!!errors.username && touched.username}>
+                  <FormControl
+                    isInvalid={!!errors.username && touched.username}
+                  >
                     <FormLabel mt="2" mb="0.2">
                       {t("components.profile.input_username")}
                     </FormLabel>
@@ -157,7 +233,11 @@ export const Profile = (props: Props) => {
               </Field>
 
               <ModalFooter paddingEnd={0}>
-                <Button onClick={onClose} colorScheme="gray" marginEnd={"2"}>
+                <Button
+                  onClick={handleCloseModal}
+                  colorScheme="gray"
+                  marginEnd={"2"}
+                >
                   {t("generic.button_cancel")}
                 </Button>
                 <Button
