@@ -25,6 +25,7 @@ import { Alert } from "./components/alert";
 import { PageFilter } from "./components/pageFilter";
 import { toast } from "react-toastify";
 import { userListPageStore } from "../../store/userListPage";
+import { UpdateUserPassword } from "./components/updateUserPassword";
 
 const { USER_EDIT } = ApplicationRoutes;
 
@@ -43,16 +44,28 @@ export const UserList = () => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+  const {
+    isOpen: isOpenUpdatePassword,
+    onOpen: onOpenUpdatePassword,
+    onClose: onCloseUpdatePassword,
+  } = useDisclosure();
   const { getQueryKey, data, isLoading, error } = useGetListUsers(filters);
 
   if (error) {
     toast.error(t("pages.user_list.error_request_delete_message"));
   }
 
-  const handleOpenAlert = (user: User, type: "block" | "delete") => {
+  const handleOpenAlert = (
+    user: User,
+    type: "block" | "delete" | "password"
+  ) => {
     switch (type) {
       case "block":
         onOpenBlock();
+        break;
+
+      case "password":
+        onOpenUpdatePassword();
         break;
 
       default:
@@ -63,10 +76,14 @@ export const UserList = () => {
     setSelectedUser(user);
   };
 
-  const handleCloseAlert = (type: "block" | "delete") => {
+  const handleCloseAlert = (type: "block" | "delete" | "password") => {
     switch (type) {
       case "block":
         onCloseBlock();
+        break;
+
+      case "password":
+        onCloseUpdatePassword();
         break;
 
       default:
@@ -121,6 +138,12 @@ export const UserList = () => {
           </MenuItem>
           <MenuItem
             color="yellow.500"
+            onClick={() => handleOpenAlert(item, "password")}
+          >
+            {t("pages.user_list.table_action_update_password")}
+          </MenuItem>
+          <MenuItem
+            color="yellow.500"
             onClick={() => handleOpenAlert(item, "block")}
           >
             {item.is_blocked
@@ -158,6 +181,12 @@ export const UserList = () => {
         onCloseDelete={() => handleCloseAlert("delete")}
         selectedUser={selectedUser}
         queryKey={getQueryKey()}
+      />
+
+      <UpdateUserPassword
+        isOpen={isOpenUpdatePassword}
+        onClose={() => handleCloseAlert("password")}
+        selectedUser={selectedUser}
       />
     </Container>
   );

@@ -10,13 +10,13 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 
-import { Modal } from "../modal";
+import { Modal } from "../../../modal";
 import { FormProps, Props } from "./types";
 import { formValidate } from "./helper/formValidate";
-import { useUpdatePassword } from "../../services/requests/user";
+import { useUpdatePassword } from "../../../../services/requests/user";
 import { toast } from "react-toastify";
-import { responseErrorHandler } from "../../shared/handlers/responseError";
-import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+import { responseErrorHandler } from "../../../../shared/handlers/responseError";
+import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
 
 const { INVALID_OLD_PASSWORD } = HttpServerMessageEnum;
 

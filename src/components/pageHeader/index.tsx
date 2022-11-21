@@ -15,12 +15,13 @@ import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 import { userStore } from "../../store/user";
 import { AlertConfirm } from "../alertConfirm";
 import { IconButton } from "../iconButton";
-import { Profile } from "../profile";
+
 import { useLogout } from "../../services/requests/user";
-import { ProfileUpdatePassword } from "../profileUpdatePassword";
+import { ProfileUpdatePassword } from "./components/profileUpdatePassword";
 
 import { Container, IconBackContainer, TitleContainer } from "./styles";
 import { Props } from "./types";
+import { Profile } from "./components/profile";
 
 const { ROOT } = ApplicationRoutes;
 

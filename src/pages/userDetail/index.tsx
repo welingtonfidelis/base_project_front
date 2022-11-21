@@ -7,6 +7,11 @@ import {
   FormLabel,
   Input,
   Switch,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
 import { Field, Formik, Form, FormikHelpers } from "formik";
@@ -16,8 +21,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { PageHeader } from "../../components/pageHeader";
+import { AvatarContent } from "../../components/pageHeader/components/profile/styles";
 import { Preloader } from "../../components/preloader";
-import { AvatarContent } from "../../components/profile/styles";
 import { useGetListPermissions } from "../../services/requests/permission";
 import {
   useCreateUser,
@@ -39,10 +44,13 @@ import { FormProps } from "./types";
 
 const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
+const FORM_UPDATE_VALUES_IGNORE = ["password", "repeated_password"];
+const FORM_CREATE_VALUES_IGNORE = ["repeated_password"];
+
 export const UserDetail = () => {
   const params = useParams();
   const id = params.id;
-  const validateFormFields = formValidate();
+  const validateFormFields = formValidate(Boolean(id));
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data, isLoading } = useGetUserById({ id: Number(id) });
@@ -67,6 +75,8 @@ export const UserDetail = () => {
       username: data?.username || "",
       email: data?.email || "",
       is_blocked: data?.is_blocked || false,
+      password: "",
+      repeated_password: "",
       permissions: data?.permissions || [],
     };
   }, [data]);
@@ -76,8 +86,15 @@ export const UserDetail = () => {
     actions: FormikHelpers<FormProps>
   ) => {
     if (id) {
+      const data: any = {};
+      Object.entries(values).forEach(([key, value]) => {
+        if (!FORM_UPDATE_VALUES_IGNORE.includes(key)) {
+          data[key] = value;
+        }
+      });
+
       updateUser(
-        { id: Number(id), data: values },
+        { id: Number(id), data },
         {
           onSuccess() {
             toast.success(
@@ -110,7 +127,13 @@ export const UserDetail = () => {
       return;
     }
 
-    createUser(values, {
+    const data: any = {};
+    Object.entries(values).forEach(([key, value]) => {
+      if (!FORM_CREATE_VALUES_IGNORE.includes(key)) {
+        data[key] = value;
+      }
+    });
+    createUser(data, {
       onSuccess({ email, username, password }) {
         setNewUserData({
           username,
@@ -244,6 +267,57 @@ export const UserDetail = () => {
                       </FormControl>
                     )}
                   </Field>
+
+                  {!id && (
+                    <>
+                      <Field name="password">
+                        {({ field }: any) => (
+                          <FormControl
+                            isInvalid={!!errors.password && touched.password}
+                          >
+                            <FormLabel mt="2" mb="0.2">
+                              {t("pages.user_new_edit.input_password")}
+                            </FormLabel>
+                            <Input
+                              {...field}
+                              type="password"
+                              placeholder={t(
+                                "pages.user_new_edit.input_password"
+                              )}
+                            />
+                            <FormErrorMessage>
+                              {errors.password}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+
+                      <Field name="repeated_password">
+                        {({ field }: any) => (
+                          <FormControl
+                            isInvalid={
+                              !!errors.repeated_password &&
+                              touched.repeated_password
+                            }
+                          >
+                            <FormLabel mt="2" mb="0.2">
+                              {t("pages.user_new_edit.input_repeated_password")}
+                            </FormLabel>
+                            <Input
+                              {...field}
+                              type="password"
+                              placeholder={t(
+                                "pages.user_new_edit.input_repeated_password"
+                              )}
+                            />
+                            <FormErrorMessage>
+                              {errors.repeated_password}
+                            </FormErrorMessage>
+                          </FormControl>
+                        )}
+                      </Field>
+                    </>
+                  )}
 
                   <Field name="permissions">
                     {({ field }: any) => (

@@ -34,7 +34,16 @@ export interface CreateUserPayload {
 
 export interface UpdateUserPayload {
   id: number;
-  data: Partial<Omit<User, 'id'>>
+  data: {
+    name?: string;
+    email?: string;
+    username?: string;
+    password?: string;
+    image_url?: string;
+    image_key?: string;
+    is_blocked?: boolean;
+    permissions?: string[];
+  }
 }
 
 export interface DeleteUserPayload {

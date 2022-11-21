@@ -3,7 +3,10 @@ import i18n from "i18next";
 
 export const formValidate = () => {
   return Yup.object().shape({
-    new_password: Yup.string().required(i18n.t("generic.required_input_value")),
+    new_password: Yup.string().min(
+      3,
+      i18n.t("pages.update_reseted_password.input_password_invalid_length")
+    ).required(i18n.t("generic.required_input_value")),
     repeated_new_password: Yup.string()
       .required(i18n.t("generic.required_input_value"))
       .when("new_password", {

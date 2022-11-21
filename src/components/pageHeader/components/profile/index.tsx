@@ -12,9 +12,6 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 
-import { Modal } from "../modal";
-import { FormProps, Props } from "./types";
-import { userStore } from "../../store/user";
 import {
   AvatarContent,
   AvatarIcon,
@@ -22,10 +19,16 @@ import {
   AvatarImageDelete,
 } from "./styles";
 import { formValidate } from "./helper/formValidate";
-import { useGetProfile, useUpdateProfile } from "../../services/requests/user";
-import { Preloader } from "../preloader";
-import { responseErrorHandler } from "../../shared/handlers/responseError";
-import { HttpServerMessageEnum } from "../../shared/enum/httpServerMessage";
+import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
+import { FormProps, Props } from "./types";
+import { userStore } from "../../../../store/user";
+import {
+  useGetProfile,
+  useUpdateProfile,
+} from "../../../../services/requests/user";
+import { Modal } from "../../../modal";
+import { Preloader } from "../../../preloader";
+import { responseErrorHandler } from "../../../../shared/handlers/responseError";
 
 const { USERNAME_ALREADY_USED, EMAIL_ALREADY_USED } = HttpServerMessageEnum;
 
@@ -69,7 +72,7 @@ export const Profile = (props: Props) => {
   };
 
   const handleAddProfileImage = (files: FileList) => {
-    console.log('files: ', files);
+    console.log("files: ", files);
     setLocalProfileImage(files[0]);
     setDeleteProfileImage(false);
   };
@@ -151,16 +154,15 @@ export const Profile = (props: Props) => {
                     hidden
                     accept="image/*"
                     onChange={(e) => {
-                      console.log('e: ', e);
+                      console.log("e: ", e);
                       handleAddProfileImage(
                         (e?.target?.files || []) as FileList
                       );
                     }}
                   />
                 </label>
-                
-                {(localProfileImage || Boolean(data?.image_url.length)) &&
-                (
+
+                {(localProfileImage || Boolean(data?.image_url.length)) && (
                   <AvatarImageDelete
                     title={t(
                       "components.profile_change_password.button_delete_image"
