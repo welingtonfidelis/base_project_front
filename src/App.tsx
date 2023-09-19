@@ -44,14 +44,16 @@ export const App = () => {
   };
 
   useLayoutEffect(() => {
-    if (config.IS_MOCK_ENABLE) {
-      worker.start({
-        onUnhandledRequest(req: any) {
-          // For debugger MSW mock handlers error
-          console.warn("Found an unhandled request on MSW", req);
-        },
-      });
-    }
+    // temporaly disable to avoid compile error
+    
+    // if (config.IS_MOCK_ENABLE) {
+    //   worker.start({
+    //     onUnhandledRequest(req: any) {
+    //       // For debugger MSW mock handlers error
+    //       console.warn("Found an unhandled request on MSW", req);
+    //     },
+    //   });
+    // }
 
     getUserProfile();
   }, []);
