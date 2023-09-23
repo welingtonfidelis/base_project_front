@@ -65,6 +65,7 @@ export const App = () => {
           isClosable: true,
           duration: 5000,
           status: "success",
+          containerStyle: { maxWidth: '300px'}
         },
       }}
     >
