@@ -1,8 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { Button, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
 
 import { PageHeaderWithoutMenu } from "../../components/pageHeaderWithoutMenu";
 import { formValidate } from "./helper/formValidate";
@@ -30,6 +35,7 @@ export const ResetPassword = () => {
   const navigate = useNavigate();
   const validateFormFields = formValidate();
   const { resetPassword, isLoading } = useResetPassword();
+  const toast = useToast();
 
   const { t } = useTranslation();
 
@@ -40,7 +46,9 @@ export const ResetPassword = () => {
     console.log("values: ", values);
     resetPassword(values, {
       onSuccess(_) {
-        toast.success(t("pages.reset_password.success_request_message"));
+        toast({
+          title: t("pages.reset_password.success_request_message"),
+        });
 
         navigate(-1);
       },
@@ -53,7 +61,10 @@ export const ResetPassword = () => {
           });
         }
 
-        toast.error(t("pages.reset_password.error_request_message"));
+        toast({
+          title: t("pages.reset_password.error_request_message"),
+          status: "error",
+        });
       },
     });
   };

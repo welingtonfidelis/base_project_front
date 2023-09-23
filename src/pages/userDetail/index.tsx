@@ -7,18 +7,13 @@ import {
   FormLabel,
   Input,
   Switch,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { Field, Formik, Form, FormikHelpers } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import { PageHeader } from "../../components/pageHeader";
 import { AvatarContent } from "../../components/pageHeader/components/profile/styles";
@@ -54,6 +49,7 @@ export const UserDetail = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data, isLoading } = useGetUserById({ id: Number(id) });
+  const toast = useToast();
   const { data: dataPermissions, isLoading: isLoadingGetPermissions } =
     useGetListPermissions();
   const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
@@ -97,11 +93,12 @@ export const UserDetail = () => {
         { id: Number(id), data },
         {
           onSuccess() {
-            toast.success(
-              t("pages.user_new_edit.success_request_edit_message", {
+            toast({
+              title: t("pages.user_new_edit.success_request_edit_message", {
                 username: values.name,
-              })
-            );
+              }),
+            });
+
             navigate(-1);
           },
           onError(error) {
@@ -118,8 +115,10 @@ export const UserDetail = () => {
                 email: t("components.profile.input_email_already_used"),
               });
             }
-
-            toast.error(t("pages.user_new_edit.error_request_edit_message"));
+            toast({
+              title: t("pages.user_new_edit.error_request_edit_message"),
+              status: "error",
+            });
           },
         }
       );
@@ -157,7 +156,10 @@ export const UserDetail = () => {
           });
         }
 
-        toast.error(t("pages.user_new_edit.error_request_new_message"));
+        toast({
+          title: t("pages.user_new_edit.error_request_new_message"),
+          status: "error",
+        });
       },
     });
   };

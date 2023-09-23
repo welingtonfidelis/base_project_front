@@ -8,13 +8,13 @@ import {
   FormLabel,
   Input,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 
 import { Modal } from "../../../modal";
 import { FormProps, Props } from "./types";
 import { formValidate } from "./helper/formValidate";
 import { useUpdatePassword } from "../../../../services/requests/user";
-import { toast } from "react-toastify";
 import { responseErrorHandler } from "../../../../shared/handlers/responseError";
 import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
 
@@ -31,16 +31,21 @@ export const ProfileUpdatePassword = (props: Props) => {
   const { t } = useTranslation();
   const { updatePassword, isLoading } = useUpdatePassword();
   const validateFormFields = formValidate();
+  const toast = useToast();
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
-    updatePassword(omit(values, 'repeated_new_password'), {
+    updatePassword(omit(values, "repeated_new_password"), {
       onSuccess() {
-        toast.success(
-          t("components.profile_change_password.success_request_message")
-        );
+        toast({
+          title: t(
+            "components.profile_change_password.success_request_message"
+          ),
+          status: "success",
+        });
+
         onClose();
       },
       onError(error: any) {
@@ -52,9 +57,10 @@ export const ProfileUpdatePassword = (props: Props) => {
           });
         }
 
-        toast.error(
-          t("components.profile_change_password.error_request_message")
-        );
+        toast({
+          title: t("components.profile_change_password.error_request_message"),
+          status: "error",
+        });
       },
     });
   };

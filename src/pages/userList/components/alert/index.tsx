@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { AlertConfirm } from "../../../../components/alertConfirm";
 import {
   useDeleteUser,
@@ -8,6 +7,7 @@ import {
 } from "../../../../services/requests/user";
 import { useQueryData } from "../../../../shared/hooks/usequeryData";
 import { Props } from "./types";
+import { useToast } from "@chakra-ui/react";
 
 export const Alert = (props: Props) => {
   const {
@@ -22,6 +22,7 @@ export const Alert = (props: Props) => {
   const { updateUser, isLoading: isLoadingUpdateUser } = useUpdateUser();
   const { deleteUser, isLoading: isLoadingDeleteUser } = useDeleteUser();
   const { setStoreData, deleteStoreData } = useQueryData(queryKey, "users");
+  const toast = useToast();
 
   const handleBlockUser = useCallback(() => {
     if (!selectedUser) return;
@@ -32,7 +33,10 @@ export const Alert = (props: Props) => {
       { id, data: { is_blocked } },
       {
         onSuccess() {
-          toast.success(t("pages.user_list.success_request_block_message"));
+          toast({
+            title: t("pages.user_list.success_request_block_message"),
+          });
+
           setStoreData(
             {
               is_blocked,
@@ -44,7 +48,10 @@ export const Alert = (props: Props) => {
           onCloseBlock();
         },
         onError() {
-          toast.error(t("pages.user_list.error_request_block_message"));
+          toast({
+            title: t("pages.user_list.error_request_block_message"),
+            status: "error",
+          });
         },
       }
     );
@@ -58,13 +65,16 @@ export const Alert = (props: Props) => {
       { id },
       {
         onSuccess() {
-          toast.success(t("pages.user_list.success_request_delete_message"));
+          toast({ title: t("pages.user_list.success_request_delete_message") });
           deleteStoreData([id], "id");
 
           onCloseDelete();
         },
         onError() {
-          toast.error(t("pages.user_list.error_request_delete_message"));
+          toast({
+            title: t("pages.user_list.error_request_delete_message"),
+            status: "error",
+          });
         },
       }
     );

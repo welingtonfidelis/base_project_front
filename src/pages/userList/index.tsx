@@ -10,6 +10,7 @@ import {
   MenuItem,
   MenuList,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 
 import { Pagination } from "../../components/pagination";
@@ -20,10 +21,8 @@ import { ApplicationRoutes } from "../../shared/enum/applicationRoutes";
 
 import { Container, EditIconContent, MainContent } from "./styles";
 import { User } from "../../domains/user";
-import { urlParams } from "../../services/util/urlParams";
 import { Alert } from "./components/alert";
 import { PageFilter } from "./components/pageFilter";
-import { toast } from "react-toastify";
 import { userListPageStore } from "../../store/userListPage";
 import { UpdateUserPassword } from "./components/updateUserPassword";
 
@@ -34,6 +33,7 @@ export const UserList = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const toast = useToast();
   const {
     isOpen: isOpenBlock,
     onOpen: onOpenBlock,
@@ -52,7 +52,10 @@ export const UserList = () => {
   const { getQueryKey, data, isLoading, error } = useGetListUsers(filters);
 
   if (error) {
-    toast.error(t("pages.user_list.error_request_delete_message"));
+    toast({
+      title: t("pages.user_list.error_request_delete_message"),
+      status: "error",
+    });
   }
 
   const handleOpenAlert = (

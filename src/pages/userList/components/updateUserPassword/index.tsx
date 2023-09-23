@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
-import omit from "lodash/omit";
 import {
   Button,
   FormControl,
@@ -8,20 +7,14 @@ import {
   FormLabel,
   Input,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 
 import { FormProps, Props } from "./types";
 import { formValidate } from "./helper/formValidate";
-import {
-  useUpdatePassword,
-  useUpdateUser,
-} from "../../../../services/requests/user";
-import { toast } from "react-toastify";
-import { responseErrorHandler } from "../../../../shared/handlers/responseError";
+import { useUpdateUser } from "../../../../services/requests/user";
 import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
 import { Modal } from "../../../../components/modal";
-import { updateUser } from "../../../../services/requests/user/apiRequests";
-import { UpdateUserPayload } from "../../../../services/requests/user/types";
 
 const { INVALID_OLD_PASSWORD } = HttpServerMessageEnum;
 
@@ -35,27 +28,35 @@ export const UpdateUserPassword = (props: Props) => {
   const { t } = useTranslation();
   const { updateUser, isLoading } = useUpdateUser();
   const validateFormFields = formValidate();
+  const toast = useToast();
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
   ) => {
     if (!selectedUser) return;
-        
-    updateUser({
-      id: Number(selectedUser.id),
-      data: { password: values.password }
-    }, {
-      onSuccess() {
-        toast.success(
-          t("components.update_user_password.success_request_message")
-        );
-        onClose();
+
+    updateUser(
+      {
+        id: Number(selectedUser.id),
+        data: { password: values.password },
       },
-      onError(error: any) {
-        toast.error(t("components.update_user_password.error_request_message"));
-      },
-    });
+      {
+        onSuccess() {
+          toast({
+            title: t("components.update_user_password.success_request_message"),
+          });
+
+          onClose();
+        },
+        onError() {
+          toast({
+            title: t("components.update_user_password.error_request_message"),
+            status: "error",
+          });
+        },
+      }
+    );
   };
 
   return (

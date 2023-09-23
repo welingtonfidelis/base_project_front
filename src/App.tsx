@@ -2,20 +2,18 @@ import { useLayoutEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "styled-components";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { AppRouter } from "./AppRouter";
 import { userStore } from "./store/user";
 import i18n from "./config/18n";
 import { Preloader } from "./components/preloader";
-import { worker } from "./services/mocks/requests/browser";
-import { config } from "./config";
+// import { worker } from "./services/mocks/requests/browser";
+// import { config } from "./config";
 
 import { GlobalStyles } from "./global.styles";
 import { light } from "./config/styles/styled-component-theme";
 import { theme } from "./config/styles/chackra-ui-theme";
-import "react-toastify/dist/ReactToastify.css";
 import { getProfile } from "./services/requests/user/apiRequests";
 import { ApplicationRoutes } from "./shared/enum/applicationRoutes";
 
@@ -45,7 +43,7 @@ export const App = () => {
 
   useLayoutEffect(() => {
     // temporaly disable to avoid compile error
-    
+
     // if (config.IS_MOCK_ENABLE) {
     //   worker.start({
     //     onUnhandledRequest(req: any) {
@@ -59,7 +57,17 @@ export const App = () => {
   }, []);
 
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider
+      theme={theme}
+      toastOptions={{
+        defaultOptions: {
+          position: "top-right",
+          isClosable: true,
+          duration: 5000,
+          status: "success",
+        },
+      }}
+    >
       <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={light}>
           <QueryClientProvider client={queryClient}>
@@ -67,7 +75,6 @@ export const App = () => {
             <Preloader isLoading={isLoading}>
               <AppRouter />
             </Preloader>
-            <ToastContainer autoClose={5000} />
           </QueryClientProvider>
         </ThemeProvider>
       </I18nextProvider>

@@ -5,10 +5,10 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import { PageHeaderWithoutMenu } from "../../components/pageHeaderWithoutMenu";
 import { formValidate } from "./helper/formValidate";
@@ -41,7 +41,7 @@ export const UpdateResetedPassword = () => {
   const { updateResetedPassword, isLoading } = useUpdateResetedPassword();
   const { getParams } = urlParams();
   const { t } = useTranslation();
-
+  const toast = useToast();
   const params = getParams();
 
   const handleSubmit = async (values: FormProps) => {
@@ -49,9 +49,9 @@ export const UpdateResetedPassword = () => {
     const payload = { new_password: values.new_password, token: params?.token };
     updateResetedPassword(payload, {
       onSuccess(_) {
-        toast.success(
-          t("pages.update_reseted_password.success_request_message")
-        );
+        toast({
+          title: t("pages.update_reseted_password.success_request_message"),
+        });
 
         navigate(ROOT);
       },
@@ -60,11 +60,18 @@ export const UpdateResetedPassword = () => {
         console.log("message: ", message);
 
         if (message === INVALID_RESET_TOKEN.message) {
-          toast.error(
-            t("pages.update_reseted_password.error_request_token_message")
-          );
-        } else
-          toast.error(t("pages.update_reseted_password.error_request_message"));
+          toast({
+            title: t(
+              "pages.update_reseted_password.error_request_token_message"
+            ),
+            status: "error",
+          });
+        } else {
+          toast({
+            title: t("pages.update_reseted_password.error_request_message"),
+            status: "error",
+          });
+        }
       },
     });
   };
