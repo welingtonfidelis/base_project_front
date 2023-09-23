@@ -1,13 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  ModalFooter,
   useToast,
 } from "@chakra-ui/react";
 
@@ -43,6 +41,7 @@ export const Profile = (props: Props) => {
   const { refetch, data, isLoading } = useGetProfile();
   const validateFormFields = formValidate();
   const toast = useToast();
+  const formRef = useRef<any>();
 
   const initialFormValues = useMemo(() => {
     if (data) updateUser(data);
@@ -129,13 +128,13 @@ export const Profile = (props: Props) => {
   return (
     <Modal
       title={t("components.profile.page_title")}
-      onConfirm={() => {}}
+      onConfirm={() => formRef.current?.handleSubmit()}
       isOpen={isOpen}
       onClose={handleCloseModal}
-      deactiveModalButtons
     >
       <Preloader isLoading={isLoading}>
         <Formik
+          innerRef={formRef}
           initialValues={initialFormValues}
           validationSchema={validateFormFields}
           onSubmit={handleSubmit}
@@ -240,23 +239,6 @@ export const Profile = (props: Props) => {
                   </FormControl>
                 )}
               </Field>
-
-              <ModalFooter paddingEnd={0}>
-                <Button
-                  onClick={handleCloseModal}
-                  colorScheme="gray"
-                  marginEnd={"2"}
-                >
-                  {t("generic.button_cancel")}
-                </Button>
-                <Button
-                  colorScheme="blue"
-                  isLoading={isUpdateLoading}
-                  type="submit"
-                >
-                  {t("generic.button_save")}
-                </Button>
-              </ModalFooter>
             </Form>
           )}
         </Formik>

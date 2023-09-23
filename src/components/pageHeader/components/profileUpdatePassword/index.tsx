@@ -2,12 +2,10 @@ import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import omit from "lodash/omit";
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  ModalFooter,
   useToast,
 } from "@chakra-ui/react";
 
@@ -17,6 +15,7 @@ import { formValidate } from "./helper/formValidate";
 import { useUpdatePassword } from "../../../../services/requests/user";
 import { responseErrorHandler } from "../../../../shared/handlers/responseError";
 import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
+import { useRef } from "react";
 
 const { INVALID_OLD_PASSWORD } = HttpServerMessageEnum;
 
@@ -32,6 +31,7 @@ export const ProfileUpdatePassword = (props: Props) => {
   const { updatePassword, isLoading } = useUpdatePassword();
   const validateFormFields = formValidate();
   const toast = useToast();
+  const formRef = useRef<any>();
 
   const handleSubmit = async (
     values: FormProps,
@@ -68,12 +68,12 @@ export const ProfileUpdatePassword = (props: Props) => {
   return (
     <Modal
       title={t("components.profile_change_password.page_title")}
-      onConfirm={() => {}}
+      onConfirm={() => formRef.current?.handleSubmit()}
       isOpen={isOpen}
       onClose={onClose}
-      deactiveModalButtons
     >
       <Formik
+        innerRef={formRef}
         initialValues={initialFormValues}
         validationSchema={validateFormFields}
         onSubmit={handleSubmit}
@@ -146,15 +146,6 @@ export const ProfileUpdatePassword = (props: Props) => {
                 </FormControl>
               )}
             </Field>
-
-            <ModalFooter paddingEnd={0}>
-              <Button onClick={onClose} colorScheme="gray" marginEnd={"2"}>
-                {t("generic.button_cancel")}
-              </Button>
-              <Button colorScheme="blue" isLoading={isLoading} type="submit">
-                {t("generic.button_save")}
-              </Button>
-            </ModalFooter>
           </Form>
         )}
       </Formik>

@@ -4,7 +4,7 @@ export interface Props {
     onCloseButtonText?: string;
     isOpen: boolean;
     onConfirmLoading?: boolean;
-    deactiveModalButtons?: boolean;
+    showActionButtons?: boolean;
     onConfirm: () => void;
     onClose: () => void;
 }

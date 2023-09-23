@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import {
-  Button,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  ModalFooter,
   useToast,
 } from "@chakra-ui/react";
 
@@ -15,6 +13,7 @@ import { formValidate } from "./helper/formValidate";
 import { useUpdateUser } from "../../../../services/requests/user";
 import { HttpServerMessageEnum } from "../../../../shared/enum/httpServerMessage";
 import { Modal } from "../../../../components/modal";
+import { useRef } from "react";
 
 const { INVALID_OLD_PASSWORD } = HttpServerMessageEnum;
 
@@ -29,11 +28,12 @@ export const UpdateUserPassword = (props: Props) => {
   const { updateUser, isLoading } = useUpdateUser();
   const validateFormFields = formValidate();
   const toast = useToast();
+  const formRef = useRef<any>();
 
   const handleSubmit = async (
     values: FormProps,
     actions: FormikHelpers<FormProps>
-  ) => {
+    ) => {
     if (!selectedUser) return;
 
     updateUser(
@@ -62,12 +62,12 @@ export const UpdateUserPassword = (props: Props) => {
   return (
     <Modal
       title={t("components.update_user_password.page_title")}
-      onConfirm={() => {}}
+      onConfirm={() => formRef.current?.handleSubmit()}
       isOpen={isOpen}
       onClose={onClose}
-      deactiveModalButtons
     >
       <Formik
+        innerRef={formRef}
         initialValues={initialFormValues}
         validationSchema={validateFormFields}
         onSubmit={handleSubmit}
@@ -119,15 +119,6 @@ export const UpdateUserPassword = (props: Props) => {
                 </FormControl>
               )}
             </Field>
-
-            <ModalFooter paddingEnd={0}>
-              <Button onClick={onClose} colorScheme="gray" marginEnd={"2"}>
-                {t("generic.button_cancel")}
-              </Button>
-              <Button colorScheme="blue" isLoading={isLoading} type="submit">
-                {t("generic.button_save")}
-              </Button>
-            </ModalFooter>
           </Form>
         )}
       </Formik>

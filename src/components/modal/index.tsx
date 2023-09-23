@@ -21,7 +21,7 @@ export const Modal = (props: PropsWithChildren<Props>) => {
     children,
     isOpen,
     onConfirmLoading,
-    deactiveModalButtons,
+    showActionButtons = true,
     onConfirm,
     onClose,
   } = props;
@@ -34,7 +34,7 @@ export const Modal = (props: PropsWithChildren<Props>) => {
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
-        {!deactiveModalButtons && (
+        {showActionButtons && (
           <ModalFooter>
             <Button onClick={onClose} colorScheme="gray" marginEnd={"2"}>
               {onCloseButtonText || t("generic.button_cancel")}
